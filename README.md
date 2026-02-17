@@ -1,4 +1,4 @@
-# Sharad Patel — Portfolio
+# Sharad Patel — Personal Portfolio
 
 Personal portfolio website built with React + Vite. Showcasing research, projects, publications, and skills in biomedical engineering and data science.
 
