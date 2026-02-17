@@ -3,12 +3,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
 const ROTATING_WORDS = [
-  "research",
-  "innovation",
+  "medicine",
+  "health",
   "discovery",
-  "impact",
-  "solutions",
-  "insight",
+  "patients",
+  "tomorrow",
 ];
 
 const NAV_LINKS = [
@@ -477,10 +476,24 @@ function Navbar() {
 
 function Hero() {
   const [word, animating] = useRotatingWord(ROTATING_WORDS);
+  const heroRef = useRef(null);
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+  const [mousePixel, setMousePixel] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = heroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMouse({ x, y });
+    setMousePixel({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }, []);
 
   return (
     <section
       id="hero"
+      ref={heroRef}
+      onMouseMove={handleMouseMove}
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -489,16 +502,16 @@ function Hero() {
         padding: "0 clamp(1.5rem, 6vw, 8rem)",
         position: "relative",
         overflow: "hidden",
+        cursor: "default",
       }}
     >
-      {/* Animated mesh gradient orbs */}
+      {/* Animated mesh gradient orbs — with parallax */}
       <div className="mesh-gradient-container" style={{
         position: "absolute",
         inset: 0,
         overflow: "hidden",
         pointerEvents: "none",
       }}>
-        {/* Primary green orb — top right */}
         <div style={{
           position: "absolute",
           top: "-15%",
@@ -512,7 +525,6 @@ function Hero() {
           filter: "blur(80px)",
           animation: "meshOrb1 14s ease-in-out infinite",
         }} />
-        {/* Secondary pink/magenta orb — bottom left */}
         <div style={{
           position: "absolute",
           bottom: "-10%",
@@ -526,7 +538,6 @@ function Hero() {
           filter: "blur(80px)",
           animation: "meshOrb2 18s ease-in-out infinite",
         }} />
-        {/* Tertiary purple/violet orb — center */}
         <div style={{
           position: "absolute",
           top: "30%",
@@ -540,7 +551,6 @@ function Hero() {
           filter: "blur(90px)",
           animation: "meshOrb3 20s ease-in-out infinite",
         }} />
-        {/* Fourth accent — warm yellow/amber glow */}
         <div style={{
           position: "absolute",
           top: "60%",
@@ -556,7 +566,22 @@ function Hero() {
         }} />
       </div>
 
-      {/* Grid pattern overlay */}
+      {/* Cursor spotlight glow */}
+      <div style={{
+        position: "absolute",
+        left: mousePixel.x - 250,
+        top: mousePixel.y - 250,
+        width: 500,
+        height: 500,
+        borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(110,231,183,0.07) 0%, rgba(110,231,183,0.02) 35%, transparent 65%)",
+        pointerEvents: "none",
+        zIndex: 1,
+        transition: "left 0.15s ease-out, top 0.15s ease-out",
+        filter: "blur(10px)",
+      }} />
+
+      {/* Grid pattern with cursor illumination */}
       <div className="hero-grid" style={{
         position: "absolute",
         inset: 0,
@@ -567,11 +592,11 @@ function Hero() {
         backgroundSize: "60px 60px",
         pointerEvents: "none",
         zIndex: 0,
-        maskImage: "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
-        WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
+        maskImage: `radial-gradient(circle 350px at ${mousePixel.x}px ${mousePixel.y}px, black 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.08) 100%)`,
+        WebkitMaskImage: `radial-gradient(circle 350px at ${mousePixel.x}px ${mousePixel.y}px, black 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.08) 100%)`,
       }} />
 
-      {/* Hero content — two column */}
+      {/* Hero content — two column — with parallax */}
       <div className="hero-content" style={{
         position: "relative",
         zIndex: 1,
@@ -628,7 +653,7 @@ function Hero() {
             animation: "fadeUp 0.8s 0.6s forwards",
           }}
         >
-          Turning data into{" "}
+          Engineering solutions for{" "}
           <span
             style={{
               color: "#6ee7b7",
@@ -707,7 +732,43 @@ function Hero() {
         </div>
       </div>
 
-
+      {/* Scroll indicator */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 40,
+          left: 0,
+          right: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          opacity: 0,
+          animation: "fadeUp 0.8s 1.4s forwards",
+          zIndex: 2,
+        }}
+      >
+        <span
+          style={{
+            fontSize: "0.65rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.25)",
+            fontFamily: "'Instrument Sans', sans-serif",
+          }}
+        >
+          Scroll
+        </span>
+        <div
+          style={{
+            width: 1,
+            height: 32,
+            background:
+              "linear-gradient(to bottom, rgba(110,231,183,0.5), transparent)",
+            animation: "pulse 2s infinite",
+          }}
+        />
+      </div>
     </section>
   );
 }
