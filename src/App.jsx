@@ -625,6 +625,7 @@ function Hero() {
           }}
         >
           Engineering solutions for{" "}
+          <br className="mobile-break" />
           <span
             style={{
               color: "#6ee7b7",
@@ -1671,6 +1672,16 @@ export default function App() {
           }
         }
 
+
+        .mobile-break { display: none; }
+        @media (max-width: 900px) {
+          .mobile-break { display: block; }
+        }
+
+        /* Responsive nav */
+        @media (max-width: 768px) {
+
+        
         /* Responsive nav */
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
