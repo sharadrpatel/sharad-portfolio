@@ -256,7 +256,7 @@ const STATS = [
   { value: "3.92", label: "GPA" },
   { value: "3", label: "Publications & Presentations" },
   { value: "10+", label: "Projects" },
-  { value: "MD/PhD", label: "Track" },
+  { value: "Pre-Medical", label: "Track" },
 ];
 
 // ─── HOOKS ───────────────────────────────────────────────────────────────────
@@ -476,24 +476,10 @@ function Navbar() {
 
 function Hero() {
   const [word, animating] = useRotatingWord(ROTATING_WORDS);
-  const heroRef = useRef(null);
-  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
-  const [mousePixel, setMousePixel] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = useCallback((e) => {
-    const rect = heroRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMouse({ x, y });
-    setMousePixel({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
 
   return (
     <section
       id="hero"
-      ref={heroRef}
-      onMouseMove={handleMouseMove}
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -502,10 +488,9 @@ function Hero() {
         padding: "0 clamp(1.5rem, 6vw, 8rem)",
         position: "relative",
         overflow: "hidden",
-        cursor: "default",
       }}
     >
-      {/* Animated mesh gradient orbs — with parallax */}
+      {/* Animated mesh gradient orbs */}
       <div className="mesh-gradient-container" style={{
         position: "absolute",
         inset: 0,
@@ -566,22 +551,7 @@ function Hero() {
         }} />
       </div>
 
-      {/* Cursor spotlight glow */}
-      <div style={{
-        position: "absolute",
-        left: mousePixel.x - 250,
-        top: mousePixel.y - 250,
-        width: 500,
-        height: 500,
-        borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(110,231,183,0.07) 0%, rgba(110,231,183,0.02) 35%, transparent 65%)",
-        pointerEvents: "none",
-        zIndex: 1,
-        transition: "left 0.15s ease-out, top 0.15s ease-out",
-        filter: "blur(10px)",
-      }} />
-
-      {/* Grid pattern with cursor illumination */}
+      {/* Grid pattern overlay */}
       <div className="hero-grid" style={{
         position: "absolute",
         inset: 0,
@@ -592,11 +562,11 @@ function Hero() {
         backgroundSize: "60px 60px",
         pointerEvents: "none",
         zIndex: 0,
-        maskImage: `radial-gradient(circle 350px at ${mousePixel.x}px ${mousePixel.y}px, black 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.08) 100%)`,
-        WebkitMaskImage: `radial-gradient(circle 350px at ${mousePixel.x}px ${mousePixel.y}px, black 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.08) 100%)`,
+        maskImage: "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
+        WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
       }} />
 
-      {/* Hero content — two column — with parallax */}
+      {/* Hero content — two column */}
       <div className="hero-content" style={{
         position: "relative",
         zIndex: 1,
@@ -642,6 +612,7 @@ function Hero() {
         </h1>
 
         <h2
+          className="hero-tagline"
           style={{
             fontFamily: "'Instrument Serif', serif",
             fontSize: "clamp(2rem, 5vw, 4rem)",
@@ -730,44 +701,6 @@ function Hero() {
             />
           </div>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 40,
-          left: 0,
-          right: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 8,
-          opacity: 0,
-          animation: "fadeUp 0.8s 1.4s forwards",
-          zIndex: 2,
-        }}
-      >
-        <span
-          style={{
-            fontSize: "0.65rem",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "rgba(255,255,255,0.25)",
-            fontFamily: "'Instrument Sans', sans-serif",
-          }}
-        >
-          Scroll
-        </span>
-        <div
-          style={{
-            width: 1,
-            height: 32,
-            background:
-              "linear-gradient(to bottom, rgba(110,231,183,0.5), transparent)",
-            animation: "pulse 2s infinite",
-          }}
-        />
       </div>
     </section>
   );
@@ -866,8 +799,8 @@ function About() {
           }}
         >
           I'm a pre-medical biomedical engineering student at the University of
-          Florida with a minor in mathematics, working toward an{" "}
-          <span style={{ color: "#6ee7b7" }}>MD/PhD</span> to integrate
+          Florida with a minor in mathematics, working toward applying to an{" "}
+          <span style={{ color: "#6ee7b7" }}>MD/PhD</span> program to integrate
           clinical practice with computational research in human disease.
         </p>
         <p
@@ -1731,6 +1664,10 @@ export default function App() {
             display: flex;
             justify-content: flex-start;
             order: -1;
+          }
+          /* Lock hero tagline to 2 lines on mobile so word rotation doesn't shift layout */
+          .hero-tagline {
+            min-height: 2.3em;
           }
         }
 
