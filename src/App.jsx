@@ -556,7 +556,34 @@ function Hero() {
         }} />
       </div>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
+      {/* Grid pattern overlay */}
+      <div className="hero-grid" style={{
+        position: "absolute",
+        inset: 0,
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: "60px 60px",
+        pointerEvents: "none",
+        zIndex: 0,
+        maskImage: "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
+        WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
+      }} />
+
+      {/* Hero content — two column */}
+      <div className="hero-content" style={{
+        position: "relative",
+        zIndex: 1,
+        display: "grid",
+        gridTemplateColumns: "1fr auto",
+        gap: "clamp(2rem, 5vw, 5rem)",
+        alignItems: "center",
+        maxWidth: 1200,
+        width: "100%",
+      }}>
+        {/* Left — text */}
+        <div>
         <p
           style={{
             fontFamily: "'Instrument Sans', sans-serif",
@@ -649,6 +676,66 @@ function Hero() {
           <a href="#contact" style={btnSecondary}>
             Get in Touch
           </a>
+        </div>
+        </div>
+
+        {/* Right — headshot */}
+        <div style={{
+          opacity: 0,
+          animation: "fadeUp 0.8s 0.6s forwards",
+        }}>
+          <div style={{
+            width: "clamp(200px, 20vw, 300px)",
+            height: "clamp(200px, 20vw, 300px)",
+            borderRadius: "50%",
+            overflow: "hidden",
+            border: "2px solid rgba(110,231,183,0.2)",
+            boxShadow: "0 0 60px rgba(110,231,183,0.08), 0 0 120px rgba(110,231,183,0.04)",
+            position: "relative",
+            background: "rgba(255,255,255,0.03)",
+          }}>
+            {/*
+              ── REPLACE THIS WITH YOUR HEADSHOT ──
+              1. Add your photo to /public/headshot.jpg
+              2. Uncomment the <img> tag below
+              3. Delete the placeholder <div> below
+            */}
+            {/* <img
+              src="/headshot.jpg"
+              alt="Sharad Patel"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            /> */}
+
+            {/* Placeholder — remove once you add your photo */}
+            <div style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "0.5rem",
+              background: "linear-gradient(135deg, rgba(110,231,183,0.08) 0%, rgba(147,197,253,0.05) 100%)",
+            }}>
+              <span style={{
+                fontFamily: "'Instrument Serif', serif",
+                fontSize: "3.5rem",
+                color: "rgba(110,231,183,0.3)",
+                lineHeight: 1,
+              }}>SP</span>
+              <span style={{
+                fontFamily: "'Instrument Sans', sans-serif",
+                fontSize: "0.6rem",
+                color: "rgba(255,255,255,0.2)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+              }}>Add headshot</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1637,6 +1724,19 @@ export default function App() {
           }
           .project-showcard {
             grid-template-columns: 1fr !important;
+          }
+        }
+
+        /* Responsive hero layout */
+        @media (max-width: 900px) {
+          .hero-content {
+            grid-template-columns: 1fr !important;
+            text-align: left;
+          }
+          .hero-content > div:last-child {
+            display: flex;
+            justify-content: flex-start;
+            order: -1;
           }
         }
 
