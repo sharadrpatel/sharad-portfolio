@@ -244,11 +244,29 @@ const SKILLS = {
   ],
   "Engineering Tools": [
     "SolidWorks",
+    "Fusion 360",
+    "MATLAB",
     "Onshape",
     "Arduino",
     "Vicon",
     "3D Printing",
     "Git",
+  ],
+  "Courses": [
+    "Organic Chemistry",
+    "Biochemistry",
+    "Physics 1 and 2",
+    "Mathamatical Modeling in Biology",
+    "Differential Equations",
+    "Linear Algebra",
+    "C++ Programming",
+    "Signals and Systems",
+    "Biomedical Instrumentation",
+  ],
+  "Certifications": [
+    "Certified Nursing Assistant",
+    "Basic Life Support",
+    "CPR",
   ],
 };
 
