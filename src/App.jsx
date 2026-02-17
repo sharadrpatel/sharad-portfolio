@@ -694,13 +694,8 @@ function Hero() {
             position: "relative",
             background: "rgba(255,255,255,0.03)",
           }}>
-            {/*
-              ── REPLACE THIS WITH YOUR HEADSHOT ──
-              1. Add your photo to /public/headshot.jpg
-              2. Uncomment the <img> tag below
-              3. Delete the placeholder <div> below
-            */}
-            {/* <img
+
+          <img
               src="/headshot.jpg"
               alt="Sharad Patel"
               style={{
@@ -708,33 +703,7 @@ function Hero() {
                 height: "100%",
                 objectFit: "cover",
               }}
-            /> */}
-
-            {/* Placeholder — remove once you add your photo */}
-            <div style={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              gap: "0.5rem",
-              background: "linear-gradient(135deg, rgba(110,231,183,0.08) 0%, rgba(147,197,253,0.05) 100%)",
-            }}>
-              <span style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontSize: "3.5rem",
-                color: "rgba(110,231,183,0.3)",
-                lineHeight: 1,
-              }}>SP</span>
-              <span style={{
-                fontFamily: "'Instrument Sans', sans-serif",
-                fontSize: "0.6rem",
-                color: "rgba(255,255,255,0.2)",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-              }}>Add headshot</span>
-            </div>
+            />
           </div>
         </div>
       </div>
