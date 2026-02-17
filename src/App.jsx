@@ -255,7 +255,7 @@ const SKILLS = {
 
 const STATS = [
   { value: "3.92", label: "GPA" },
-  { value: "3", label: "Publications" },
+  { value: "3", label: "Publications & Presentations" },
   { value: "10+", label: "Projects" },
   { value: "MD/PhD", label: "Track" },
 ];
@@ -694,8 +694,13 @@ function Hero() {
             position: "relative",
             background: "rgba(255,255,255,0.03)",
           }}>
-
-          <img
+            {/*
+              ── REPLACE THIS WITH YOUR HEADSHOT ──
+              1. Add your photo to /public/headshot.jpg
+              2. Uncomment the <img> tag below
+              3. Delete the placeholder <div> below
+            */}
+            {/* <img
               src="/headshot.jpg"
               alt="Sharad Patel"
               style={{
@@ -703,47 +708,38 @@ function Hero() {
                 height: "100%",
                 objectFit: "cover",
               }}
-            />
+            /> */}
+
+            {/* Placeholder — remove once you add your photo */}
+            <div style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "0.5rem",
+              background: "linear-gradient(135deg, rgba(110,231,183,0.08) 0%, rgba(147,197,253,0.05) 100%)",
+            }}>
+              <span style={{
+                fontFamily: "'Instrument Serif', serif",
+                fontSize: "3.5rem",
+                color: "rgba(110,231,183,0.3)",
+                lineHeight: 1,
+              }}>SP</span>
+              <span style={{
+                fontFamily: "'Instrument Sans', sans-serif",
+                fontSize: "0.6rem",
+                color: "rgba(255,255,255,0.2)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+              }}>Add headshot</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 40,
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 8,
-          opacity: 0,
-          animation: "fadeUp 0.8s 1.4s forwards",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "0.65rem",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "rgba(255,255,255,0.25)",
-            fontFamily: "'Instrument Sans', sans-serif",
-          }}
-        >
-          Scroll
-        </span>
-        <div
-          style={{
-            width: 1,
-            height: 32,
-            background:
-              "linear-gradient(to bottom, rgba(110,231,183,0.5), transparent)",
-            animation: "pulse 2s infinite",
-          }}
-        />
-      </div>
+
     </section>
   );
 }
