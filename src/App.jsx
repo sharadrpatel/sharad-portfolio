@@ -508,7 +508,7 @@ function Hero() {
           borderRadius: "50%",
           background: "radial-gradient(circle at 40% 40%, rgba(110,231,183,0.25) 0%, rgba(52,211,153,0.1) 40%, transparent 70%)",
           filter: "blur(80px)",
-          animation: "meshOrb1 14s ease-in-out infinite",
+          animation: "meshOrb1 7s ease-in-out infinite",
         }} />
         <div style={{
           position: "absolute",
@@ -521,7 +521,7 @@ function Hero() {
           borderRadius: "50%",
           background: "radial-gradient(circle at 60% 50%, rgba(244,114,182,0.2) 0%, rgba(236,72,153,0.08) 45%, transparent 70%)",
           filter: "blur(80px)",
-          animation: "meshOrb2 18s ease-in-out infinite",
+          animation: "meshOrb2 9s ease-in-out infinite",
         }} />
         <div style={{
           position: "absolute",
@@ -534,7 +534,7 @@ function Hero() {
           borderRadius: "50%",
           background: "radial-gradient(circle at 50% 50%, rgba(167,139,250,0.15) 0%, rgba(139,92,246,0.05) 45%, transparent 70%)",
           filter: "blur(90px)",
-          animation: "meshOrb3 20s ease-in-out infinite",
+          animation: "meshOrb3 10s ease-in-out infinite",
         }} />
         <div style={{
           position: "absolute",
@@ -547,7 +547,7 @@ function Hero() {
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 65%)",
           filter: "blur(70px)",
-          animation: "meshOrb4 16s ease-in-out infinite",
+          animation: "meshOrb4 8s ease-in-out infinite",
         }} />
       </div>
 
@@ -653,8 +653,8 @@ function Hero() {
           }}
         >
           BS Biomedical Engineering & Pre-Med at the University of Florida.
-          Pursuing an MD/PhD to bridge clinical medicine with computational
-          and data-driven research in human health.
+          Intend to pursue an MD/PhD to bridge clinical medicine with 
+          computational and data-driven research in human health.
         </p>
 
         <div
@@ -1621,28 +1621,28 @@ export default function App() {
         /* Mesh gradient orb animations */
         @keyframes meshOrb1 {
           0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
-          20% { transform: translate(-60px, 40px) scale(1.15); opacity: 0.85; }
-          40% { transform: translate(30px, -30px) scale(0.9); opacity: 1; }
-          60% { transform: translate(-40px, -50px) scale(1.2); opacity: 0.75; }
-          80% { transform: translate(50px, 20px) scale(0.95); opacity: 0.9; }
+          20% { transform: translate(-90px, 60px) scale(1.15); opacity: 0.85; }
+          40% { transform: translate(45px, -45px) scale(0.9); opacity: 1; }
+          60% { transform: translate(-60px, -75px) scale(1.2); opacity: 0.75; }
+          80% { transform: translate(75px, 30px) scale(0.95); opacity: 0.9; }
         }
         @keyframes meshOrb2 {
           0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
-          25% { transform: translate(70px, -40px) scale(1.2); opacity: 0.8; }
-          50% { transform: translate(-50px, 50px) scale(0.85); opacity: 1; }
-          75% { transform: translate(40px, 30px) scale(1.1); opacity: 0.7; }
+          25% { transform: translate(105px, -60px) scale(1.2); opacity: 0.8; }
+          50% { transform: translate(-75px, 75px) scale(0.85); opacity: 1; }
+          75% { transform: translate(60px, 45px) scale(1.1); opacity: 0.7; }
         }
         @keyframes meshOrb3 {
           0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.9; }
-          30% { transform: translate(80px, 40px) scale(1.25); opacity: 0.6; }
-          60% { transform: translate(-60px, -60px) scale(0.8); opacity: 1; }
-          85% { transform: translate(30px, -30px) scale(1.15); opacity: 0.7; }
+          30% { transform: translate(120px, 60px) scale(1.25); opacity: 0.6; }
+          60% { transform: translate(-90px, -90px) scale(0.8); opacity: 1; }
+          85% { transform: translate(45px, -45px) scale(1.15); opacity: 0.7; }
         }
         @keyframes meshOrb4 {
           0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-          35% { transform: translate(-40px, 50px) scale(1.3); opacity: 0.5; }
-          65% { transform: translate(60px, -40px) scale(0.85); opacity: 0.9; }
-          90% { transform: translate(-20px, -20px) scale(1.1); opacity: 0.6; }
+          35% { transform: translate(-60px, 75px) scale(1.3); opacity: 0.5; }
+          65% { transform: translate(90px, -60px) scale(0.85); opacity: 0.9; }
+          90% { transform: translate(-30px, -30px) scale(1.1); opacity: 0.6; }
         }
 
         /* Responsive showcard layout */
