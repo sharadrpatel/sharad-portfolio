@@ -813,9 +813,9 @@ function About() {
           }}
         >
           My work spans neuroimmunology, biomechanics, and ecological modeling —
-          from investigating the gut–brain axis in Parkinson's disease, to
+          From investigating the gut–brain axis in Parkinson's disease, to
           building computer vision pipelines for ecological analysis, to
-          developing prosthetics for children. I'm driven by the belief that
+          developing prosthetics for children, I am driven by the belief that
           physician-scientists who can move between the bedside and the bench are
           uniquely positioned to translate discovery into patient impact.
         </p>
@@ -1710,3 +1710,4 @@ export default function App() {
     </div>
   );
 }
+
