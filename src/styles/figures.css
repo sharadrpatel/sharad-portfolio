@@ -1,0 +1,70 @@
+/* Figures — drawn in the same ink as the text, accent marks what matters */
+
+.fig {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.fig__plot {
+  padding: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+.fig__plot svg {
+  width: 100%;
+  height: auto;
+}
+
+.fig--wide .fig__plot {
+  padding: clamp(1rem, 0.5rem + 2vw, 2rem) clamp(1rem, 0.5rem + 3vw, 3rem);
+}
+
+.fig--wide .fig__plot svg {
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+.fig__caption {
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.fig__num {
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-right: 0.35rem;
+}
+
+/* SVG roles */
+.fig-ink { stroke: var(--ink); stroke-width: 1.25; }
+.fig-thick { stroke-width: 1.75; }
+.fig-muted { stroke: var(--rule-strong); stroke-width: 1; }
+.fig-grid { stroke: var(--rule); stroke-width: 1; }
+.fig-accent-stroke { stroke: var(--accent); stroke-width: 1.5; }
+.fig-box { fill: var(--surface); stroke: var(--ink); stroke-width: 1.25; }
+.fig-accent-box { fill: var(--accent-wash); stroke: var(--accent); }
+.fig-dashed { stroke-dasharray: 4 3; fill: var(--paper); }
+.fig-model { fill: var(--accent); }
+.fig-ref { fill: var(--surface); stroke: var(--data); stroke-width: 1.75; }
+.fig-dot { fill: var(--ink); }
+.fig-wall { fill: var(--wash); stroke: var(--ink); stroke-width: 1.25; }
+.fig-paper { fill: var(--surface); }
+.fig-neointima { fill: var(--accent-wash); stroke: var(--accent); stroke-width: 1; }
+.fig-hatch { stroke: var(--accent); stroke-width: 1; opacity: 0.45; }
+.fig-strut { fill: var(--ink); }
+
+.fig-label {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+  fill: var(--ink-3);
+}
+
+.fig-label--ink { fill: var(--ink); }
+.fig-label--accent { fill: var(--accent); }

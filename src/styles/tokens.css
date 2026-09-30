@@ -1,0 +1,79 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design tokens
+   Paper-and-ink neutrals, one oxide-red accent for emphasis and state, one
+   slate blue reserved for data. Serif for voice, sans for reading, mono for
+   metadata — the three roles never swap.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --paper: #f7f6f2;
+  --surface: #ffffff;
+  --wash: #efede7;
+  --rule: #dedbd2;
+  --rule-strong: #c7c3b8;
+
+  /* Ink */
+  --ink: #1a1a18;
+  --ink-2: #45443f;
+  --ink-3: #686760;
+
+  /* Accent: oxide red — annotations, active states, key numbers */
+  --accent: #b23c1f;
+  --accent-ink: #8e2f17;
+  --accent-soft: #f3e1d8;
+  --accent-wash: #faf1ec;
+
+  /* Data: slate blue — reference values in figures */
+  --data: #2f5577;
+  --data-soft: #e2e9f0;
+
+  /* Type families */
+  --f-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --f-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale (fluid where it matters) */
+  --fs-label: 0.72rem;
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9rem;
+  --fs-base: 1.0625rem;
+  --fs-md: 1.1875rem;
+  --fs-lead: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem);
+  --fs-h4: clamp(1.2rem, 1.12rem + 0.35vw, 1.375rem);
+  --fs-h3: clamp(1.5rem, 1.25rem + 1vw, 2.05rem);
+  --fs-h2: clamp(1.95rem, 1.45rem + 2.1vw, 3rem);
+  --fs-h1: clamp(2.75rem, 1.9rem + 3.8vw, 4.6rem);
+
+  --lh-tight: 1.08;
+  --lh-snug: 1.28;
+  --lh-body: 1.62;
+
+  /* Spacing (4px base) */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --section-y: clamp(4rem, 3rem + 5vw, 7.5rem);
+
+  /* Layout */
+  --max: 1240px;
+  --prose: 40rem;
+  --gutter: clamp(1rem, 0.4rem + 3vw, 2.5rem);
+  --col-gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
+  --nav-h: 64px;
+
+  /* Form */
+  --radius: 2px;
+  --shadow: 0 1px 0 rgb(26 26 24 / 0.04), 0 12px 28px -18px rgb(26 26 24 / 0.22);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur: 240ms;
+  --dur-slow: 600ms;
+}
