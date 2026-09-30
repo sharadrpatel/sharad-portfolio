@@ -1,4 +1,4 @@
-import { PROFILE, CURRENTLY, AT_A_GLANCE } from "../data/profile.js";
+import { PROFILE, CURRENTLY, EDUCATION } from "../data/profile.js";
 import { Link } from "../lib/router.jsx";
 import { Button, Arrow } from "../components/ui.jsx";
 
@@ -54,17 +54,39 @@ export default function Hero() {
       </div>
 
       <div className="wrap">
-        <dl className="glance">
-          {AT_A_GLANCE.map((g) => (
-            <div key={g.label} className="glance__cell">
-              <dt className="label label--muted">{g.label}</dt>
+        <div className="education-strip" aria-labelledby="education-title">
+          <h2 id="education-title" className="label">Education</h2>
+          <dl className="glance">
+            <div className="glance__cell">
+              <dt className="label label--muted">School</dt>
               <dd>
-                <span className="glance__value">{g.value}</span>
-                <span className="glance__note">{g.note}</span>
+                <span className="glance__value">{EDUCATION.school}</span>
+                <span className="glance__note">{EDUCATION.location}</span>
               </dd>
             </div>
-          ))}
-        </dl>
+            <div className="glance__cell">
+              <dt className="label label--muted">Degree</dt>
+              <dd>
+                <span className="glance__value">{EDUCATION.degree}</span>
+                <span className="glance__note">{EDUCATION.minor}</span>
+              </dd>
+            </div>
+            <div className="glance__cell">
+              <dt className="label label--muted">Graduation</dt>
+              <dd>
+                <span className="glance__value">{EDUCATION.graduation}</span>
+                <span className="glance__note">Expected</span>
+              </dd>
+            </div>
+            <div className="glance__cell">
+              <dt className="label label--muted">GPA</dt>
+              <dd>
+                <span className="glance__value">{EDUCATION.gpa}</span>
+                <span className="glance__note">Out of 4.00</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </section>
   );

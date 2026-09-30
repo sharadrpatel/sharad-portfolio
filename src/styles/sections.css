@@ -153,11 +153,18 @@
   transform: translateX(3px);
 }
 
-/* At a glance */
+/* Education strip */
+.education-strip {
+  margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+}
+
+.education-strip > .label {
+  margin-bottom: var(--s-3);
+}
+
 .glance {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem);
   border-top: 1px solid var(--ink);
 }
 
@@ -182,9 +189,9 @@
 
 .glance__value {
   font-family: var(--f-serif);
-  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.3rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.55rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .glance__note {
@@ -1079,27 +1086,6 @@
   border-top: 1px solid var(--ink);
   font-size: var(--fs-sm);
   color: var(--ink-2);
-}
-
-.education__school {
-  font-family: var(--f-serif);
-  font-size: var(--fs-h4);
-  color: var(--ink);
-  line-height: 1.25;
-}
-
-.education__facts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s-3);
-  padding-block: var(--s-3);
-  border-block: 1px solid var(--rule);
-  margin-bottom: var(--s-2);
-}
-
-.education__facts dd {
-  margin-top: 0.2rem;
-  color: var(--ink);
 }
 
 .education__courses {
