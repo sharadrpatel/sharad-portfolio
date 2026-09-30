@@ -43,18 +43,6 @@ export const PROJECTS = [
     link: { label: "Code on GitHub", href: "https://github.com/sharadrpatel/Fish_Stock_ODE_Modeling" },
   },
   {
-    id: "leaf-segmentation",
-    title: "Leaf segmentation for measuring disease",
-    context: "Holt Lab",
-    domain: "Computer vision",
-    problem: "Scoring leaf infection by eye is slow and inconsistent when there are a lot of samples.",
-    method:
-      "A pipeline built on the Segment Anything Model that makes a mask for each leaf, measures damage with contour and convex-hull analysis, and uses reference tags to convert pixels to real area. It runs on Apple Silicon with PyTorch MPS.",
-    outcome: "Percent infected tissue and structural damage for each leaf, used in the lab's ecological analysis.",
-    tools: ["Python", "PyTorch", "OpenCV", "Ultralytics"],
-    link: { label: "More on the Holt Lab project", href: "/work/plasticity-disease-dynamics", internal: true },
-  },
-  {
     id: "neural-network",
     title: "Neural network from scratch",
     context: "Independent project",

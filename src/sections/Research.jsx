@@ -31,22 +31,40 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
     <Reveal as="article" className="study study--featured" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <StudyMeta w={w} />
       <div className="study__main">
-        <Heading id={`t-${w.slug}`} className="h3 study__title">{w.title}</Heading>
-        <p className="study__question">
-          <span className="label label--accent">Question</span>
-          {w.question}
-        </p>
+        <Heading id={`t-${w.slug}`} className="h3 study__title">
+          {w.title}
+        </Heading>
+        {w.question && (
+          <p className="study__question">
+            <span className="label label--accent">Question</span>
+            {w.question}
+          </p>
+        )}
         <div className="study__cols">
           <div className="study__text">
             <p>{w.summary}</p>
-            <dl className="method-list">
-              {w.approach.slice(0, 4).map((a) => (
-                <div key={a.label}>
-                  <dt>{a.label}</dt>
-                  <dd>{a.text}</dd>
-                </div>
-              ))}
-            </dl>
+            {w.subprojects ? (
+              <ol className="subprojects">
+                {w.subprojects.map((sp, n) => (
+                  <li key={sp.id}>
+                    <span className="subprojects__n">{String(n + 1).padStart(2, "0")}</span>
+                    <div>
+                      <p className="subprojects__title">{sp.title}</p>
+                      <p>{sp.short}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <dl className="method-list">
+                {w.approach.slice(0, 4).map((a) => (
+                  <div key={a.label}>
+                    <dt>{a.label}</dt>
+                    <dd>{a.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
             {outcomes?.length > 0 && (
               <dl className="stat-row">
                 {outcomes.map((o) => (
@@ -69,7 +87,8 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
             <Tags items={w.tools} />
             {w.caseStudy && (
               <TextLink to={`/work/${w.slug}`}>
-                Read the case study<span className="visually-hidden">: {w.title}</span>
+                Read the case study
+                <span className="visually-hidden">: {w.title}</span>
               </TextLink>
             )}
           </div>
@@ -89,13 +108,16 @@ function SecondaryStudy({ w }) {
     <Reveal as="article" className="study study--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <StudyMeta w={w} />
       <div className="study__main">
-        <h4 id={`t-${w.slug}`} className="h4 study__title">{w.title}</h4>
+        <h4 id={`t-${w.slug}`} className="h4 study__title">
+          {w.title}
+        </h4>
         <p className="study__role">{w.role}</p>
         <p>{w.summary}</p>
         <Tags items={w.tools} />
         {w.caseStudy && (
           <TextLink to={`/work/${w.slug}`}>
-            Read the case study<span className="visually-hidden">: {w.title}</span>
+            Read the case study
+            <span className="visually-hidden">: {w.title}</span>
           </TextLink>
         )}
       </div>
@@ -114,7 +136,7 @@ export default function Research() {
           number="01"
           label="Research"
           title="What I'm working on in the lab"
-          dek="Most of my research is computational: modeling muscles in the thumb, populations and disease in changing environments, and lung injury after transplant. For each project, here's the question, what I did, and where it stands."
+          dek="Most of my research is computational: modeling muscles in the thumb, the evolution of plasticity and dispersal, and lung injury after transplant. For each project, here's the question, what I did, and where it stands."
         />
         <div className="studies">
           {featured.map((w, i) => (

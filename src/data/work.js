@@ -76,60 +76,96 @@ export const RESEARCH = [
     figure: "hill",
   },
   {
-    slug: "plasticity-disease-dynamics",
+    slug: "holt-lab",
     index: "R.02",
     tier: "featured",
     caseStudy: true,
-    title: "Plasticity, migration, and disease in changing environments",
-    area: ["ODE modeling", "Computer vision"],
+    title: "Evolution, dispersal, and plant disease in the Holt Lab",
+    area: ["Evolutionary modeling", "Computational ecology", "Computer vision"],
     lab: "Holt Lab",
     org: "University of Florida",
     period: "Dec 2025 – Present",
     role: "Undergraduate Research Assistant",
-    question:
-      "How do plasticity and movement change population and disease dynamics when the environment shifts? And how can we measure leaf infection consistently across a lot of samples?",
     summary:
-      "This project has two connected parts. The first is a set of ODE models of population and disease dynamics where organisms can adjust to their environment (phenotypic plasticity) and move between places (migration). The second is an image pipeline that measures how much of each leaf is infected.",
-    problem:
-      "A lot of ecological models treat traits as fixed, even though organisms respond to their surroundings and move around. Testing these models also takes disease data from many samples, and scoring leaves by eye is slow and inconsistent.",
-    approach: [
+      "I work on three separate projects in the Holt Lab. Two are simulation studies in evolutionary ecology: one on how limits to phenotypic plasticity evolve, and one on how dispersal evolves in patchy, variable habitats. The third uses computer vision to measure leaf damage and disease from photos.",
+    subprojects: [
       {
-        label: "Plasticity",
-        text: "I built simulation models of environmental change where plasticity is described with sigmoidal response functions, then implemented and validated ODE models of population and disease dynamics.",
+        id: "plasticity",
+        title: "Limits on plasticity and evolutionary rescue",
+        short: "Can a population survive a changing environment better if the limits on its plasticity can evolve?",
+        question:
+          "When there are limits on how much a population can adjust its phenotype, and those limits can themselves evolve, does that change whether the population survives a changing environment?",
+        background:
+          "This project replicates and extends Khare, Holt & Scheiner (2024, Evolution), which modeled how developmental limits on phenotypic plasticity affect evolutionary rescue and genetic assimilation. In that model, each individual has a sigmoidal reaction norm with a fixed shape. I added two new sets of loci so the shape itself can evolve: one controls where the reaction norm switches (its inflection point, E0), and the other controls how wide a range of phenotypes development can produce (Dc).",
+        approach: [
+          {
+            label: "Replication",
+            text: "Rebuilt the model and checked that it reproduces the published results before changing anything.",
+          },
+          {
+            label: "Extension",
+            text: "Added evolvable loci for the inflection point and the developmental range, with switches to compare four conditions: neither evolves, either one evolves, or both do.",
+          },
+          {
+            label: "Simulation",
+            text: "Ran a sweep of about 424,000 replicate simulations on UF's HiPerGator cluster, varying environmental autocorrelation, the cost of plasticity, and developmental versus environmental noise.",
+          },
+        ],
+        finding:
+          "Early results suggest that letting the developmental range evolve substantially improves survival. Letting the inflection point evolve doesn't help, and when plasticity has a cost it even evolves in an unexpected direction.",
+        status:
+          "Finishing the replication figures and double-checking the noise settings across runs. Next I'm writing up a paper on the two new evolvable traits.",
+        tools: ["Python", "Numba", "HiPerGator", "SLURM", "Individual-based simulation"],
       },
       {
-        label: "Migration",
-        text: "I'm extending the framework to include migration, so movement and plasticity interact and we can look at how populations and disease spread across space.",
+        id: "dispersal",
+        title: "How dispersal evolves in sink metapopulations",
+        short: "Does natural selection push dispersal toward the rate that maximizes total population size?",
+        question:
+          "In a group of habitat patches that can't support a population on their own, does the dispersal rate that evolves match the rate that keeps the most individuals alive?",
+        background:
+          "Roy, Holt & Barfield (2005) showed that when conditions fluctuate out of sync across sink patches, moving between them can keep a population going (the inflationary effect), and total abundance peaks at an intermediate dispersal rate, m*. Dr. Holt's question is whether evolution actually lands on m*.",
+        approach: [
+          {
+            label: "Baseline model",
+            text: "Built a two-patch Ricker model with autocorrelated (AR(1)) environmental noise and global dispersal, and reproduced the hump-shaped abundance curve from Roy et al. (Fig. 4C).",
+          },
+          {
+            label: "Invasion tests",
+            text: "Set up resident versus rare-mutant competition following McPeek & Holt (1992), with a persistence rule based on mean abundance over a time window and Lyapunov exponents to find where populations persist.",
+          },
+          {
+            label: "Invasion fitness",
+            text: "Tracked the log ratio of mutant to resident abundance, whose slope gives invasion fitness directly, alongside pairwise invasibility plots.",
+          },
+        ],
+        status:
+          "The two methods currently give different estimates of the evolutionarily stable dispersal rate. I'm working out why, then sweeping across parameters to see how it compares with m*.",
+        tools: ["Python", "Stochastic simulation", "Invasion analysis", "Pairwise invasibility plots"],
       },
       {
-        label: "Segmentation",
-        text: "I built a pipeline around the Segment Anything Model (SAM) that finds each leaf, makes a mask for it, and isolates the regions we care about.",
-      },
-      {
-        label: "Measurement",
-        text: "From the masks, it calculates percent infected tissue and structural damage using contour and convex-hull analysis. Reference tags in each photo convert pixels to real area.",
-      },
-      {
-        label: "Speed",
-        text: "It runs on Apple Silicon with PyTorch MPS acceleration.",
+        id: "plant-disease",
+        title: "Measuring leaf damage and disease from photos",
+        short: "Two computer vision pipelines: one measures leaves, the other detects disease in field images.",
+        question: "Can leaf size, shape, damage, and disease be measured automatically and consistently from images?",
+        background:
+          "Measuring leaves and scoring disease by hand is slow and varies from person to person. I'm building two pipelines to automate it.",
+        approach: [
+          {
+            label: "Leaf measurement",
+            text: "Uses SAM 3 to find and segment each leaf, then measures area, perimeter, solidity, circularity, and other shape descriptors. Contour analysis picks out holes and tears, and a reference tag in each photo converts pixels to real units.",
+          },
+          {
+            label: "Disease detection",
+            text: "A YOLO-based detector for disease, including *Bipolaris gigantea*, in field images sampled across plots and distances. I've converted the first set of about 119 annotated images to Ultralytics format.",
+          },
+        ],
+        status:
+          "The leaf measurement pipeline works, and I presented it at a lab meeting. For disease detection, the next steps are finalizing the class labels, auditing the annotations, choosing between bounding boxes and segmentation masks, and training.",
+        tools: ["Python", "SAM 3", "YOLO / Ultralytics", "OpenCV", "PyTorch"],
       },
     ],
-    contributions: [
-      "Implementing and validating the ODE models",
-      "Adding migration to the modeling framework",
-      "Building the segmentation and infection-scoring pipeline",
-    ],
-    outcomes: [
-      {
-        label: "Infection estimates",
-        text: "Percent-infection numbers across samples for the lab's larger ecological analysis.",
-      },
-      {
-        label: "Migration model",
-        text: "A framework that combines plasticity and migration to study spread across space.",
-      },
-    ],
-    tools: ["Python", "PyTorch", "OpenCV", "SAM", "Ultralytics", "ODE modeling"],
+    tools: ["Python", "Numba", "HiPerGator", "Stochastic simulation", "SAM 3", "YOLO"],
     figure: "sigmoid",
   },
   {
@@ -337,6 +373,9 @@ export const DESIGN = [
 
 export const CASE_STUDIES = [...RESEARCH, MODELING_FEATURE, ...DESIGN].filter((w) => w.caseStudy);
 
+// Old URLs that should keep working.
+const ALIASES = { "plasticity-disease-dynamics": "holt-lab" };
+
 export function findCaseStudy(slug) {
-  return CASE_STUDIES.find((w) => w.slug === slug);
+  return CASE_STUDIES.find((w) => w.slug === (ALIASES[slug] ?? slug));
 }

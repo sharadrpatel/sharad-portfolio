@@ -309,3 +309,22 @@
     grid-column: 4 / span 8;
   }
 }
+
+.subproject__question {
+  font-family: var(--f-serif);
+  font-size: var(--fs-md);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink);
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent);
+}
+
+.subproject__finding {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  background: var(--accent-wash);
+  border-left: 2px solid var(--accent);
+  color: var(--ink);
+}

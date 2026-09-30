@@ -36,10 +36,10 @@ export const CURRENTLY = [
     href: "/work/thumb-musculoskeletal-modeling",
   },
   {
-    what: "Plasticity and migration models",
+    what: "Plasticity, dispersal, and plant disease projects",
     where: "Holt Lab",
     since: "2025",
-    href: "/work/plasticity-disease-dynamics",
+    href: "/work/holt-lab",
   },
   {
     what: "Systematic review of Parkinson's immunotherapy",
