@@ -139,7 +139,7 @@ export const RESEARCH = [
     caseStudy: false,
     title: "Modeling primary graft dysfunction after lung transplant",
     area: ["Mechanistic modeling", "Pulmonary"],
-    lab: "Lung Modeling Lab (Dr. Brunson)",
+    lab: "Brunson Lab",
     org: "University of Florida",
     period: "May 2026 – Present",
     role: "Undergraduate Research Assistant",
@@ -188,7 +188,7 @@ export const RESEARCH = [
     period: "Jan 2024 – Present",
     role: "Surgical Research Team Captain",
     summary:
-      "I captain the surgical research team. I write IRB applications, study protocols, and statistical analysis plans, and design skills assessments for surgical residents. We work with transplant surgeons to build simulation models for kidney and liver transplants and infant IV administration, and we've published and presented results from our surveys and experiments.",
+      "I captain the surgical research team. I write IRB applications, study protocols, and statistical analysis plans, and design skills assessments for surgical residents. We work with transplant surgeons to build simulation models for kidney and liver transplants and infant IV placement, and we've published and presented results from our surveys and experiments.",
     tools: ["IRB protocols", "Study design", "Statistical analysis plans", "3D printing"],
   },
 ];
@@ -329,9 +329,9 @@ export const DESIGN = [
     problem:
       "A child with a below-elbow amputation needed a prosthetic hand they could control with their own muscles.",
     method:
-      "We built a 3D-printed hand. I worked on the electronics and code, programming the hand to close when a myosensor on the bicep picks up a signal.",
+      "We built a 3D-printed hand. I worked on the electronics and code, programming the hand to close when an EMG sensor on the biceps picks up a signal.",
     contribution: "Circuits and control software, as part of the Circuits & Software team.",
-    tools: ["Arduino", "C++", "Myosensors", "3D printing"],
+    tools: ["Arduino", "C++", "EMG sensors", "3D printing"],
   },
 ];
 

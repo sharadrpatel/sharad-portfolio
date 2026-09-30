@@ -19,10 +19,10 @@ export const PUBLICATIONS = [
     date: "2026-10",
   },
   {
-    title: "Modeling AI Model Collapse using Markov Chains",
+    title: "Modeling AI Model Collapse Using Markov Chains",
     authors: ["Sharad Patel", "Pranav Kulkarni", "Sanandan Ojha"],
     venue: "Undergraduate Mathematics Research Symposium, University of Florida",
-    type: "Presentation",
+    type: "Oral presentation",
     date: "2026-04",
   },
   {
@@ -40,7 +40,7 @@ export const PUBLICATIONS = [
     date: "2025-03",
   },
   {
-    title: "Improving Pediatric MRIs: A Prospective Study using a Mock Scanner as a Replacement for Sedation",
+    title: "Improving Pediatric MRIs: A Prospective Study Using a Mock Scanner as a Replacement for Sedation",
     authors: ["Shreya Mathur", "Utsav Sharma", "Ansh Parikh", "Daisy Ann Titus", "Sharad Patel"],
     venue: "International Undergraduate Journal of Medicine, Disease, and Society",
     type: "Journal article",

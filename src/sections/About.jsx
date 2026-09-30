@@ -47,10 +47,14 @@ export default function About() {
           <Reveal as="aside" className="education" delay={120} aria-labelledby="edu-title">
             <h3 id="edu-title" className="label">Education</h3>
             <p className="education__school">{EDUCATION.school}</p>
-            <p>{EDUCATION.degree}</p>
+            <p>
+              {EDUCATION.degree}
+              <br />
+              {EDUCATION.minor}
+            </p>
             <dl className="education__facts">
               <div>
-                <dt className="label label--muted">Dates</dt>
+                <dt className="label label--muted">Graduation</dt>
                 <dd>{EDUCATION.period}</dd>
               </div>
               <div>

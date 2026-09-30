@@ -25,7 +25,7 @@ export const PROFILE = {
 export const CURRENTLY = [
   {
     what: "Modeling lung injury after transplant",
-    where: "Lung Modeling Lab",
+    where: "Brunson Lab",
     since: "2026",
     href: "/#research-lung-transplant-pgd",
   },
@@ -62,7 +62,7 @@ export const CURRENTLY = [
 ];
 
 export const AT_A_GLANCE = [
-  { value: "3.94", label: "GPA", note: "B.S. Biomedical Engineering, UF" },
+  { value: "3.94", label: "GPA", note: "B.S. Biomedical Engineering, minor in Mathematics" },
   {
     value: "4",
     label: "Research labs",
@@ -83,15 +83,16 @@ export const AT_A_GLANCE = [
 export const EDUCATION = {
   school: "University of Florida",
   degree: "Bachelor of Science in Biomedical Engineering",
-  period: "Aug 2023 – May 2027",
-  gpa: "3.94 / 4.0",
+  minor: "Minor in Mathematics",
+  period: "Expected May 2027",
+  gpa: "3.94 / 4.00",
   coursework: [
     "Differential Equations",
     "Linear Algebra",
     "Modeling in Mathematical Biology",
     "Biomedical Transport Phenomena",
     "Biomedical Instrumentation",
-    "Bio Signals",
+    "Biosignals",
     "Circuits",
     "Biomaterials",
     "Cellular Engineering Lab",
@@ -115,22 +116,22 @@ export const INTERESTS = [
 export const TOOLKIT = [
   {
     group: "Programming",
-    items: ["Python", "MATLAB", "C++", "R", "JavaScript", "LaTeX"],
+    items: ["Python (NumPy, pandas, SciPy, PyTorch, OpenCV)", "MATLAB", "C++", "R", "JavaScript", "LaTeX"],
   },
   {
-    group: "Modeling",
+    group: "Modeling & analysis",
     items: [
-      "ODE & PDE models",
-      "Mechanistic modeling",
+      "ODE & PDE modeling",
       "Monte Carlo simulation",
       "Sensitivity & uncertainty analysis",
-      "Parameter calibration",
-      "Stochastic processes",
+      "Parameter estimation",
+      "Statistical testing (t-tests, ANOVA)",
+      "Computer vision",
     ],
   },
   {
     group: "Biomechanics",
-    items: ["OpenSim", "Vicon motion capture", "Fine-wire EMG", "Hill-type muscle models"],
+    items: ["OpenSim", "Vicon motion capture", "EMG", "Hill-type muscle models"],
   },
   {
     group: "Design & build",
@@ -139,9 +140,9 @@ export const TOOLKIT = [
   {
     group: "Research practice",
     items: [
-      "Systematic review",
-      "IRB & study protocols",
-      "Statistical analysis plans",
+      "Systematic reviews",
+      "IRB applications & study protocols",
+      "Technical reports",
       "Scientific writing",
       "BSL-2 lab techniques",
     ],
