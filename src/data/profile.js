@@ -18,37 +18,43 @@ export const PROFILE = {
     "Translational Research",
   ],
   lead:
-    "I build mechanistic and computational models of the human body — from muscle forces in the arthritic thumb to tissue regrowth inside arterial stents — and test them against experimental data.",
+    "I'm a biomedical engineering student at UF. I build computational models of how the body works, mostly in biomechanics and physiology, and compare them against experimental data.",
 };
 
 // Shown in the hero ledger. Keep to the most representative current work.
 export const CURRENTLY = [
   {
-    what: "Mechanistic model of primary graft dysfunction",
+    what: "Modeling lung injury after transplant",
     where: "Lung Modeling Lab",
     since: "2026",
     href: "/#research-lung-transplant-pgd",
   },
   {
-    what: "Personalized OpenSim models of the osteoarthritic thumb",
+    what: "OpenSim models of the arthritic thumb",
     where: "Nichols Lab",
     since: "2024",
     href: "/work/thumb-musculoskeletal-modeling",
   },
   {
-    what: "In-stent restenosis model with Medtronic",
-    where: "Modeling project",
-    since: "2026",
-    href: "/work/in-stent-restenosis",
+    what: "Plasticity and migration models",
+    where: "Holt Lab",
+    since: "2025",
+    href: "/work/plasticity-disease-dynamics",
   },
   {
-    what: "Distal biceps tendon repair system for CONMED",
+    what: "Systematic review of Parkinson's immunotherapy",
+    where: "Vedam-Mai Lab",
+    since: "2025",
+    href: "/#research-parkinsons-immunotherapy",
+  },
+  {
+    what: "Biceps tendon repair device for CONMED",
     where: "Senior design",
     since: "2026",
     href: "/work/distal-biceps-repair",
   },
   {
-    what: "Certified nursing assistant, medical–surgical unit",
+    what: "CNA on a medical–surgical unit",
     where: "HCA Florida North Florida",
     since: "2026",
     href: "/#experience",
@@ -65,12 +71,12 @@ export const AT_A_GLANCE = [
   {
     value: "6",
     label: "Publications & presentations",
-    note: "Including two posters at BMES 2026",
+    note: "Two of them are posters at BMES 2026",
   },
   {
     value: "Outstanding",
     label: "SCUDEM",
-    note: "Highest award level, international modeling competition",
+    note: "Top award level at an international modeling competition",
   },
 ];
 

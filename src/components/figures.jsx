@@ -250,25 +250,25 @@ const FIGURES = {
   hill: {
     Svg: HillModel,
     caption:
-      "Hill-type muscle–tendon unit. The three parameters personalized from ultrasound — and tested in the sensitivity analysis — are highlighted.",
+      "A Hill-type muscle–tendon unit. The three highlighted parameters come from ultrasound, and they're the ones I tested in the sensitivity analysis.",
   },
   restenosis: {
     Svg: RestenosisPlot,
     caption:
-      "Model vs. reference. Left: re-implemented base model against the published output. Right: blind prediction against observed porcine area stenosis.",
+      "Model vs. reference values. Left: our version of the base model compared with the published result. Right: our blind prediction compared with porcine data.",
   },
   artery: {
     Svg: ArterySection,
     caption:
-      "Schematic cross-section of a stented femoral artery. The new module links the stent's chronic outward force, through oversizing, to hoop stress in the wall.",
+      "Cross-section of a stented femoral artery (not to scale). The module I added ties the stent's outward force, based on how oversized it is, to stress in the artery wall.",
   },
   pgd: {
     Svg: PgdWorkflow,
-    caption: "Project workflow. A systematic review structures the mechanistic model, which aims to inform risk stratification.",
+    caption: "How the project is set up. The systematic review shapes the model, and the goal is to use the model for risk stratification.",
   },
   sigmoid: {
     Svg: SigmoidResponse,
-    caption: "Schematic sigmoidal response function, the form used to represent phenotypic plasticity in the ODE models.",
+    caption: "The general shape of a sigmoidal response function (illustration). This is how the ODE models represent phenotypic plasticity.",
   },
 };
 

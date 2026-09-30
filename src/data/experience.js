@@ -13,11 +13,11 @@ export const CLINICAL = {
     },
     {
       label: "Communication",
-      text: "Document care in the electronic health record and escalate changes in patient status to nursing staff.",
+      text: "Chart care in the electronic health record and tell the nurses right away when a patient's condition changes.",
     },
     {
       label: "Unit workflow",
-      text: "Support admissions, transfers, and discharges on a high-turnover unit, including post-operative care, fall prevention, and infection control.",
+      text: "Help with admissions, transfers, and discharges on a busy unit, along with post-op care, fall prevention, and infection control.",
     },
   ],
   credentials: ["CNA", "BLS"],
@@ -29,7 +29,7 @@ export const TEACHING = [
     role: "Teaching Assistant",
     period: "Jan 2026 – Present",
     format: "Weekly labs",
-    text: "Lead laboratory sessions in human physiology, helping students apply engineering reasoning to interpret physiological data. Rewrote the lab curriculum across the summer and fall semesters around clearer learning objectives, and revised procedures and assessment questions in response to recurring student errors.",
+    text: "I run weekly human physiology labs and help students use engineering reasoning to make sense of their data. Over the summer and fall, I rewrote the lab curriculum around clearer learning objectives and revised procedures and questions based on the mistakes students kept making.",
     highlight: "Curriculum redesign",
   },
   {
@@ -37,21 +37,21 @@ export const TEACHING = [
     role: "Learning Assistant",
     period: "Aug 2026 – Present",
     format: "Office hours · Exam review",
-    text: "Walk students through momentum, heat, and mass transport problems and lead exam review sessions.",
+    text: "I hold office hours on momentum, heat, and mass transport problems and run exam reviews.",
   },
   {
     course: "Organic Chemistry",
     role: "Teaching Assistant",
     period: "Jan 2026 – Aug 2026",
     format: "Office hours · Grading",
-    text: "Covered reaction mechanisms, synthesis strategy, and spectroscopy; graded assessments with targeted feedback on recurring conceptual errors.",
+    text: "Held office hours on mechanisms, synthesis, and spectroscopy, and graded exams with feedback on the concepts students most often got wrong.",
   },
   {
     course: "K–12 Mathematics",
     role: "Tutor, Mathnasium",
     period: "Aug 2022 – June 2023",
     format: "Weekly cohort of 50",
-    text: "Personalized learning plans and instruction for a weekly cohort of about 50 students.",
+    text: "Taught about 50 students a week and made individual learning plans for each of them.",
   },
 ];
 
@@ -60,24 +60,24 @@ export const LEADERSHIP = [
     role: "Co-Director of Internal Events",
     org: "Dream Team Engineering",
     period: "2024 – 2025",
-    text: "Organized workshops and general body meetings, including a 24-Hour Design Challenge and a Shark Tank-style competition.",
+    text: "Planned workshops, socials, and general body meetings, plus bigger events like a 24-Hour Design Challenge and a Shark Tank-style competition.",
   },
   {
     role: "Project Lead",
     org: "BAPS Charities, Tampa",
     period: "2022 – Present",
-    text: "Lead walkathons, health fairs, and hospital blood drives — scoping budgets and permits, coordinating 30–100+ volunteers, and managing screening workflows and safety compliance.",
+    text: "I organize walkathons, health fairs, and blood drives with local hospitals. That means budgets, permits, sponsors, and coordinating anywhere from 30 to 100+ volunteers.",
   },
   {
     role: "Regional Core Team",
     org: "BAPS Swaminarayan Sanstha, Tampa",
     period: "2021 – Present",
-    text: "Design programs for 750–1,000 children ages 6–13 and, with a team of six, a weekly curriculum for 50–100 attendees.",
+    text: "I help design programs for 750–1,000 kids ages 6–13, and plan a weekly curriculum for 50–100 kids with a team of six.",
   },
   {
     role: "Video Editor",
     org: "Festival of Inspirations, Robbinsville, NJ",
     period: "Summer 2023",
-    text: "Scripted and produced video content for a three-month cultural festival.",
+    text: "Wrote and edited videos for a three-month festival about Hindu values and traditions.",
   },
 ];

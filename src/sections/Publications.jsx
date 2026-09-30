@@ -37,8 +37,8 @@ export default function Publications() {
           id="publications-title"
           number="03"
           label="Publications & presentations"
-          title="Work shared in journals and at meetings."
-          dek={`${PUBLICATIONS.length} publications and presentations, ${firstAuthor} as first author — spanning surgical simulation, clinical imaging, anesthesia monitoring, and stochastic modeling.`}
+          title="Publications and presentations"
+          dek={`${PUBLICATIONS.length} so far, ${firstAuthor} as first author. Half come from surgical simulation research. The rest cover pediatric MRI, anesthesia monitoring, and a math modeling talk.`}
         />
         <Reveal as="ol" className="pubs">
           {PUBLICATIONS.map((p) => (

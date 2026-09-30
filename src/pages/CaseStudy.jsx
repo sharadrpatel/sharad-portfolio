@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CASE_STUDIES, RESEARCH } from "../data/work.js";
+import { CASE_STUDIES, RESEARCH, MODELING_FEATURE } from "../data/work.js";
 import { Link } from "../lib/router.jsx";
 import { Tags, TextLink, Arrow } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
@@ -23,7 +23,11 @@ function useActiveHeading(ids) {
 
 export default function CaseStudy({ work: w }) {
   const isResearch = RESEARCH.includes(w);
-  const backHref = isResearch ? `/#research-${w.slug}` : "/#projects";
+  const backHref = isResearch
+    ? `/#research-${w.slug}`
+    : w === MODELING_FEATURE
+      ? `/#project-${w.slug}`
+      : "/#projects";
   const i = CASE_STUDIES.indexOf(w);
   const next = CASE_STUDIES[(i + 1) % CASE_STUDIES.length];
 
@@ -32,7 +36,7 @@ export default function CaseStudy({ work: w }) {
     { id: "approach", label: "Approach & methods", show: true },
     { id: "specifications", label: "Specifications", show: !!w.specs },
     { id: "contribution", label: "My contribution", show: !!w.contributions },
-    { id: "outcomes", label: isResearch ? "Outcomes" : "Deliverables", show: !!w.outcomes },
+    { id: "outcomes", label: "Outcomes", show: !!w.outcomes },
     { id: "tools", label: "Tools", show: true },
   ].filter((s) => s.show);
   const active = useActiveHeading(sections.map((s) => s.id));
@@ -53,7 +57,7 @@ export default function CaseStudy({ work: w }) {
           <h1 id="case-title" className="case__title">{w.title}</h1>
           {w.question && (
             <p className="case__question">
-              <span className="label label--muted">Research question</span>
+              <span className="label label--muted">{isResearch ? "Research question" : "Question"}</span>
               {w.question}
             </p>
           )}
@@ -131,8 +135,8 @@ export default function CaseStudy({ work: w }) {
             <section className="case__section" aria-labelledby="specifications">
               <h2 id="specifications" className="case__h">Specifications</h2>
               <p>
-                Examples from the 12 user needs in the design traceability matrix. Each need carries marginal and ideal
-                targets.
+                A few of the 12 user needs from our design traceability matrix. Each one has a marginal and an ideal
+                target.
               </p>
               <SpecTable specs={w.specs} caption="Selected target specifications" />
             </section>
@@ -151,7 +155,7 @@ export default function CaseStudy({ work: w }) {
 
           {w.outcomes && (
             <section className="case__section" aria-labelledby="outcomes">
-              <h2 id="outcomes" className="case__h">{isResearch ? "Outcomes" : "Deliverables"}</h2>
+              <h2 id="outcomes" className="case__h">Outcomes</h2>
               <dl className="outcomes">
                 {w.outcomes.map((o) => (
                   <div key={o.label} className={o.value ? "has-value" : ""}>
@@ -166,7 +170,7 @@ export default function CaseStudy({ work: w }) {
               {!w.outcomes.some((o) => o.value) && (
                 <p className="status">
                   <span className="status__dot" aria-hidden="true" />
-                  Ongoing — these are the questions the current work is set up to answer.
+                  This project is still going, so these are what the work is set up to answer rather than final results.
                 </p>
               )}
             </section>

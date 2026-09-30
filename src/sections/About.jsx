@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section id="about" className="section" aria-labelledby="about-title">
       <div className="wrap">
-        <SectionHead id="about-title" number="05" label="About" title="An engineer who writes down how the body should behave — then checks." />
+        <SectionHead id="about-title" number="05" label="About" title="About me" />
 
         <div className="about">
           <Reveal className="about__portrait">
@@ -22,18 +22,16 @@ export default function About() {
 
           <Reveal className="about__text prose" delay={60}>
             <p className="about__lede">
-              I'm a biomedical engineering student at the University of Florida, graduating in May 2027. Most of my work
-              sits where mechanics and physiology meet mathematics: I describe how a system should behave, simulate it, and
-              test the result against data — whether the system is a thumb muscle, an artery wall, a transplanted lung, or a
-              population adapting to a changing environment.
+              I'm a biomedical engineering student at the University of Florida, graduating in May 2027. Most of my research
+              is computational. I like taking a question about how the body works, turning it into a model, and seeing how
+              well it holds up against real data.
             </p>
             <p>
-              Alongside the modeling, I work as a certified nursing assistant on a medical–surgical unit, lead surgical
-              simulation research with transplant surgeons, and teach a physiology lab whose curriculum I helped rewrite.
-              That time with patients and students is a regular reminder of who the models are ultimately for.
+              Outside the lab, I work as a CNA on a medical–surgical unit, lead surgical simulation research with transplant
+              surgeons, and TA a physiology lab. I rewrote that lab's curriculum over the summer and fall.
             </p>
             <p>
-              Long term, I'm working toward a career that joins clinical medicine with computational research.
+              Long term, I want a career that combines clinical medicine with computational research.
             </p>
 
             <div className="interests">
@@ -68,7 +66,7 @@ export default function About() {
         <Reveal className="toolkit" aria-labelledby="toolkit-title">
           <div className="toolkit__head">
             <h3 id="toolkit-title" className="label">Toolkit</h3>
-            <p className="subhead__note">The tools behind the projects above, grouped by what they are used for.</p>
+            <p className="subhead__note">Software, methods, and certifications I use in the work above.</p>
           </div>
           <dl className="toolkit__grid">
             {TOOLKIT.map((g) => (

@@ -1,6 +1,6 @@
-// Research studies and major design work.
+// Research studies, design work, and the featured modeling project.
 //
-// tier: "featured"  → large editorial row on the homepage (with figure)
+// tier: "featured"  → large row on the homepage (with figure)
 //       "secondary" → compact row on the homepage
 // caseStudy: true   → gets a dedicated page at /work/:slug
 //
@@ -13,157 +13,72 @@ export const RESEARCH = [
     index: "R.01",
     tier: "featured",
     caseStudy: true,
-    title: "Personalized musculoskeletal models of the osteoarthritic thumb",
+    title: "Personalized models of the thumb in osteoarthritis",
     area: ["Biomechanics", "Musculoskeletal modeling"],
     lab: "Nichols Lab",
     org: "University of Florida",
     period: "Aug 2024 – Present",
     role: "Undergraduate Research Assistant",
     question:
-      "Does personalizing a thumb model with ultrasound-measured muscle architecture change its predicted muscle forces — and how do those forces differ in carpometacarpal osteoarthritis?",
+      "If you build a thumb model from a person's own muscle measurements, how much do the predicted muscle forces change? And do those forces look different in people with thumb arthritis?",
     summary:
-      "Osteoarthritis at the base of the thumb (CMCOA) makes pinching and grasping painful, but the muscle forces behind those tasks cannot be measured directly. I build subject-specific OpenSim models, personalized with ultrasound-derived muscle parameters, to estimate them and compare healthy older adults with adults with CMCOA.",
+      "Carpometacarpal osteoarthritis (CMCOA) is arthritis at the base of the thumb. It makes pinching and gripping painful, but there's no direct way to measure the muscle forces involved. I build OpenSim models of individual people's thumbs, using muscle measurements from ultrasound, to estimate those forces in healthy older adults and in adults with CMCOA.",
     problem:
-      "Generic musculoskeletal models are scaled from cadaveric data and may not reflect an individual's muscle architecture — a real gap in an older, arthritic population. Knowing which personalized parameters actually move the predictions tells us where measurement effort matters.",
+      "Most musculoskeletal models are scaled from cadaver data, so they may not match a real person's muscles very well, especially in older adults with arthritis. It also helps to know which measurements actually change the results, since some are much harder to collect than others.",
     approach: [
       {
-        label: "Experimental data",
-        text: "Collected fine-wire EMG and Vicon motion capture during pinch and grasp tasks; processed signals in Python to characterize movement and muscle activation.",
+        label: "Data collection",
+        text: "I collect fine-wire EMG and Vicon motion capture while participants do pinch and grasp tasks, then process the signals in Python.",
       },
       {
-        label: "Personalization",
-        text: "Built subject-specific OpenSim thumb models with Hill-type muscle parameters derived from ultrasound measurements.",
+        label: "Personalized models",
+        text: "Each subject gets their own OpenSim thumb model, with Hill-type muscle parameters taken from ultrasound.",
       },
       {
         label: "Simulation",
-        text: "Applied inverse kinematics and static optimization to estimate joint angles, moment arms, and muscle forces across tasks.",
+        text: "I use inverse kinematics and static optimization to get joint angles, moment arms, and muscle forces for each task.",
       },
       {
-        label: "Uncertainty",
-        text: "Ran sensitivity and uncertainty analyses on optimal fiber length, tendon slack length, and physiological cross-sectional area, propagating measurement error into force predictions.",
+        label: "Sensitivity",
+        text: "I ran sensitivity and uncertainty analyses on optimal fiber length, tendon slack length, and physiological cross-sectional area to see which one matters most, and how measurement error carries through to the force estimates.",
       },
       {
-        label: "Model reduction",
-        text: "Developed a reduced Hill-type model to test whether a simplified formulation reproduces the personalization effects of the full OpenSim simulation.",
+        label: "Simpler model",
+        text: "I built a reduced Hill-type model to check whether a much simpler setup shows the same personalization effects as the full OpenSim simulation.",
       },
       {
         label: "Statistics",
-        text: "Performed exploratory analysis of multi-muscle EMG with paired t-tests and two-way ANOVA across CMCOA stages.",
+        text: "I also compared multi-muscle EMG across CMCOA stages using paired t-tests and two-way ANOVA.",
       },
     ],
     contributions: [
-      "Motion capture and fine-wire EMG data collection",
-      "Signal processing and statistical analysis in Python",
-      "Subject-specific model building in OpenSim",
-      "Design and execution of the sensitivity and uncertainty analyses",
-      "Formulation of the reduced Hill-type model",
+      "Collecting motion capture and fine-wire EMG data",
+      "Signal processing and statistics in Python",
+      "Building subject-specific models in OpenSim",
+      "Designing and running the sensitivity and uncertainty analyses",
+      "Setting up the reduced Hill-type model",
     ],
     outcomes: [
       {
-        label: "Comparison",
-        text: "Predicted muscle forces compared between healthy older adults and adults with CMCOA across pinch and grasp tasks.",
+        label: "Healthy vs. CMCOA",
+        text: "Predicted muscle forces for both groups across pinch and grasp tasks.",
       },
       {
-        label: "Drivers",
-        text: "Identification of which ultrasound-derived parameters dominate the effect of personalization.",
+        label: "Key parameters",
+        text: "Which ultrasound measurements have the biggest effect on the personalized model.",
       },
       {
-        label: "Simplification",
-        text: "A test of whether a reduced model can stand in for the full simulation.",
+        label: "Simpler model",
+        text: "Whether a reduced model can stand in for the full simulation.",
       },
     ],
     tools: ["OpenSim", "Vicon", "Fine-wire EMG", "Python", "Ultrasound", "Hill-type models", "ANOVA"],
     figure: "hill",
   },
   {
-    slug: "in-stent-restenosis",
+    slug: "plasticity-disease-dynamics",
     index: "R.02",
     tier: "featured",
-    caseStudy: true,
-    title: "A mechanobiological model of in-stent restenosis in peripheral arteries",
-    area: ["Mechanobiology", "PDE modeling"],
-    lab: "Team project with Medtronic",
-    org: "Modeling & Simulation Innovation Group",
-    period: "Aug 2026 – Present",
-    role: "Problem definition, physiological rationale, and chronic-outward-force module (team of 5)",
-    question:
-      "Can a restenosis model built for coronary stents be adapted to predict tissue regrowth inside self-expanding nitinol stents in the femoral artery?",
-    summary:
-      "Restenosis — the re-narrowing of an artery after stenting — is driven by smooth muscle cell migration and proliferation and by extracellular matrix deposition. Our team is adapting a published reaction–diffusion model (Escuer et al., 2019) from balloon-expandable coronary stents to self-expanding nitinol stents in the femoral artery.",
-    problem:
-      "A self-expanding nitinol stent keeps pushing outward on the vessel wall long after it is deployed. That chronic outward force — and the arterial stress it creates — is absent from models built for balloon-expandable coronary stents.",
-    approach: [
-      {
-        label: "Base model",
-        text: "Re-implemented a reaction–diffusion system coupling growth factors, MMP-2, extracellular matrix, and contractile and synthetic smooth muscle cell phenotypes.",
-      },
-      {
-        label: "Physiological rationale",
-        text: "Led problem definition, connecting the stent's chronic outward force to smooth muscle cell migration and proliferation, ECM deposition, and neointimal hyperplasia.",
-      },
-      {
-        label: "New mechanics",
-        text: "Added a chronic outward force module linking stent oversizing to arterial hoop stress.",
-      },
-      {
-        label: "Verification",
-        text: "Benchmarked the re-implemented base model against published outputs, then ran a blind test against porcine data.",
-      },
-    ],
-    contributions: [
-      "Problem definition and physiological rationale",
-      "Chronic outward force module (oversizing → hoop stress)",
-      "Benchmarking against published model output",
-    ],
-    outcomes: [
-      {
-        value: "24.8%",
-        label: "Base-model benchmark",
-        text: "Restenosis at 300 days from the re-implemented model, versus ~25% in the published model.",
-      },
-      {
-        value: "73%",
-        label: "Blind test",
-        text: "Area stenosis predicted by the phenotype-switch pathway, versus 64 ± 17% observed in porcine data.",
-      },
-    ],
-    tools: ["PDE modeling", "Numerical simulation", "Parameter calibration", "Sensitivity analysis"],
-    figure: "restenosis",
-    secondaryFigure: "artery",
-  },
-  {
-    slug: "lung-transplant-pgd",
-    index: "R.03",
-    tier: "featured",
-    caseStudy: false,
-    title: "Mechanistic modeling of primary graft dysfunction after lung transplantation",
-    area: ["Mechanistic modeling", "Pulmonary"],
-    lab: "Lung Modeling Lab · Dr. Brunson",
-    org: "University of Florida",
-    period: "May 2026 – Present",
-    role: "Undergraduate Research Assistant",
-    question:
-      "Which pathophysiological drivers underlie primary graft dysfunction, and can a mechanistic model help identify which transplant recipients are at risk?",
-    summary:
-      "Primary graft dysfunction (PGD) is an acute injury to the transplanted lung that develops soon after surgery. I am developing a mechanistic model of PGD to characterize its underlying drivers and inform risk stratification, grounded in a systematic review of the mechanistic and clinical literature.",
-    approach: [
-      {
-        label: "Evidence",
-        text: "Systematic review of the PGD literature to synthesize mechanistic and clinical findings and identify the gaps the model should address.",
-      },
-      {
-        label: "Model",
-        text: "Development of a mechanistic model of PGD pathophysiology, structured by the review.",
-      },
-    ],
-    status: "Early stage — literature synthesis and model development.",
-    tools: ["Mechanistic modeling", "Systematic review"],
-    figure: "pgd",
-  },
-  {
-    slug: "plasticity-disease-dynamics",
-    index: "R.04",
-    tier: "secondary",
     caseStudy: true,
     title: "Plasticity, migration, and disease in changing environments",
     area: ["ODE modeling", "Computer vision"],
@@ -172,69 +87,98 @@ export const RESEARCH = [
     period: "Dec 2025 – Present",
     role: "Undergraduate Research Assistant",
     question:
-      "How do phenotypic plasticity and movement shape population and disease dynamics as environments change — and how can infection be measured at scale?",
+      "How do plasticity and movement change population and disease dynamics when the environment shifts? And how can we measure leaf infection consistently across a lot of samples?",
     summary:
-      "Two connected threads: ODE models of population and disease dynamics in which organisms respond plastically to their environment, and a computer-vision pipeline that turns leaf photographs into quantitative infection measurements.",
+      "This project has two connected parts. The first is a set of ODE models of population and disease dynamics where organisms can adjust to their environment (phenotypic plasticity) and move between places (migration). The second is an image pipeline that measures how much of each leaf is infected.",
     problem:
-      "Ecological models often treat traits as fixed, yet organisms adjust to their environment and move through it. Testing those models also needs disease measurements across many samples — slow and subjective when scored by eye.",
+      "A lot of ecological models treat traits as fixed, even though organisms respond to their surroundings and move around. Testing these models also takes disease data from many samples, and scoring leaves by eye is slow and inconsistent.",
     approach: [
       {
         label: "Plasticity",
-        text: "Built simulation models of environmental change in which phenotypic plasticity is represented with sigmoidal response functions; implemented and validated ODE models of population and disease dynamics.",
+        text: "I built simulation models of environmental change where plasticity is described with sigmoidal response functions, then implemented and validated ODE models of population and disease dynamics.",
       },
       {
-        label: "Movement",
-        text: "Extended the framework with migration dynamics, coupling movement behavior with plasticity to capture spatial spread under environmental change.",
+        label: "Migration",
+        text: "I'm extending the framework to include migration, so movement and plasticity interact and we can look at how populations and disease spread across space.",
       },
       {
         label: "Segmentation",
-        text: "Built a pipeline using the Segment Anything Model (SAM) to segment leaves, generate per-leaf masks, and isolate regions of interest.",
+        text: "I built a pipeline around the Segment Anything Model (SAM) that finds each leaf, makes a mask for it, and isolates the regions we care about.",
       },
       {
         label: "Measurement",
-        text: "Computed percent infected tissue and structural damage via contour and convex-hull analysis; calibrated pixels to real-world area with reference tags.",
+        text: "From the masks, it calculates percent infected tissue and structural damage using contour and convex-hull analysis. Reference tags in each photo convert pixels to real area.",
       },
       {
-        label: "Performance",
-        text: "Optimized execution on Apple Silicon with PyTorch MPS acceleration.",
+        label: "Speed",
+        text: "It runs on Apple Silicon with PyTorch MPS acceleration.",
       },
     ],
     contributions: [
-      "ODE model implementation and validation",
-      "Migration extension to the modeling framework",
-      "End-to-end segmentation and severity-scoring pipeline",
+      "Implementing and validating the ODE models",
+      "Adding migration to the modeling framework",
+      "Building the segmentation and infection-scoring pipeline",
     ],
     outcomes: [
       {
-        label: "Severity metrics",
-        text: "Percent-infection estimates across samples to support large-scale ecological analysis.",
+        label: "Infection estimates",
+        text: "Percent-infection numbers across samples for the lab's larger ecological analysis.",
       },
       {
-        label: "Framework",
-        text: "A modeling framework that couples plastic responses with migration to study spatial spread.",
+        label: "Migration model",
+        text: "A framework that combines plasticity and migration to study spread across space.",
       },
     ],
     tools: ["Python", "PyTorch", "OpenCV", "SAM", "Ultralytics", "ODE modeling"],
     figure: "sigmoid",
   },
   {
+    slug: "lung-transplant-pgd",
+    index: "R.03",
+    tier: "featured",
+    caseStudy: false,
+    title: "Modeling primary graft dysfunction after lung transplant",
+    area: ["Mechanistic modeling", "Pulmonary"],
+    lab: "Lung Modeling Lab (Dr. Brunson)",
+    org: "University of Florida",
+    period: "May 2026 – Present",
+    role: "Undergraduate Research Assistant",
+    question:
+      "What drives primary graft dysfunction, and could a mechanistic model help predict which patients are at risk?",
+    summary:
+      "Primary graft dysfunction (PGD) is an injury to a transplanted lung that shows up soon after surgery. I'm building a mechanistic model of PGD to understand what causes it and, eventually, to help with risk stratification. Alongside that, I'm doing a systematic review of the literature to figure out what the model needs to include.",
+    approach: [
+      {
+        label: "Literature",
+        text: "A systematic review of mechanistic and clinical PGD studies, to pull together what's already known and find the gaps.",
+      },
+      {
+        label: "Model",
+        text: "Building the mechanistic model based on what the review turns up.",
+      },
+    ],
+    status: "Early stage: literature review and model development.",
+    tools: ["Mechanistic modeling", "Systematic review"],
+    figure: "pgd",
+  },
+  {
     slug: "parkinsons-immunotherapy",
-    index: "R.05",
+    index: "R.04",
     tier: "secondary",
     caseStudy: false,
-    title: "Immunotherapy and neuroinflammation in Parkinson's disease",
+    title: "Immunotherapy and inflammation in Parkinson's disease",
     area: ["Neuroimmunology", "Translational"],
     lab: "Vedam-Mai Lab",
     org: "University of Florida",
     period: "Sept 2025 – Present",
     role: "Undergraduate Research Assistant · Lead author, systematic review",
     summary:
-      "Lead author of a systematic review of immunotherapy in Parkinson's disease — designing the search strategy, screening and extracting studies, and synthesizing evidence across active, passive, and cell-based approaches. I also analyze biological datasets relating immune markers and microbiome composition to disease progression, with a focus on T-cell responses and neuroinflammation along the gut–brain axis.",
+      "I'm the lead author on a systematic review of immunotherapy for Parkinson's disease. I designed the search strategy, screen and extract studies, and am pulling together the evidence on active, passive, and cell-based approaches. I also analyze datasets on immune markers, gut microbiome composition, and disease progression, with a focus on T-cell responses and inflammation along the gut–brain axis.",
     tools: ["Systematic review", "Data analysis", "Visualization"],
   },
   {
     slug: "surgical-simulation",
-    index: "R.06",
+    index: "R.05",
     tier: "secondary",
     caseStudy: false,
     title: "Surgical simulation for transplant and pediatric procedures",
@@ -244,12 +188,70 @@ export const RESEARCH = [
     period: "Jan 2024 – Present",
     role: "Surgical Research Team Captain",
     summary:
-      "I lead the team's surgical simulation research: writing IRB applications, study protocols, and statistical analysis plans, and designing skills assessments for surgical residents. With transplant surgeons, we develop simulation models for kidney and liver transplantation and infant IV administration, and publish and present the findings from our surveys and experiments.",
+      "I captain the surgical research team. I write IRB applications, study protocols, and statistical analysis plans, and design skills assessments for surgical residents. We work with transplant surgeons to build simulation models for kidney and liver transplants and infant IV administration, and we've published and presented results from our surveys and experiments.",
     tools: ["IRB protocols", "Study design", "Statistical analysis plans", "3D printing"],
   },
 ];
 
-// Engineering design — shown in the Projects section, not Research.
+// Class modeling project, featured at the top of "Modeling & computation".
+export const MODELING_FEATURE = {
+  slug: "in-stent-restenosis",
+  index: "M.01",
+  tier: "featured",
+  caseStudy: true,
+  title: "Modeling restenosis in femoral artery stents",
+  area: ["Mechanobiology", "PDE modeling"],
+  lab: "Class project, team of 5",
+  org: "University of Florida",
+  period: "Aug 2026 – Present",
+  role: "Led problem definition and built the outward-force module",
+  question:
+    "Can a restenosis model built for coronary stents be adapted to self-expanding nitinol stents in the leg?",
+  summary:
+    "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. For this class project, our team took a published restenosis model (Escuer et al., 2019) built for balloon-expandable coronary stents and adapted it to self-expanding nitinol stents in the femoral artery.",
+  problem:
+    "Nitinol stents keep pushing outward on the artery wall for as long as they're in place. The original model doesn't include that force, and the extra stress it puts on the wall can drive more tissue growth.",
+  approach: [
+    {
+      label: "Base model",
+      text: "We re-implemented the reaction–diffusion model, which tracks growth factors, MMP-2, extracellular matrix, and two types of smooth muscle cells (contractile and synthetic).",
+    },
+    {
+      label: "Physiology",
+      text: "I led the problem definition and worked out how the stent's outward force should connect to smooth muscle cell migration and growth, matrix buildup, and neointimal hyperplasia.",
+    },
+    {
+      label: "Outward force",
+      text: "I added a module that relates how much the stent is oversized to the hoop stress in the artery wall.",
+    },
+    {
+      label: "Checking",
+      text: "We compared our version of the base model to the published results, then ran a blind prediction against porcine data.",
+    },
+  ],
+  contributions: [
+    "Problem definition and the physiological reasoning",
+    "The chronic outward force module",
+    "Checking the base model against published results",
+  ],
+  outcomes: [
+    {
+      value: "24.8%",
+      label: "Base model check",
+      text: "Our re-implementation predicted 24.8% restenosis at 300 days. The published model reports about 25%.",
+    },
+    {
+      value: "73%",
+      label: "Blind prediction",
+      text: "The phenotype-switch pathway predicted 73% area stenosis. The porcine data showed 64 ± 17%.",
+    },
+  ],
+  tools: ["PDE modeling", "Numerical simulation", "Parameter calibration", "Sensitivity analysis"],
+  figure: "restenosis",
+  secondaryFigure: "artery",
+};
+
+// Engineering design, shown in the Projects section.
 export const DESIGN = [
   {
     slug: "distal-biceps-repair",
@@ -257,36 +259,36 @@ export const DESIGN = [
     caseStudy: true,
     title: "Distal biceps tendon repair system",
     area: ["Medical device design", "Orthopedics"],
-    lab: "Senior design · Sponsored by CONMED",
+    lab: "Senior design, sponsored by CONMED",
     org: "University of Florida",
     period: "Aug 2026 – Present",
     role: "Team member (team of 8)",
     question:
-      "What would a distal biceps tendon repair system need to deliver for a sports medicine surgeon to evaluate it in a cadaveric simulated-use setting?",
+      "What does a distal biceps repair system need to do well enough for a surgeon to test it in a cadaver lab?",
     summary:
-      "An eight-person senior design team designing a proof-of-concept repair system — implant, instruments, and sterile packaging — for industry sponsor CONMED, to be evaluated by a sports medicine surgeon in a cadaveric simulated-use setting.",
+      "This is my senior design project. Our team of eight is designing a proof-of-concept distal biceps tendon repair system for CONMED, our industry sponsor. It includes the implant, instruments, and sterile packaging, and a sports medicine surgeon will evaluate it in a cadaveric simulated-use setting.",
     problem:
-      "A repaired distal biceps tendon has to hold under repeated physiologic loading without gapping from bone, while keeping clear of nearby nerves. Those needs have to become measurable, standards-grounded targets before anything is designed.",
+      "The repair has to survive repeated loading without the tendon pulling away from the bone, and it has to stay clear of nearby nerves. Before designing anything, we had to turn those needs into specific, measurable targets.",
     method:
-      "Translated clinical needs into a design traceability matrix — 12 user needs with marginal and ideal targets grounded in the biomechanical literature and FDA, ISO, and ASTM standards — and benchmarked cortical-button, suture-anchor, and bone-tunnel constructs.",
+      "We built a design traceability matrix with 12 user needs, each with marginal and ideal targets based on the biomechanics literature and FDA, ISO, and ASTM standards. We also benchmarked cortical-button, suture-anchor, and bone-tunnel repairs.",
     contribution:
-      "Co-developed the needs statement and traceability matrix; reviewed IP and regulatory requirements, identifying a Class II 510(k) pathway (21 CFR 888.3040) and implant cost targets.",
+      "I co-wrote the needs statement and traceability matrix and reviewed IP and regulatory requirements. That review pointed us to a Class II 510(k) pathway (21 CFR 888.3040) and gave us implant cost targets.",
     approach: [
       {
         label: "Needs",
-        text: "Co-developed the needs statement and a design traceability matrix of 12 user needs, each with marginal and ideal target specifications.",
+        text: "Co-wrote the needs statement and a design traceability matrix of 12 user needs, each with marginal and ideal targets.",
       },
       {
         label: "Specifications",
-        text: "Grounded targets in the biomechanical literature and FDA, ISO, and ASTM standards.",
+        text: "Based the targets on the biomechanics literature and on FDA, ISO, and ASTM standards.",
       },
       {
         label: "Benchmarking",
         text: "Compared cortical-button, suture-anchor, and bone-tunnel repair constructs.",
       },
       {
-        label: "Regulatory & IP",
-        text: "Reviewed IP and regulatory requirements, identifying a Class II 510(k) pathway (21 CFR 888.3040) and implant cost targets.",
+        label: "Regulatory and IP",
+        text: "Reviewed IP and regulatory requirements, which pointed to a Class II 510(k) pathway (21 CFR 888.3040) and set implant cost targets.",
       },
     ],
     specs: [
@@ -297,8 +299,8 @@ export const DESIGN = [
     ],
     contributions: [
       "Needs statement and design traceability matrix",
-      "Target specifications from literature and standards",
-      "Competitive benchmarking of repair constructs",
+      "Target specifications from the literature and standards",
+      "Benchmarking existing repair constructs",
       "IP and regulatory review",
     ],
     tools: ["Design controls", "FDA / ISO / ASTM standards", "Benchmarking", "Regulatory analysis"],
@@ -306,34 +308,34 @@ export const DESIGN = [
   {
     slug: "pediatric-crutch",
     index: "D.02",
-    title: "Height-adjustable pediatric axillary crutch",
+    title: "Height-adjustable crutch for kids",
     area: ["CAD", "Technical drawing"],
     period: "Oct 2025",
     problem:
-      "Children outgrow fixed-length crutches. The design needed to fit a range of heights with secure, simple adjustment.",
+      "Kids grow out of fixed-length crutches, so this one needed to adjust to different heights and lock securely.",
     method:
-      "Designed an 11-part telescoping crutch in Onshape, sized with the 77%-of-height clinical rule to fit users 1.33–1.56 m tall with about 180 mm of pin-locked adjustment. Built a full assembly with slider mates and travel limits to simulate the telescoping leg.",
+      "I designed an 11-part telescoping crutch in Onshape, sized with the clinical rule that crutch length is about 77% of height. It fits users from 1.33 to 1.56 m with about 180 mm of pin-locked adjustment. The assembly uses slider mates and travel limits to simulate the telescoping leg.",
     contribution:
-      "Dimensioned multiview drawings for every part with ±0.01 mm tolerances at sliding and pin interfaces; material selection per part; a technical report covering design justification, tolerancing rationale, limitations, and next steps (FEA load simulation, spring-loaded locking).",
+      "Dimensioned drawings for every part with ±0.01 mm tolerances at the sliding and pin interfaces, material choices for each part, and a technical report on the design reasoning, tolerancing, limitations, and next steps like FEA and a spring-loaded lock.",
     tools: ["Onshape", "Fusion 360", "Tolerancing", "Technical writing"],
   },
   {
     slug: "prosthetic-hand",
     index: "D.03",
-    title: "Myoelectric control for a 3D-printed prosthetic hand",
+    title: "Muscle-controlled 3D-printed prosthetic hand",
     area: ["Embedded systems", "Assistive devices"],
     lab: "GRiP Gaming Team",
     period: "Aug 2023 – May 2024",
     problem:
-      "A child with a below-elbow amputation needed a prosthetic hand that responds to their own muscle signals.",
+      "A child with a below-elbow amputation needed a prosthetic hand they could control with their own muscles.",
     method:
-      "Co-developed the electrical and software systems for a 3D-printed hand, programming hand closure in response to bicep myosensor signals.",
-    contribution: "Circuits and control software on the Circuits & Software team.",
+      "We built a 3D-printed hand. I worked on the electronics and code, programming the hand to close when a myosensor on the bicep picks up a signal.",
+    contribution: "Circuits and control software, as part of the Circuits & Software team.",
     tools: ["Arduino", "C++", "Myosensors", "3D printing"],
   },
 ];
 
-export const CASE_STUDIES = [...RESEARCH, ...DESIGN].filter((w) => w.caseStudy);
+export const CASE_STUDIES = [...RESEARCH, MODELING_FEATURE, ...DESIGN].filter((w) => w.caseStudy);
 
 export function findCaseStudy(slug) {
   return CASE_STUDIES.find((w) => w.slug === slug);

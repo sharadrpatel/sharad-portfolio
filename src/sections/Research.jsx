@@ -9,7 +9,7 @@ function StudyMeta({ w }) {
       <span className="study__index">{w.index}</span>
       <dl className="meta-list">
         <div>
-          <dt>Lab</dt>
+          <dt>Where</dt>
           <dd>{w.lab}</dd>
         </div>
         <div>
@@ -25,13 +25,13 @@ function StudyMeta({ w }) {
   );
 }
 
-function FeaturedStudy({ w, figN }) {
+export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading = "h3" }) {
   const outcomes = w.outcomes?.filter((o) => o.value);
   return (
-    <Reveal as="article" className="study study--featured" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+    <Reveal as="article" className="study study--featured" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <StudyMeta w={w} />
       <div className="study__main">
-        <h3 id={`t-${w.slug}`} className="h3 study__title">{w.title}</h3>
+        <Heading id={`t-${w.slug}`} className="h3 study__title">{w.title}</Heading>
         <p className="study__question">
           <span className="label label--accent">Question</span>
           {w.question}
@@ -113,8 +113,8 @@ export default function Research() {
           id="research-title"
           number="01"
           label="Research"
-          title="Models of the body, tested against data."
-          dek="Mechanistic and computational work across musculoskeletal, vascular, and pulmonary systems — each project starting from a physiological question and ending in something that can be checked."
+          title="What I'm working on in the lab"
+          dek="Most of my research is computational: modeling muscles in the thumb, populations and disease in changing environments, and lung injury after transplant. For each project, here's the question, what I did, and where it stands."
         />
         <div className="studies">
           {featured.map((w, i) => (
@@ -123,8 +123,8 @@ export default function Research() {
         </div>
 
         <div className="subhead">
-          <h3 className="label">Further research</h3>
-          <p className="subhead__note">Ecological modeling, neuroimmunology, and surgical simulation.</p>
+          <h3 className="label">Other research</h3>
+          <p className="subhead__note">Parkinson's disease and surgical simulation.</p>
         </div>
         <div className="studies studies--compact">
           {secondary.map((w) => (

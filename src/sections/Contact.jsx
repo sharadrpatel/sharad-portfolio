@@ -12,11 +12,11 @@ export default function Contact() {
   return (
     <section id="contact" className="section contact" aria-labelledby="contact-title">
       <div className="wrap">
-        <SectionHead id="contact-title" number="06" label="Contact" title="Get in touch." />
+        <SectionHead id="contact-title" number="06" label="Contact" title="Get in touch" />
         <Reveal className="contact__grid">
           <div>
             <p className="contact__lede">
-              For research, collaboration, or questions about my work, email is the best way to reach me.
+              Email is the best way to reach me.
             </p>
             <a className="contact__email" href={`mailto:${PROFILE.email}`}>
               {PROFILE.email}

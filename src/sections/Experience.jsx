@@ -92,8 +92,8 @@ export default function Experience() {
           id="experience-title"
           number="04"
           label="Experience"
-          title="At the bedside, in the classroom, and in the community."
-          dek="Clinical work keeps the modeling grounded in patients; teaching and leadership keep the explanations clear."
+          title="Clinical work, teaching, and leadership"
+          dek="What I do outside of research."
         />
         <div className="experience-grid">
           <Clinical />

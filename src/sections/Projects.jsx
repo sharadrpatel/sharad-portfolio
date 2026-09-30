@@ -1,5 +1,6 @@
 import { useState, useId } from "react";
-import { DESIGN } from "../data/work.js";
+import { DESIGN, MODELING_FEATURE } from "../data/work.js";
+import { FeaturedStudy } from "./Research.jsx";
 import { PROJECTS } from "../data/projects.js";
 import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
@@ -97,7 +98,7 @@ function IndexRow({ p, n, open, onToggle }) {
   const panelId = `${uid}-panel`;
   return (
     <li className={`index-row ${open ? "is-open" : ""}`}>
-      <h4 className="index-row__heading">
+      <h5 className="index-row__heading">
         <button type="button" className="index-row__button" aria-expanded={open} aria-controls={panelId} onClick={onToggle}>
           <span className="index-row__n">{String(n).padStart(2, "0")}</span>
           <span className="index-row__title">
@@ -107,7 +108,7 @@ function IndexRow({ p, n, open, onToggle }) {
           <span className="index-row__domain">{p.domain}</span>
           <span className="index-row__icon" aria-hidden="true" />
         </button>
-      </h4>
+      </h5>
       <div id={panelId} className="index-row__panel" role="region" aria-label={p.title} inert={open ? undefined : ""}>
         <div className="index-row__inner">
           <p className="meta">{p.context}</p>
@@ -161,13 +162,13 @@ export default function Projects() {
           id="projects-title"
           number="02"
           label="Projects"
-          title="Engineering design and computational modeling."
-          dek="Devices built from clinical needs and standards, and models built from equations — each framed as problem, method, and outcome."
+          title="Design and modeling projects"
+          dek="Senior design, class projects, modeling competitions, and a few things I built on my own. Each one covers the problem, what we did, and how it turned out."
         />
 
         <div className="subhead">
           <h3 className="label">Engineering design</h3>
-          <p className="subhead__note">Needs → specifications → design.</p>
+          <p className="subhead__note">Medical devices and CAD.</p>
         </div>
         <DesignLead d={lead} />
         <div className="design-grid">
@@ -178,6 +179,14 @@ export default function Projects() {
 
         <div className="subhead">
           <h3 className="label">Modeling &amp; computation</h3>
+          <p className="subhead__note">Class projects, competitions, and independent work.</p>
+        </div>
+        <div className="studies">
+          <FeaturedStudy w={MODELING_FEATURE} figN={4} idPrefix="project" heading="h4" />
+        </div>
+
+        <div className="subhead subhead--minor">
+          <h4 className="label">More projects</h4>
           <button
             type="button"
             className="subhead__action"
