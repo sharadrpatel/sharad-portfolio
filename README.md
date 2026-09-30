@@ -29,5 +29,5 @@ src/
 
 ## Deployment
 
-Deployed on [Vercel](https://vercel.com). Push to `main` to auto-deploy. `vercel.json` rewrites
+Deployed on [Vercel](https://vercel.com). Push to `master` to auto-deploy. `vercel.json` rewrites
 unknown paths to `index.html` so case-study URLs work on direct load.
