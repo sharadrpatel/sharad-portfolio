@@ -228,8 +228,8 @@ function SigmoidResponse() {
   return (
     <svg viewBox="0 0 360 206" role="img" aria-labelledby="fig-sig-t">
       <title id="fig-sig-t">
-        Schematic sigmoidal response function: trait response rises smoothly from a low plateau to a high plateau
-        as the environmental condition crosses a threshold.
+        Schematic sigmoidal reaction norm: phenotype rises from a low plateau to a high plateau as the environment
+        changes. The inflection point, E0, and the developmental range between the plateaus, Dc, are marked.
       </title>
       <path className="fig-ink" d={`M${X0} ${Y1 - 8} V${Y0} H${X1 + 8}`} fill="none" />
       <line className="fig-grid" x1={X0} x2={X1} y1={Y0 - 0.12 * (Y0 - Y1)} y2={Y0 - 0.12 * (Y0 - Y1)} strokeDasharray="3 4" />
@@ -237,11 +237,17 @@ function SigmoidResponse() {
       <line className="fig-muted" x1={midX} x2={midX} y1={Y0} y2={midY} strokeDasharray="2 3" />
       <path className="fig-accent-stroke fig-thick" d={d} fill="none" />
       <circle className="fig-model" cx={midX} cy={midY} r="4" />
-      <text className="fig-label" x={X1} y={Y0 - 0.9 * (Y0 - Y1) - 6} textAnchor="end">upper plateau</text>
-      <text className="fig-label" x={X1} y={Y0 - 0.12 * (Y0 - Y1) - 6} textAnchor="end">lower plateau</text>
-      <text className="fig-label fig-label--accent" x={midX + 10} y={midY + 4}>threshold · steepness</text>
-      <text className="fig-label" x={X1} y={Y0 + 20} textAnchor="end">environmental condition →</text>
-      <text className="fig-label" transform={`translate(${X0 - 14} ${(Y0 + Y1) / 2}) rotate(-90)`} textAnchor="middle">trait response</text>
+      {/* developmental range bracket */}
+      <path
+        className="fig-accent-stroke"
+        d={`M${X1 + 4} ${Y0 - 0.9 * (Y0 - Y1)} H${X1 + 10} V${Y0 - 0.12 * (Y0 - Y1)} H${X1 + 4}`}
+        fill="none"
+      />
+      <text className="fig-label fig-label--accent" x={X1 - 4} y={Y0 - 0.3 * (Y0 - Y1)} textAnchor="end">range (Dc)</text>
+      <text className="fig-label fig-label--accent" x={midX + 10} y={midY + 4}>inflection point (E0)</text>
+      <text className="fig-label" x={midX} y={Y0 + 12} textAnchor="middle">E0</text>
+      <text className="fig-label" x={X1} y={Y0 + 26} textAnchor="end">environment →</text>
+      <text className="fig-label" transform={`translate(${X0 - 14} ${(Y0 + Y1) / 2}) rotate(-90)`} textAnchor="middle">phenotype</text>
     </svg>
   );
 }
@@ -268,7 +274,8 @@ const FIGURES = {
   },
   sigmoid: {
     Svg: SigmoidResponse,
-    caption: "The general shape of a sigmoidal response function (illustration). This is how the ODE models represent phenotypic plasticity.",
+    caption:
+      "A sigmoidal reaction norm (illustration). In the original model its shape is fixed. I made two parts of it evolvable: where it switches (E0) and how wide a range of phenotypes it covers (Dc).",
   },
 };
 

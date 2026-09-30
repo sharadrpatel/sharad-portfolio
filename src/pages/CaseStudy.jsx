@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CASE_STUDIES, RESEARCH, MODELING_FEATURE } from "../data/work.js";
 import { Link } from "../lib/router.jsx";
-import { Tags, TextLink, Arrow } from "../components/ui.jsx";
+import { Tags, TextLink, Arrow, Rich } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
 import { SpecTable } from "../sections/Projects.jsx";
 
@@ -10,7 +10,7 @@ function useActiveHeading(ids) {
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-      { rootMargin: "-20% 0px -70% 0px" }
+      { rootMargin: "-20% 0px -70% 0px" },
     );
     ids.forEach((id) => {
       const el = document.getElementById(id);
@@ -23,22 +23,24 @@ function useActiveHeading(ids) {
 
 export default function CaseStudy({ work: w }) {
   const isResearch = RESEARCH.includes(w);
-  const backHref = isResearch
-    ? `/#research-${w.slug}`
-    : w === MODELING_FEATURE
-      ? `/#project-${w.slug}`
-      : "/#projects";
+  const backHref = isResearch ? `/#research-${w.slug}` : w === MODELING_FEATURE ? `/#project-${w.slug}` : "/#projects";
   const i = CASE_STUDIES.indexOf(w);
   const next = CASE_STUDIES[(i + 1) % CASE_STUDIES.length];
 
-  const sections = [
-    { id: "problem", label: "Problem", show: !!w.problem },
-    { id: "approach", label: "Approach & methods", show: true },
-    { id: "specifications", label: "Specifications", show: !!w.specs },
-    { id: "contribution", label: "My contribution", show: !!w.contributions },
-    { id: "outcomes", label: "Outcomes", show: !!w.outcomes },
-    { id: "tools", label: "Tools", show: true },
-  ].filter((s) => s.show);
+  const sections = w.subprojects
+    ? w.subprojects.map((sp) => ({ id: sp.id, label: sp.title }))
+    : [
+        { id: "problem", label: "Problem", show: !!w.problem },
+        { id: "approach", label: "Approach & methods", show: true },
+        { id: "specifications", label: "Specifications", show: !!w.specs },
+        {
+          id: "contribution",
+          label: "My contribution",
+          show: !!w.contributions,
+        },
+        { id: "outcomes", label: "Outcomes", show: !!w.outcomes },
+        { id: "tools", label: "Tools", show: true },
+      ].filter((s) => s.show);
   const active = useActiveHeading(sections.map((s) => s.id));
   let fig = 0;
 
@@ -54,7 +56,9 @@ export default function CaseStudy({ work: w }) {
             <span aria-current="page">{w.index}</span>
           </nav>
           <p className="label label--accent">{w.area.join(" · ")}</p>
-          <h1 id="case-title" className="case__title">{w.title}</h1>
+          <h1 id="case-title" className="case__title">
+            {w.title}
+          </h1>
           {w.question && (
             <p className="case__question">
               <span className="label label--muted">{isResearch ? "Research question" : "Question"}</span>
@@ -106,34 +110,78 @@ export default function CaseStudy({ work: w }) {
 
           {w.problem && (
             <section className="case__section" aria-labelledby="problem">
-              <h2 id="problem" className="case__h">Problem</h2>
+              <h2 id="problem" className="case__h">
+                Problem
+              </h2>
               <p>{w.problem}</p>
             </section>
           )}
 
-          <section className="case__section" aria-labelledby="approach">
-            <h2 id="approach" className="case__h">Approach &amp; methods</h2>
-            <ol className="steps">
-              {w.approach.map((a, n) => (
-                <li key={a.label}>
-                  <span className="steps__n">{String(n + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3 className="steps__label">{a.label}</h3>
-                    <p>{a.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            {w.secondaryFigure && (
-              <div className="case__figure">
-                <WorkFigure name={w.secondaryFigure} n={++fig} wide />
-              </div>
-            )}
-          </section>
+          {w.subprojects?.map((sp, n) => (
+            <section key={sp.id} className="case__section subproject" aria-labelledby={sp.id}>
+              <h2 id={sp.id} className="case__h">
+                Project {n + 1} · {sp.title}
+              </h2>
+              <p className="subproject__question">{sp.question}</p>
+              <p>{sp.background}</p>
+              <ol className="steps">
+                {sp.approach.map((a, k) => (
+                  <li key={a.label}>
+                    <span className="steps__n">{String(k + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3 className="steps__label">{a.label}</h3>
+                      <p>
+                        <Rich text={a.text} />
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              {sp.finding && (
+                <div className="subproject__finding">
+                  <p className="label label--accent">Early results</p>
+                  <p>{sp.finding}</p>
+                </div>
+              )}
+              <p className="status">
+                <span className="status__dot" aria-hidden="true" />
+                {sp.status}
+              </p>
+              <Tags items={sp.tools} />
+            </section>
+          ))}
+
+          {w.approach && (
+            <section className="case__section" aria-labelledby="approach">
+              <h2 id="approach" className="case__h">
+                Approach &amp; methods
+              </h2>
+              <ol className="steps">
+                {w.approach.map((a, n) => (
+                  <li key={a.label}>
+                    <span className="steps__n">{String(n + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3 className="steps__label">{a.label}</h3>
+                      <p>
+                        <Rich text={a.text} />
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              {w.secondaryFigure && (
+                <div className="case__figure">
+                  <WorkFigure name={w.secondaryFigure} n={++fig} wide />
+                </div>
+              )}
+            </section>
+          )}
 
           {w.specs && (
             <section className="case__section" aria-labelledby="specifications">
-              <h2 id="specifications" className="case__h">Specifications</h2>
+              <h2 id="specifications" className="case__h">
+                Specifications
+              </h2>
               <p>
                 A few of the 12 user needs from our design traceability matrix. Each one has a marginal and an ideal
                 target.
@@ -144,7 +192,9 @@ export default function CaseStudy({ work: w }) {
 
           {w.contributions && (
             <section className="case__section" aria-labelledby="contribution">
-              <h2 id="contribution" className="case__h">My contribution</h2>
+              <h2 id="contribution" className="case__h">
+                My contribution
+              </h2>
               <ul className="checklist">
                 {w.contributions.map((c) => (
                   <li key={c}>{c}</li>
@@ -155,7 +205,9 @@ export default function CaseStudy({ work: w }) {
 
           {w.outcomes && (
             <section className="case__section" aria-labelledby="outcomes">
-              <h2 id="outcomes" className="case__h">Outcomes</h2>
+              <h2 id="outcomes" className="case__h">
+                Outcomes
+              </h2>
               <dl className="outcomes">
                 {w.outcomes.map((o) => (
                   <div key={o.label} className={o.value ? "has-value" : ""}>
@@ -176,10 +228,14 @@ export default function CaseStudy({ work: w }) {
             </section>
           )}
 
-          <section className="case__section" aria-labelledby="tools">
-            <h2 id="tools" className="case__h">Tools</h2>
-            <Tags items={w.tools} />
-          </section>
+          {!w.subprojects && (
+            <section className="case__section" aria-labelledby="tools">
+              <h2 id="tools" className="case__h">
+                Tools
+              </h2>
+              <Tags items={w.tools} />
+            </section>
+          )}
 
           <nav className="case__next" aria-label="More work">
             <TextLink to={backHref} icon="left">

@@ -64,6 +64,11 @@ export function TextLink({ to, children, icon = "right", ...rest }) {
   );
 }
 
+// Renders *text* as <em>, e.g. for species names in data strings.
+export function Rich({ text }) {
+  return text.split(/\*([^*]+)\*/).map((part, i) => (i % 2 ? <em key={i}>{part}</em> : part));
+}
+
 export function Meta({ children }) {
   return <p className="meta">{children}</p>;
 }

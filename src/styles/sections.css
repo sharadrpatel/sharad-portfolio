@@ -153,11 +153,18 @@
   transform: translateX(3px);
 }
 
-/* At a glance */
+/* Education strip */
+.education-strip {
+  margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+}
+
+.education-strip > .label {
+  margin-bottom: var(--s-3);
+}
+
 .glance {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: clamp(2.5rem, 2rem + 3vw, 4.5rem);
   border-top: 1px solid var(--ink);
 }
 
@@ -182,9 +189,9 @@
 
 .glance__value {
   font-family: var(--f-serif);
-  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.3rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.55rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .glance__note {
@@ -1081,27 +1088,6 @@
   color: var(--ink-2);
 }
 
-.education__school {
-  font-family: var(--f-serif);
-  font-size: var(--fs-h4);
-  color: var(--ink);
-  line-height: 1.25;
-}
-
-.education__facts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s-3);
-  padding-block: var(--s-3);
-  border-block: 1px solid var(--rule);
-  margin-bottom: var(--s-2);
-}
-
-.education__facts dd {
-  margin-top: 0.2rem;
-  color: var(--ink);
-}
-
 .education__courses {
   line-height: 1.7;
 }
@@ -1248,4 +1234,37 @@
   display: grid;
   gap: var(--s-5);
   justify-items: start;
+}
+
+/* Research entries made of several sub-projects (e.g. Holt Lab) */
+.subprojects {
+  border-top: 1px solid var(--rule);
+}
+
+.subprojects li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  gap: 0.75rem;
+  padding-block: 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.subprojects__n {
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  padding-top: 0.2rem;
+}
+
+.subprojects__title {
+  font-family: var(--f-serif);
+  font-size: var(--fs-md);
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 0.2rem;
+}
+
+.subprojects li p:last-child {
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
 }

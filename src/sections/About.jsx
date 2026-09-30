@@ -22,7 +22,7 @@ export default function About() {
 
           <Reveal className="about__text prose" delay={60}>
             <p className="about__lede">
-              I'm a biomedical engineering student at the University of Florida, graduating in May 2027. Most of my research
+              I'm a biomedical engineering student at the University of Florida. Most of my research
               is computational. I like taking a question about how the body works, turning it into a model, and seeing how
               well it holds up against real data.
             </p>
@@ -45,24 +45,7 @@ export default function About() {
           </Reveal>
 
           <Reveal as="aside" className="education" delay={120} aria-labelledby="edu-title">
-            <h3 id="edu-title" className="label">Education</h3>
-            <p className="education__school">{EDUCATION.school}</p>
-            <p>
-              {EDUCATION.degree}
-              <br />
-              {EDUCATION.minor}
-            </p>
-            <dl className="education__facts">
-              <div>
-                <dt className="label label--muted">Graduation</dt>
-                <dd>{EDUCATION.period}</dd>
-              </div>
-              <div>
-                <dt className="label label--muted">GPA</dt>
-                <dd>{EDUCATION.gpa}</dd>
-              </div>
-            </dl>
-            <h4 className="label label--muted">Selected coursework</h4>
+            <h3 id="edu-title" className="label">Selected coursework</h3>
             <p className="education__courses">{EDUCATION.coursework.join(" · ")}</p>
           </Reveal>
         </div>

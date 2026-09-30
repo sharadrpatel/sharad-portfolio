@@ -36,10 +36,10 @@ export const CURRENTLY = [
     href: "/work/thumb-musculoskeletal-modeling",
   },
   {
-    what: "Plasticity and migration models",
+    what: "Plasticity, dispersal, and plant disease projects",
     where: "Holt Lab",
     since: "2025",
-    href: "/work/plasticity-disease-dynamics",
+    href: "/work/holt-lab",
   },
   {
     what: "Systematic review of Parkinson's immunotherapy",
@@ -61,31 +61,13 @@ export const CURRENTLY = [
   },
 ];
 
-export const AT_A_GLANCE = [
-  { value: "3.94", label: "GPA", note: "B.S. Biomedical Engineering, minor in Mathematics" },
-  {
-    value: "4",
-    label: "Research labs",
-    note: "Musculoskeletal, pulmonary, ecological, neuroimmunology",
-  },
-  {
-    value: "6",
-    label: "Publications & presentations",
-    note: "Two of them are posters at BMES 2026",
-  },
-  {
-    value: "Outstanding",
-    label: "SCUDEM",
-    note: "Top award level at an international modeling competition",
-  },
-];
-
 export const EDUCATION = {
   school: "University of Florida",
-  degree: "Bachelor of Science in Biomedical Engineering",
+  location: "Gainesville, FL",
+  degree: "B.S. Biomedical Engineering",
   minor: "Minor in Mathematics",
-  period: "Expected May 2027",
-  gpa: "3.94 / 4.00",
+  graduation: "May 2027",
+  gpa: "3.94",
   coursework: [
     "Differential Equations",
     "Linear Algebra",
