@@ -9,9 +9,9 @@ function zigzag(x1, x2, y, peaks = 6, amp = 7) {
   return d + ` L${x2} ${y}`;
 }
 
-export function Figure({ n, caption, children, wide }) {
+export function Figure({ n, caption, children, wide, photo }) {
   return (
-    <figure className={`fig ${wide ? "fig--wide" : ""}`}>
+    <figure className={`fig ${wide ? "fig--wide" : ""} ${photo ? "fig--photo" : ""}`}>
       <div className="fig__plot">{children}</div>
       <figcaption className="fig__caption">
         <span className="fig__num">Fig. {n}</span> {caption}
@@ -277,15 +277,38 @@ const FIGURES = {
     caption:
       "A sigmoidal reaction norm (illustration). In the original model its shape is fixed. I made two parts of it evolvable: where it switches (E0) and how wide a range of phenotypes it covers (Dc).",
   },
+  // Raster figures: a photo, or plots taken directly from a written report.
+  "scudem-team": {
+    img: { src: "/images/scudem-team.jpg", width: 790, height: 310 },
+    alt: "Three members of the University of Florida SCUDEM team in suits, standing in front of the UF College of Medicine.",
+    caption: "Our University of Florida team, as pictured on MathWorks' SCUDEM 2025 winners page.",
+    photo: true,
+  },
+  "scudem-kl": {
+    img: { src: "/images/scudem-kl-drift.png", width: 1000, height: 749 },
+    alt: "Line plot of KL divergence from the human data over 40 generations for one, three, and five models. One model levels off near 0.28, three near 0.17, and five near 0.15.",
+    caption:
+      "Model 1: drift from the human data (KL divergence) over 40 generations with 90% AI-generated training data, for one, three, and five models. More models, less drift. From our report.",
+  },
+  "scudem-task-space": {
+    img: { src: "/images/scudem-task-space.png", width: 1400, height: 678 },
+    alt: "Two plots of task probability. At generation 0 the distribution is a smooth bell curve centered at task 30. At generation 100 it has three sharp spikes at tasks 20, 35, and 41.",
+    caption:
+      "Model 2: the task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. The distribution collapses into spikes at those tasks. From our report.",
+  },
 };
 
 export function WorkFigure({ name, n, wide }) {
   const f = FIGURES[name];
   if (!f) return null;
-  const { Svg } = f;
+  const { Svg, img } = f;
   return (
-    <Figure n={n} caption={f.caption} wide={wide}>
-      <Svg />
+    <Figure n={n} caption={f.caption} wide={wide} photo={f.photo}>
+      {img ? (
+        <img src={img.src} width={img.width} height={img.height} alt={f.alt} loading="lazy" decoding="async" />
+      ) : (
+        <Svg />
+      )}
     </Figure>
   );
 }

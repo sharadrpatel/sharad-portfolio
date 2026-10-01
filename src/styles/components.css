@@ -535,3 +535,13 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 .subhead--minor {
   margin-top: var(--s-6);
 }
+
+.ext-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+}
+
+.ext-links .text-link .arrow {
+  color: var(--accent);
+}

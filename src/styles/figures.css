@@ -68,3 +68,19 @@
 
 .fig-label--ink { fill: var(--ink); }
 .fig-label--accent { fill: var(--accent); }
+
+.fig__plot img {
+  width: 100%;
+  height: auto;
+}
+
+.fig--photo .fig__plot,
+.fig--wide.fig--photo .fig__plot {
+  padding: 0;
+}
+
+.fig--photo .fig__plot img,
+.fig--wide.fig--photo .fig__plot img {
+  max-width: none;
+  display: block;
+}

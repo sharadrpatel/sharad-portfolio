@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { CASE_STUDIES, RESEARCH, MODELING_FEATURE } from "../data/work.js";
+import { CASE_STUDIES, RESEARCH, MODELING_FEATURES } from "../data/work.js";
 import { Link } from "../lib/router.jsx";
 import { Tags, TextLink, Arrow, Rich } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
 import { SpecTable } from "../sections/Projects.jsx";
+import { ExternalLinks } from "../sections/Research.jsx";
 
 function useActiveHeading(ids) {
   const [active, setActive] = useState(ids[0]);
@@ -23,7 +24,11 @@ function useActiveHeading(ids) {
 
 export default function CaseStudy({ work: w }) {
   const isResearch = RESEARCH.includes(w);
-  const backHref = isResearch ? `/#research-${w.slug}` : w === MODELING_FEATURE ? `/#project-${w.slug}` : "/#projects";
+  const backHref = isResearch
+    ? `/#research-${w.slug}`
+    : MODELING_FEATURES.includes(w)
+      ? `/#project-${w.slug}`
+      : "/#projects";
   const i = CASE_STUDIES.indexOf(w);
   const next = CASE_STUDIES[(i + 1) % CASE_STUDIES.length];
 
@@ -55,7 +60,10 @@ export default function CaseStudy({ work: w }) {
             <span aria-hidden="true">/</span>
             <span aria-current="page">{w.index}</span>
           </nav>
-          <p className="label label--accent">{w.area.join(" · ")}</p>
+          <p className="label label--accent">
+            {w.area.join(" · ")}
+            {w.badge && <span className="badge">{w.badge}</span>}
+          </p>
           <h1 id="case-title" className="case__title">
             {w.title}
           </h1>
@@ -82,6 +90,7 @@ export default function CaseStudy({ work: w }) {
               <dd>{w.role}</dd>
             </div>
           </dl>
+          {w.links && <ExternalLinks links={w.links} />}
         </div>
       </header>
 
@@ -169,11 +178,11 @@ export default function CaseStudy({ work: w }) {
                   </li>
                 ))}
               </ol>
-              {w.secondaryFigure && (
-                <div className="case__figure">
-                  <WorkFigure name={w.secondaryFigure} n={++fig} wide />
+              {[].concat(w.secondaryFigure ?? []).map((name) => (
+                <div key={name} className="case__figure">
+                  <WorkFigure name={name} n={++fig} wide />
                 </div>
-              )}
+              ))}
             </section>
           )}
 

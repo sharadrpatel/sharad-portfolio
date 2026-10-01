@@ -1,5 +1,5 @@
 import { useState, useId } from "react";
-import { DESIGN, MODELING_FEATURE } from "../data/work.js";
+import { DESIGN, MODELING_FEATURES } from "../data/work.js";
 import { FeaturedStudy } from "./Research.jsx";
 import { PROJECTS } from "../data/projects.js";
 import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
@@ -182,7 +182,9 @@ export default function Projects() {
           <p className="subhead__note">Class projects, competitions, and independent work.</p>
         </div>
         <div className="studies">
-          <FeaturedStudy w={MODELING_FEATURE} figN={4} idPrefix="project" heading="h4" />
+          {MODELING_FEATURES.map((w, i) => (
+            <FeaturedStudy key={w.slug} w={w} figN={4 + i} idPrefix="project" heading="h4" />
+          ))}
         </div>
 
         <div className="subhead subhead--minor">

@@ -3,20 +3,6 @@
 
 export const PROJECTS = [
   {
-    id: "model-collapse",
-    title: "Modeling AI model collapse",
-    context: "SCUDEM International Modeling Competition",
-    domain: "Stochastic modeling",
-    badge: "Outstanding award",
-    problem:
-      "When AI models are trained over and over on AI-generated data, their outputs can lose diversity. This is called model collapse.",
-    method:
-      "We used two models: a Markov-chain model of an ecosystem of AI models for the early loss of information, and a layered discrete-distribution model for later-stage collapse. We ran Monte Carlo simulations of repeated human and AI training and tracked how the distributions drifted using KL divergence and tail coverage.",
-    outcome:
-      "Having a variety of models kept performance more stable. Our team received the Outstanding designation, the highest award level, and we later presented the work at UF's Undergraduate Mathematics Research Symposium.",
-    tools: ["MATLAB", "Markov chains", "Monte Carlo", "Information theory"],
-  },
-  {
     id: "battery-dynamics",
     title: "Smartphone battery drain",
     context: "COMAP Mathematical Contest in Modeling",

@@ -1,7 +1,22 @@
 import { RESEARCH } from "../data/work.js";
-import { SectionHead, Tags, TextLink } from "../components/ui.jsx";
+import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
 import Reveal from "../components/Reveal.jsx";
+
+export function ExternalLinks({ links }) {
+  return (
+    <ul className="ext-links">
+      {links.map((l) => (
+        <li key={l.href}>
+          <a className="text-link" href={l.href} target="_blank" rel="noopener">
+            <span>{l.label}</span>
+            <Arrow dir="out" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 function StudyMeta({ w }) {
   return (
@@ -33,6 +48,7 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
       <div className="study__main">
         <Heading id={`t-${w.slug}`} className="h3 study__title">
           {w.title}
+          {w.badge && <span className="badge">{w.badge}</span>}
         </Heading>
         {w.question && (
           <p className="study__question">
@@ -85,6 +101,7 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
               </p>
             )}
             <Tags items={w.tools} />
+            {w.links && <ExternalLinks links={w.links} />}
             {w.caseStudy && (
               <TextLink to={`/work/${w.slug}`}>
                 Read the case study
