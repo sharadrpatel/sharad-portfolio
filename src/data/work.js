@@ -241,8 +241,7 @@ export const MODELING_FEATURE = {
   org: "University of Florida",
   period: "Aug 2026 – Present",
   role: "Led problem definition and built the outward-force module",
-  question:
-    "Can a restenosis model built for coronary stents be adapted to self-expanding nitinol stents in the leg?",
+  question: "Can a restenosis model built for coronary stents be adapted to self-expanding nitinol stents in the leg?",
   summary:
     "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. For this class project, our team took a published restenosis model (Escuer et al., 2019) built for balloon-expandable coronary stents and adapted it to self-expanding nitinol stents in the femoral artery.",
   problem:
@@ -285,6 +284,81 @@ export const MODELING_FEATURE = {
   tools: ["PDE modeling", "Numerical simulation", "Parameter calibration", "Sensitivity analysis"],
   figure: "restenosis",
   secondaryFigure: "artery",
+};
+
+// SCUDEM 2025 entry (Outstanding award). Source: our written report in
+// public/papers/ and the MathWorks student competition winners page.
+export const SCUDEM_FEATURE = {
+  slug: "ai-model-collapse",
+  index: "M.02",
+  tier: "featured",
+  caseStudy: true,
+  title: "Modeling AI model collapse when many models share the same data",
+  area: ["Stochastic modeling", "Markov chains"],
+  lab: "SCUDEM 2025",
+  org: "University of Florida team",
+  period: "2025",
+  role: "Team member and co-author of the report",
+  badge: "Outstanding award",
+  question:
+    "When many different AI models keep retraining on a mix of human data and each other's output, do they collapse more slowly than a single model does?",
+  summary:
+    "SCUDEM 2025's Problem B, \"An AI Ouroboros,\" asked what happens to AI model collapse when many models share the same data. Our team built two models in MATLAB, one for the early stage of collapse and one for the late stage. We received an Outstanding award, the competition's highest level, and our team is listed among the winners on MathWorks' student competitions page.",
+  problem:
+    "Shumailov et al. (2024, Nature) showed that a model trained over and over on its own output first loses rare events (the tails of the distribution) and eventually collapses into a narrow spike. Real AI systems don't train alone, though. New models learn from a mix of human data and output from many other models, and it wasn't clear whether that variety helps or hurts.",
+  approach: [
+    {
+      label: "Model 1: Markov chain",
+      text: "Each AI's output is a probability distribution over 500 categories. Every generation, the training data mixes human data with the average output of all the models, and each model retrains on samples from that mix. Written out, the whole system is a Markov-type process: each generation depends only on the one before it.",
+    },
+    {
+      label: "Early collapse",
+      text: "We tracked KL divergence from the human distribution and how much of the distribution's tail survived over 40 generations, averaged across Monte Carlo trials, while varying the number of models (1, 3, or 5) and the share of AI-generated data.",
+    },
+    {
+      label: "Model 2: Task space",
+      text: "For late-stage collapse, we built a space of tasks with a binomial distribution and gave each task a geometric distribution of complexity. Each generation, the models sample synthetic data, refit by maximum likelihood estimation, and feed the result back into the task distribution, with half the training data AI-generated.",
+    },
+    {
+      label: "Checking it",
+      text: "We tested Model 2 on the single-model case first. One model trained on one task collapsed to a spike around that task within 10 generations, which matches what Shumailov et al. found.",
+    },
+  ],
+  contributions: [
+    "Co-developed both models and their MATLAB simulations",
+    "Ran Monte Carlo experiments on drift and tail coverage",
+    "Co-wrote the final report with Pranav Kulkarni",
+  ],
+  outcomes: [
+    {
+      value: "Outstanding",
+      label: "SCUDEM 2025",
+      text: "The highest award level. Our team is listed on MathWorks' student competition winners page.",
+    },
+    {
+      value: "≈ 45%",
+      label: "Less drift with 5 models",
+      text: "After 40 generations with 90% AI-generated training data, KL divergence from the human data leveled off near 0.15 with five models, versus about 0.28 with one.",
+    },
+    {
+      label: "Late-stage collapse",
+      text: "With half the data AI-generated, the task space collapsed into sharp spikes at the tasks each model trained on, usually in under 30 generations.",
+    },
+    {
+      label: "Takeaway",
+      text: "Long-term stability depended on keeping human data in the mix and on diversity across models and tasks. We later presented the work at UF's Undergraduate Mathematics Research Symposium (April 2026).",
+    },
+  ],
+  links: [
+    {
+      label: "MathWorks winners page",
+      href: "https://www.mathworks.com/academia/students/competitions/global-competitions/winners.html",
+    },
+    { label: "Read our report (PDF)", href: "/papers/scudem-2025-ai-model-collapse.pdf" },
+  ],
+  tools: ["MATLAB", "Markov chains", "Monte Carlo simulation", "KL divergence", "Maximum likelihood estimation"],
+  figure: "scudem-team",
+  secondaryFigure: ["scudem-kl", "scudem-task-space"],
 };
 
 // Engineering design, shown in the Projects section.
@@ -371,7 +445,9 @@ export const DESIGN = [
   },
 ];
 
-export const CASE_STUDIES = [...RESEARCH, MODELING_FEATURE, ...DESIGN].filter((w) => w.caseStudy);
+export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE];
+
+export const CASE_STUDIES = [...RESEARCH, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 
 // Old URLs that should keep working.
 const ALIASES = { "plasticity-disease-dynamics": "holt-lab" };
