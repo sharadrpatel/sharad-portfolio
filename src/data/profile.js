@@ -48,10 +48,16 @@ export const CURRENTLY = [
     href: "/#research-parkinsons-immunotherapy",
   },
   {
-    what: "Biceps tendon repair device for CONMED",
-    where: "Senior design",
+    what: "Senior design: biceps tendon repair device for CONMED",
+    where: "UF Biomedical Engineering",
     since: "2026",
     href: "/work/distal-biceps-repair",
+  },
+  {
+    what: "Quantitative Physiology: modeling restenosis in stents",
+    where: "Class project, team of 5",
+    since: "2026",
+    href: "/work/in-stent-restenosis",
   },
   {
     what: "CNA on a medical–surgical unit",
