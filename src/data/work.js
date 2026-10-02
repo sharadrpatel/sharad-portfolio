@@ -237,7 +237,7 @@ export const MODELING_FEATURE = {
   caseStudy: true,
   title: "Modeling restenosis in femoral artery stents",
   area: ["Mechanobiology", "PDE modeling"],
-  lab: "Class project, team of 5",
+  lab: "Quantitative Physiology class project, team of 5",
   org: "University of Florida",
   period: "Aug 2026 – Present",
   role: "Led problem definition and built the outward-force module",
