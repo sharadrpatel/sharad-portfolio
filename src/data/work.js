@@ -445,7 +445,83 @@ export const DESIGN = [
   },
 ];
 
-export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE];
+// Independent sports analytics project. Source: the shot-dna repository README
+// and the published write-up on GitHub Pages.
+export const SHOT_DNA_FEATURE = {
+  slug: "shot-dna",
+  index: "M.03",
+  tier: "featured",
+  caseStudy: true,
+  title: "Shot DNA: describing NBA players by the shots they take",
+  area: ["Sports analytics", "Statistical modeling"],
+  lab: "Independent project",
+  org: "R, Quarto, and D3",
+  period: "2026",
+  role: "Solo project: data pipeline, models, write-up, and explorer",
+  question:
+    "Can you describe an NBA player by where they shoot, how hard those shots are, and how often they make them anyway, and then find who in the league shoots most like them?",
+  summary:
+    "An R project built on every regular-season NBA shot from 2009–10 through 2025–26, about 3.5 million of them. It has an interactive explorer for any player with 300 or more shots in a season, a written piece on Stephen Curry's 2015–16 season, five analysis notebooks, and shareable player cards.",
+  problem:
+    "Box scores say how much a player scores, not how. Shot charts have that information, but comparing players fairly takes a model of shot difficulty, a way to separate real shotmaking from noise, and a sensible measure of similarity.",
+  approach: [
+    {
+      label: "Expected FG",
+      text: "A logistic GAM on distance, angle, and shot type with a random effect for each shooter, then predicted without it, so it gives the expectation for an average shooter. Checked with five-fold cross-validation by game using log loss, Brier score, AUC, and calibration.",
+    },
+    {
+      label: "Shotmaking",
+      text: "Effective FG% minus expected eFG%, reported with a standard error and shrunk toward the league average. One season of shotmaking has a split-half reliability of 0.70, compared with above 0.92 for where a player shoots from.",
+    },
+    {
+      label: "Similarity",
+      text: "Nine standardized shot-profile features and Euclidean distance. A player pair's similarity score is the share of all pairs in the league that are farther apart.",
+    },
+    {
+      label: "Archetypes",
+      text: "k-means for k from 2 to 10, checked with silhouette scores, bootstrap stability, and agreement with Ward clustering.",
+    },
+    {
+      label: "Explorer",
+      text: "A static D3 site built from files the pipeline exports, so it doesn't need a server. Every number in the written piece is computed from the data when the page renders.",
+    },
+  ],
+  contributions: [
+    "Data pipeline from stats.nba.com shot charts and play-by-play",
+    "Expected-FG model, shotmaking estimates, similarity, and clustering",
+    "The written piece and five analysis notebooks in Quarto",
+    "The interactive D3 explorer and player cards",
+  ],
+  outcomes: [
+    {
+      value: "3.5M",
+      label: "Shots analyzed",
+      text: "Every regular-season NBA shot from 2009–10 through 2025–26.",
+    },
+    {
+      value: "64",
+      label: "Curry's closest match, 2015–16",
+      text: "Damian Lillard scored only 64 out of 100 that season, mostly because of 85 shots from 28 feet and beyond. In 13 of Curry's 15 full seasons, his closest match scored 94 or higher.",
+    },
+    {
+      label: "A flaw in the data",
+      text: "In older seasons, scorekeepers mostly wrote the descriptive shot label when the shot went in: in 2009–10, pull-up threes were 72% made versus 35% for plain jump-shot threes. The labels leaked the outcome, so I only use shot type from 2022–23 on, when the effect is gone.",
+    },
+    {
+      label: "Honest clustering",
+      text: "Shot profiles don't fall into clean groups. The site uses six archetypes because they're useful, and the notebook says plainly that three would be more stable.",
+    },
+  ],
+  links: [
+    { label: "Read the Curry piece", href: "https://sharadrpatel.github.io/shot-dna/analysis/story.html" },
+    { label: "Open the explorer", href: "https://sharadrpatel.github.io/shot-dna/" },
+    { label: "Code on GitHub", href: "https://github.com/sharadrpatel/shot-dna" },
+  ],
+  tools: ["R", "GAMs", "Mixed effects", "k-means", "ggplot2", "Quarto", "D3"],
+  figure: "shot-dna-explorer",
+};
+
+export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, SHOT_DNA_FEATURE];
 
 export const CASE_STUDIES = [...RESEARCH, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 
