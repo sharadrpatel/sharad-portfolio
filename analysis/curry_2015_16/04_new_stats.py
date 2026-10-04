@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from common import (CURRY, OUTPUT, SHORT_SEASONS, YEAR, coldest_window, leader_trend, league_by_season,
+from common import (CURRY, OUTPUT, SHORT_SEASONS, YEAR, coldest_window, leader_trend, league_by_season, load_box,
                     load_gamelog, load_player_seasons, load_shots, load_team_seasons, section, team_games,
                     to_jsonable)
 
@@ -247,10 +247,105 @@ def how_rare(n_boot=2000, seed=0):
     return out
 
 
+def record_in_context():
+    """One season against the decades before it."""
+    section("The jump against history")
+    record = ps.groupby("year").fg3.max().cummax()
+    jump = int(record[YEAR] - record[YEAR - 1])
+    # How far back do you have to go before the record had moved by more than that?
+    back = next(y for y in range(YEAR - 2, 1979, -1) if record[YEAR - 1] - record[y] > jump)
+    since = back + 1
+    out = {"jump": jump, "previous_seasons_that_moved_it_less": YEAR - 1 - since,
+           "record_then": int(record[since]), "from_season": since, "moved_over_that_span": int(record[YEAR - 1] - record[since])}
+    print(f"  the record rose {jump} in 2015-16")
+    print(f"  from {since} to {YEAR - 1} ({out['previous_seasons_that_moved_it_less']} seasons) it rose {out['moved_over_that_span']}, from {out['record_then']} to {int(record[YEAR - 1])}")
+    return out
+
+
+def wire_to_wire():
+    """Who led the league in threes on each day of the season."""
+    section("Wire to wire")
+    box = load_box()
+    daily = box.groupby(["game_date", "player"]).fg3.sum().unstack(fill_value=0).sort_index().cumsum()
+    mine = daily[CURRY]
+    best_other = daily.drop(columns=CURRY).max(axis=1)
+    lead = mine - best_other
+    ahead = lead > 0
+    for_good = ahead[::-1].cummin()[::-1].idxmax()  # first day he led and never gave it back
+    out = {"game_days": len(lead), "days_in_first": int(ahead.sum()), "led_for_good_from": for_good,
+           "lead_of_50_on": lead[lead >= 50].index[0], "lead_of_100_on": lead[lead >= 100].index[0], "final_lead": int(lead.iloc[-1])}
+    print(f"  in first on {out['days_in_first']} of {len(lead)} game days, and every day from {for_good}")
+    print(f"  lead reached 50 on {out['lead_of_50_on']}, 100 on {out['lead_of_100_on']}, finished at {out['final_lead']}")
+    return out
+
+
+def night_after_night(top=8):
+    """How often each of the top shooters had a big night, and a blank one."""
+    section("Night after night")
+    box = load_box()
+    leaders = box.groupby("player").fg3.sum().nlargest(top).index
+    rows = {}
+    for name in leaders:
+        g = box[box.player == name].fg3
+        rows[name] = {"games": len(g), "five_or_more": int((g >= 5).sum()), "without_a_three": int((g == 0).sum()), "median": float(g.median())}
+        print(f"  {name:<16} {len(g)} games, 5+ in {rows[name]['five_or_more']}, none in {rows[name]['without_a_three']}, median {g.median():.0f}")
+    others = [v for k, v in rows.items() if k != CURRY]
+    all_five = box.groupby("player").fg3.apply(lambda g: int((g >= 5).sum())).drop(CURRY)
+    out = {"players": rows, "most_five_plus_by_anyone_else": int(all_five.max()), "third_most_five_plus": int(all_five.nlargest(2).iloc[1]),
+           "fewest_blank_games_among_the_rest": min(v["without_a_three"] for v in others)}
+    print(f"  most 5+ games by anyone else: {out['most_five_plus_by_anyone_else']}, then {out['third_most_five_plus']}")
+    return out
+
+
+def home_and_road():
+    section("Home and road")
+    road = gamelog[gamelog.game_location == "@"]
+    home = gamelog[gamelog.game_location != "@"]
+    others = season[season.player != CURRY].fg3
+    out = {"road_threes": int(road.fg3.sum()), "road_games": len(road), "home_threes": int(home.fg3.sum()), "home_games": len(home),
+           "road_alone_rank": int((others > road.fg3.sum()).sum()) + 1}
+    print(f"  road: {out['road_threes']} in {len(road)} games. home: {out['home_threes']} in {len(home)} games")
+    print(f"  his road games alone would rank {out['road_alone_rank']} in the league")
+    return out
+
+
+def warriors_without_him():
+    section("The Warriors without him")
+    t = teams[teams.year == YEAR].sort_values("fg3", ascending=False).reset_index(drop=True)
+    gsw = int(t[t.team == "GSW"].fg3.iloc[0])
+    without = gsw - int(curry.fg3)
+    before = int(teams[teams.year < YEAR].fg3.max())
+    out = {"warriors": gsw, "second_most": int(t.fg3.iloc[1]), "second_team": t.team.iloc[1], "without_curry": without,
+           "rank_without_curry": int((t.fg3 > without).sum()) + 1, "teams": len(t), "curry_share": curry.fg3 / gsw * 100,
+           "most_by_any_team_before": before}
+    print(f"  Warriors {gsw}, next {out['second_team']} {out['second_most']}. Most by any team before that season: {before}")
+    print(f"  without Curry's threes: {without}, which ranks {out['rank_without_curry']} of {len(t)}. He made {out['curry_share']:.0f}% of them")
+    return out
+
+
+def four_categories():
+    """What else he led the league in."""
+    section("Four categories at once")
+    played = season[season.games >= 58]
+    out = {
+        "points_per_game_leader": played.loc[played.ppg.idxmax()].player,
+        "threes_leader": season.loc[season.fg3.idxmax()].player,
+        "steals_leader": season.loc[season.stl.idxmax()].player, "steals": int(curry.stl),
+        "steals_per_game_leader": played.loc[(played.stl / played.games).idxmax()].player,
+        "free_throw_pct_leader": season[season.ft >= 125].nlargest(1, "ft_pct").player.iloc[0],  # the league minimum
+        "free_throw_pct": curry.ft_pct * 100,
+        "minutes_per_game_rank": int(((played.mp / played.games) > curry.mp / curry.games).sum()) + 1,
+    }
+    for k, v in out.items():
+        print(f"  {k:<26} {v}")
+    return out
+
+
 if __name__ == "__main__":
     results = {f.__name__: f() for f in (three_quarters, one_quarter, coldest_stretch, clinched, versus_teams,
                                          shot_value, threes_alone, accuracy_ceiling, volume_leader_accuracy,
-                                         ahead_of_schedule, how_rare)}
+                                         ahead_of_schedule, how_rare, record_in_context, wire_to_wire,
+                                         night_after_night, home_and_road, warriors_without_him, four_categories)}
     OUTPUT.mkdir(exist_ok=True)
     (OUTPUT / "new_stats.json").write_text(json.dumps(to_jsonable(results), indent=2) + "\n")
     print("\nsaved output/new_stats.json")

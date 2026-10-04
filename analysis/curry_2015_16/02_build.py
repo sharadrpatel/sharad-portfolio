@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup
 
 from common import PROCESSED, RAW, SEASONS, YEAR
 
-NUMERIC = ["age", "games", "mp", "fg", "fga", "fg3", "fg3a", "ft", "fta", "pts"]
+NUMERIC = ["age", "games", "mp", "fg", "fga", "fg3", "fg3a", "ft", "fta", "stl", "pts"]
 
 
 def parse_totals(year: int) -> list[dict]:
@@ -81,7 +81,7 @@ def build_shots() -> None:
     # Coordinates are in feet with the basket at (0, 5.25).
     s["distance"] = np.hypot(s.loc_x, s.loc_y - 5.25)
     keep = ["game_id", "game_date", "team_name", "player_name", "quarter", "shot_made",
-            "is_three", "action_type", "basic_zone", "distance"]
+            "is_three", "action_type", "basic_zone", "distance", "loc_x", "loc_y"]
     s[keep].to_csv(PROCESSED / f"shots_{YEAR}.csv.gz", index=False)
     print(f"shots_{YEAR}.csv.gz  {len(s):,} shots")
 

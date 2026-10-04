@@ -107,5 +107,102 @@
       195.113686,
       2332.891052
     ]
+  },
+  "record_in_context": {
+    "jump": 116,
+    "previous_seasons_that_moved_it_less": 24,
+    "record_then": 172,
+    "from_season": 1991,
+    "moved_over_that_span": 114
+  },
+  "wire_to_wire": {
+    "game_days": 161,
+    "days_in_first": 158,
+    "led_for_good_from": "2015-10-31",
+    "lead_of_50_on": "2015-12-06",
+    "lead_of_100_on": "2016-02-27",
+    "final_lead": 126
+  },
+  "night_after_night": {
+    "players": {
+      "Stephen Curry": {
+        "games": 79,
+        "five_or_more": 43,
+        "without_a_three": 0,
+        "median": 5.0
+      },
+      "Klay Thompson": {
+        "games": 80,
+        "five_or_more": 23,
+        "without_a_three": 5,
+        "median": 3.0
+      },
+      "James Harden": {
+        "games": 82,
+        "five_or_more": 17,
+        "without_a_three": 7,
+        "median": 3.0
+      },
+      "Damian Lillard": {
+        "games": 75,
+        "five_or_more": 14,
+        "without_a_three": 5,
+        "median": 3.0
+      },
+      "Kyle Lowry": {
+        "games": 77,
+        "five_or_more": 10,
+        "without_a_three": 3,
+        "median": 2.0
+      },
+      "Paul George": {
+        "games": 81,
+        "five_or_more": 10,
+        "without_a_three": 7,
+        "median": 2.0
+      },
+      "JR Smith": {
+        "games": 77,
+        "five_or_more": 15,
+        "without_a_three": 12,
+        "median": 2.0
+      },
+      "JJ Redick": {
+        "games": 75,
+        "five_or_more": 8,
+        "without_a_three": 4,
+        "median": 2.0
+      }
+    },
+    "most_five_plus_by_anyone_else": 23,
+    "third_most_five_plus": 17,
+    "fewest_blank_games_among_the_rest": 3
+  },
+  "home_and_road": {
+    "road_threes": 207,
+    "road_games": 39,
+    "home_threes": 195,
+    "home_games": 40,
+    "road_alone_rank": 6
+  },
+  "warriors_without_him": {
+    "warriors": 1077,
+    "second_most": 880,
+    "second_team": "CLE",
+    "without_curry": 675,
+    "rank_without_curry": 18,
+    "teams": 30,
+    "curry_share": 37.325905,
+    "most_by_any_team_before": 933
+  },
+  "four_categories": {
+    "points_per_game_leader": "Stephen Curry",
+    "threes_leader": "Stephen Curry",
+    "steals_leader": "Stephen Curry",
+    "steals": 169,
+    "steals_per_game_leader": "Stephen Curry",
+    "free_throw_pct_leader": "Stephen Curry",
+    "free_throw_pct": 90.75,
+    "minutes_per_game_rank": 26
   }
 }

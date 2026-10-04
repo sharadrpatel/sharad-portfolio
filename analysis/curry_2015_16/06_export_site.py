@@ -130,6 +130,32 @@ def trend_fit():
     return [round(fit.intercept, 2), round(fit.slope, 3)]
 
 
+def regulars():
+    """[threes made, player]: everyone with 1,500+ minutes in 2015-16, fewest first."""
+    d = season[season.mp >= 1500].sort_values(["fg3", "player"])
+    return [[int(p.fg3), p.player] for p in d.itertuples()]
+
+
+def regulars_spread():
+    """[mean, standard deviation] of threes made among those players."""
+    d = season[season.mp >= 1500].fg3
+    return [round(d.mean(), 1), round(d.std(ddof=1), 1)]
+
+
+def game_strips():
+    """[player, season total, threes in each game he played]: the eight leaders."""
+    box = load_box()
+    leaders = box.groupby("player").fg3.sum().nlargest(8)
+    return [[name, int(total), box[box.player == name].sort_values("game_date").fg3.astype(int).tolist()]
+            for name, total in leaders.items()]
+
+
+def made_threes(player):
+    """[x, y] in feet for every made three: x from the middle of the court, y from the baseline."""
+    d = shots[shots.is_three & shots.shot_made & (shots.player_name == player)]
+    return [[round(float(x), 1), round(float(y), 1)] for x, y in zip(d.loc_x, d.loc_y)]
+
+
 EXPORTS = {
     "TOP10": (top_ten, "[season end year, threes made, player] — ten highest totals each season"),
     "GAPS": (gaps, "[season end year, leader, threes, runner-up, threes]"),
@@ -142,6 +168,11 @@ EXPORTS = {
     "TEAM_AVERAGE": (team_average, "[season end year, threes per game by the average team]"),
     "SHOT_VALUE": (shot_value, "[label, points per shot, is Curry] — 2015–16"),
     "TREND": (trend, "[season end year, team 3PA per game, leader's threes per 82 games, leader] — since 1997–98"),
+    "REGULARS": (regulars, "[threes made, player] — everyone with 1,500+ minutes in 2015–16, fewest first"),
+    "REGULARS_SPREAD": (regulars_spread, "[mean, standard deviation] of threes made among those players"),
+    "GAME_STRIPS": (game_strips, "[player, season total, threes in each game he played] — the eight leaders in 2015–16"),
+    "MAKES_CURRY": (lambda: made_threes(CURRY), "[x, y] in feet for each made three — x from the middle of the court, y from the baseline"),
+    "MAKES_RUNNER_UP": (lambda: made_threes(runner_up.player), "the same for the runner-up"),
     "TREND_FIT": (trend_fit, "[intercept, slope] — leader's threes = intercept + slope x team 3PA per game, fit without 2015–16"),
 }
 
