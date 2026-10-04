@@ -293,6 +293,7 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 }
 
 .wordmark__name {
+  white-space: nowrap;
   font-family: var(--f-serif);
   font-size: 1.2rem;
   font-weight: 500;
@@ -458,7 +459,7 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
   overflow-wrap: anywhere;
 }
 
-@media (min-width: 901px) {
+@media (min-width: 1081px) {
   .site-nav__links {
     display: flex;
   }
