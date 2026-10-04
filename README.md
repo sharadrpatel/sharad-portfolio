@@ -27,6 +27,25 @@ src/
 - Colors, type, and spacing are defined once in `src/styles/tokens.css`.
 - `public/CV.pdf` is the downloadable CV and the factual source for site content.
 
+## Writing a blog post
+
+Posts are Markdown files in `src/posts/`. The file name becomes the address:
+`src/posts/my-first-post.md` is published at `/blog/my-first-post`.
+
+1. Copy `src/posts/_template.md` and rename it (lowercase, dashes instead of spaces).
+2. Fill in the header at the top: `title`, `date` (YYYY-MM-DD), `summary`, `tags`.
+3. Set `draft: false` when it's ready. Drafts only show up when running `npm run dev`.
+4. Put any images in `public/blog-images/` and link them as `/blog-images/name.png`.
+
+You can do all of this on github.com without installing anything: open `src/posts/`,
+choose **Add file → Upload files** (or **Create new file**), and commit to `master`.
+Vercel rebuilds the site automatically.
+
+Coming from a rich-text document: Google Docs can export Markdown directly
+(**File → Download → Markdown (.md)**). Then add the header block at the top.
+
+The blog page shows "Work in progress" until the first published post exists.
+
 ## Deployment
 
 Deployed on [Vercel](https://vercel.com). Push to `master` to auto-deploy. `vercel.json` rewrites

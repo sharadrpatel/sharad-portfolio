@@ -1,0 +1,244 @@
+/* Blog index and posts */
+
+.blog {
+  padding-top: calc(var(--nav-h) + clamp(2rem, 1.5rem + 3vw, 4rem));
+  border-top: 0;
+  min-height: calc(100vh - 10rem);
+}
+
+.blog__head {
+  display: grid;
+  gap: var(--s-4);
+  padding-bottom: var(--s-6);
+  border-bottom: 1px solid var(--ink);
+}
+
+.blog__title {
+  font-family: var(--f-serif);
+  font-size: clamp(2.4rem, 1.8rem + 3vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.blog__empty {
+  display: grid;
+  gap: var(--s-3);
+  max-width: var(--prose);
+  padding-top: var(--s-6);
+  color: var(--ink-2);
+}
+
+.post-list li {
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.post-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1.5rem;
+  padding-block: 1.5rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.post-item:hover {
+  color: var(--ink);
+}
+
+.post-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+
+.post-item__title {
+  font-family: var(--f-serif);
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.post-item:hover .post-item__title {
+  color: var(--accent);
+}
+
+.post-item__summary {
+  max-width: var(--prose);
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+}
+
+.post-item .arrow {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  color: var(--accent);
+  transition: transform var(--dur) var(--ease);
+}
+
+.post-item:hover .arrow {
+  transform: translateX(4px);
+}
+
+.post-item > span:not(.arrow) {
+  grid-column: 1;
+}
+
+/* Single post */
+
+.post__header {
+  padding-top: calc(var(--nav-h) + clamp(2rem, 1.5rem + 3vw, 4rem));
+  padding-bottom: var(--s-6);
+  border-bottom: 1px solid var(--ink);
+}
+
+.post__wrap {
+  max-width: calc(46rem + 2 * var(--gutter));
+}
+
+.post__header .post__wrap {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.post__title {
+  font-family: var(--f-serif);
+  font-size: clamp(2.1rem, 1.5rem + 2.8vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.post__title .badge {
+  font-size: 0.7rem;
+}
+
+.post__meta {
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+
+.post__wrap > .tags {
+  margin-top: var(--s-6);
+}
+
+.post__foot {
+  margin: var(--s-6) 0 var(--section-y);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule-strong);
+}
+
+/* Rendered Markdown */
+
+.post-body {
+  padding-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  font-size: 1.09rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.post-body > * + * {
+  margin-top: 1.15em;
+}
+
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+  font-family: var(--f-serif);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-top: 2em;
+}
+
+.post-body h2 { font-size: 1.75rem; }
+.post-body h3 { font-size: 1.35rem; }
+.post-body h4 { font-size: 1.15rem; }
+
+.post-body ul,
+.post-body ol {
+  padding-left: 1.4rem;
+}
+
+.post-body ul { list-style: disc; }
+.post-body ol { list-style: decimal; }
+
+.post-body li + li {
+  margin-top: 0.35em;
+}
+
+.post-body li::marker {
+  color: var(--ink-3);
+}
+
+.post-body a {
+  text-decoration-color: var(--accent);
+}
+
+.post-body blockquote {
+  margin-inline: 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--accent);
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-2);
+}
+
+.post-body img {
+  margin-inline: auto;
+  border: 1px solid var(--rule);
+}
+
+.post-body code {
+  font-family: var(--f-mono);
+  font-size: 0.88em;
+  padding: 0.1em 0.35em;
+  background: var(--wash);
+  border-radius: var(--radius);
+}
+
+.post-body pre {
+  overflow-x: auto;
+  padding: 1rem 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.post-body pre code {
+  padding: 0;
+  background: none;
+}
+
+.post-body hr {
+  border: 0;
+  border-top: 1px solid var(--rule-strong);
+  margin-block: 2.5em;
+}
+
+.post-body table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.post-body th,
+.post-body td {
+  padding: 0.5rem 1rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.post-body th {
+  border-bottom-color: var(--ink);
+}

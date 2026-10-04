@@ -10,6 +10,7 @@ export const NAV = [
   { id: "experience", label: "Experience" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
+  { id: "blog", label: "Blog", to: "/blog" },
 ];
 
 // Tracks which homepage section sits under the reading line.
@@ -70,7 +71,7 @@ export default function Nav({ path, section }) {
         toggleRef.current?.focus();
       }
     };
-    const onResize = () => window.innerWidth > 900 && setOpen(false);
+    const onResize = () => window.innerWidth > 1080 && setOpen(false);
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
@@ -93,7 +94,7 @@ export default function Nav({ path, section }) {
             <ul>
               {NAV.map((n) => (
                 <li key={n.id}>
-                  <Link to={`/#${n.id}`} aria-current={current === n.id ? "true" : undefined}>
+                  <Link to={n.to ?? `/#${n.id}`} aria-current={current === n.id ? "true" : undefined}>
                     {n.label}
                   </Link>
                 </li>
@@ -124,7 +125,7 @@ export default function Nav({ path, section }) {
             <ol>
               {NAV.map((n, i) => (
                 <li key={n.id}>
-                  <Link to={`/#${n.id}`} onClick={() => setOpen(false)} aria-current={current === n.id ? "true" : undefined}>
+                  <Link to={n.to ?? `/#${n.id}`} onClick={() => setOpen(false)} aria-current={current === n.id ? "true" : undefined}>
                     <span className="mobile-menu__num">{String(i + 1).padStart(2, "0")}</span>
                     {n.label}
                   </Link>
