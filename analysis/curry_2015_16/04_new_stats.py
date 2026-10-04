@@ -1,0 +1,255 @@
+"""New angles on the 2015-16 season that are not in the post yet.
+
+Each function is one idea. It prints what it finds and returns the numbers,
+which are saved to output/new_stats.json.
+
+    python analysis/curry_2015_16/04_new_stats.py
+"""
+import json
+
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+from common import (CURRY, OUTPUT, SEASONS, SHORT_SEASONS, YEAR, league_by_season, load_gamelog,
+                    load_player_seasons, load_shots, load_team_seasons, section, team_games, to_jsonable)
+
+ps = load_player_seasons()
+league = league_by_season(ps)
+season = ps[ps.year == YEAR]
+curry = season[season.player == CURRY].iloc[0]
+runner_up = season[season.player != CURRY].nlargest(1, "fg3").iloc[0]  # Klay Thompson, 276
+OLD_RECORD = int(ps[ps.year < YEAR].fg3.max())  # 286
+shots = load_shots()
+threes = shots[shots.is_three]
+gamelog = load_gamelog()
+teams = load_team_seasons()
+
+
+def three_quarters():
+    """What if every game had ended after the third quarter?
+
+    The shot file has 401 of his 402 makes, so each count could be one low.
+    """
+    section("Three quarters would have been enough")
+    c = threes[(threes.player_name == CURRY) & threes.shot_made]
+    by_quarter = c.groupby("quarter").size()
+    through_three = int(by_quarter.loc[:3].sum())
+    others = threes[(threes.player_name != CURRY) & threes.shot_made & (threes.quarter <= 3)]
+    next_best = others.groupby("player_name").size().nlargest(1)
+    # Games in which he never took a shot after the third quarter.
+    last_quarter = shots[shots.player_name == CURRY].groupby("game_id").quarter.max()
+    no_fourth = int((last_quarter < 4).sum())
+    print(f"  makes by quarter: {by_quarter.to_dict()}")
+    print(f"  through three quarters: {through_three} (old record {OLD_RECORD}, runner-up's full season {int(runner_up.fg3)})")
+    print(f"  next best through three quarters: {next_best.index[0]}, {int(next_best.iloc[0])}")
+    print(f"  games with no shot attempt after the third quarter: {no_fourth} of {last_quarter.size}")
+    return {"by_quarter": by_quarter.to_dict(), "through_three": through_three,
+            "margin_over_old_record": through_three - OLD_RECORD, "games_without_a_fourth_quarter_shot": no_fourth}
+
+
+def one_quarter():
+    """His first quarters alone, ranked against everyone's full season."""
+    section("His first quarters alone")
+    c = threes[(threes.player_name == CURRY) & threes.shot_made]
+    first = int((c.quarter == 1).sum())
+    third = int((c.quarter == 3).sum())
+    totals = season[season.player != CURRY].fg3
+    out = {"first_quarter_makes": first, "first_quarter_rank": int((totals > first).sum()) + 1,
+           "third_quarter_makes": third, "third_quarter_rank": int((totals > third).sum()) + 1,
+           "players_in_league": len(season)}
+    print(f"  first quarters: {first} threes, which would rank {out['first_quarter_rank']} of {len(season)} players")
+    print(f"  third quarters: {third} threes, which would rank {out['third_quarter_rank']}")
+    return out
+
+
+def coldest_stretch(window=20):
+    """His worst run of games, compared with everyone else's best."""
+    section(f"His coldest {window} games")
+    makes = gamelog.fg3.rolling(window).sum()
+    att = gamelog.fg3a.rolling(window).sum()
+    end = int(makes.idxmin())
+    worst_pg = makes.min() / window
+    worst_pct = makes[end] / att[end] * 100
+    start_date, end_date = gamelog.date[end - window + 1], gamelog.date[end]
+    out = {"window": window, "makes_per_game": worst_pg, "pct": worst_pct,
+           "from": start_date, "to": end_date,
+           "pace_over_his_79_games": worst_pg * curry.games,
+           "runner_up_season_per_game": runner_up.fg3 / runner_up.games}
+    print(f"  {start_date:%b %d} to {end_date:%b %d}: {worst_pg:.2f} a game at {worst_pct:.1f}%")
+    print(f"  that pace over his 79 games: {worst_pg * curry.games:.0f} (old record {OLD_RECORD})")
+    print(f"  {runner_up.player}'s season average: {runner_up.fg3 / runner_up.games:.2f} a game")
+    for w in (10, 15, 30):
+        m = gamelog.fg3.rolling(w).sum().min() / w
+        print(f"  worst {w} games: {m:.2f} a game")
+    return out
+
+
+def clinched():
+    """The date he had the three-point title won."""
+    section("He could have stopped in February")
+    cum = gamelog.fg3.cumsum()
+    tie = gamelog[cum >= runner_up.fg3].iloc[0]
+    passed = gamelog[cum > OLD_RECORD].iloc[0]
+    rest = int(curry.fg3 - cum[tie.name])
+    out = {"matched_runner_up_total_in_game": int(tie.game), "date": tie.date,
+           "games_left": int(len(gamelog) - tie.game), "threes_after": rest,
+           "rank_of_threes_after": int((season[season.player != CURRY].fg3 > rest).sum()) + 1,
+           "broke_old_record_in_game": int(passed.game), "broke_old_record_date": passed.date}
+    print(f"  reached {int(runner_up.fg3)} (the runner-up's final total) in game {tie.game}, {tie.date:%b %d, %Y}, with {out['games_left']} games left")
+    print(f"  the {rest} he made after that would rank {out['rank_of_threes_after']} in the league on their own")
+    print(f"  passed the old record of {OLD_RECORD} in game {passed.game}, {passed.date:%b %d, %Y}")
+    return out
+
+
+def versus_teams():
+    """One player against whole rosters."""
+    section("Curry against entire teams")
+    full = teams[~teams.year.isin([*SHORT_SEASONS, 2020])]  # 82-game seasons only
+    fewer = full[full.fg3 < curry.fg3]
+    latest = fewer[fewer.year == fewer.year.max()]
+    tg = team_games(ps, teams)
+    avg_team_pg = league.fg3 / tg
+    curry_pg = curry.fg3 / curry.games
+    last_below = int(avg_team_pg[avg_team_pg < curry_pg - 0.05].index.max())
+    deep = shots[(shots.distance >= 28) & (shots.distance < 35) & shots.shot_made]
+    deep_curry = int((deep.player_name == CURRY).sum())
+    deep_teams = deep[deep.player_name != CURRY].groupby("team_name").size().sort_values(ascending=False)
+    out = {"team_seasons_with_fewer": len(fewer), "team_seasons": len(full), "share": len(fewer) / len(full) * 100,
+           "latest_team_with_fewer": f"{latest.team.iloc[0]} {latest.year.iloc[0]}", "latest_team_fg3": int(latest.fg3.iloc[0]),
+           "curry_per_game": curry_pg, "last_season_avg_team_below": last_below,
+           "avg_team_per_game_then": avg_team_pg[last_below],
+           "deep_curry": deep_curry, "deep_best_other_team": deep_teams.index[0], "deep_best_other_team_made": int(deep_teams.iloc[0])}
+    print(f"  {len(fewer)} of {len(full)} team seasons ({out['share']:.0f}%) made fewer than {int(curry.fg3)} threes in 82 games")
+    print(f"  most recent: {out['latest_team_with_fewer']} with {out['latest_team_fg3']}")
+    print(f"  Curry: {curry_pg:.2f} a game. Average team in {last_below}: {avg_team_pg[last_below]:.2f} a game")
+    print(f"  from 28-35 feet: Curry {deep_curry}, best other team {deep_teams.index[0]} {int(deep_teams.iloc[0])}")
+    return out
+
+
+def shot_value():
+    """Points per shot, which is what a defense is actually giving up."""
+    section("What a Curry three was worth")
+    lg = league.loc[YEAR]
+    at_rim = shots[shots.basic_zone == "Restricted Area"].shot_made.mean()
+    deep = shots[(shots.distance >= 28) & (shots.distance < 35) & (shots.player_name == CURRY)]
+    out = {"curry_three": 3 * curry.fg3 / curry.fg3a,
+           "curry_from_28_feet": 3 * deep.shot_made.mean(), "curry_from_28_feet_attempts": len(deep),
+           "league_at_the_rim": 2 * at_rim,
+           "league_three": 3 * lg.fg3 / lg.fg3a,
+           "league_two_free_throws": 2 * lg.ft / lg.fta}
+    for k, v in out.items():
+        print(f"  {k:<28} {v:.3f}")
+    return out
+
+
+def threes_alone():
+    """His points from threes, ranked against everyone's total points."""
+    section("His threes alone")
+    pts = int(3 * curry.fg3)
+    others = season[season.player != CURRY].sort_values("pts", ascending=False)
+    below = others[others.pts < pts].head(6)
+    out = {"points_from_threes": pts, "rank_in_scoring": int((others.pts > pts).sum()) + 1,
+           "notable_totals_below": dict(zip(below.player, below.pts.astype(int)))}
+    print(f"  {pts} points on threes would rank {out['rank_in_scoring']} of {len(season)} in total points")
+    print(f"  just below: {out['notable_totals_below']}")
+    return out
+
+
+def accuracy_ceiling():
+    """Everyone who has ever shot as well, and how many they took."""
+    section("Nobody who shot better took half as many")
+    better = ps[(ps.fg3_pct >= curry.fg3_pct) & (ps.fg3a >= 200) & ~((ps.player == CURRY) & (ps.year == YEAR))]
+    top = better.nlargest(1, "fg3a").iloc[0]
+    out = {"seasons_as_accurate": len(better), "most_attempts_among_them": int(top.fg3a),
+           "by": f"{top.player} {top.year}", "curry_attempts": int(curry.fg3a)}
+    print(f"  {len(better)} other seasons at {curry.fg3_pct:.1%} or better (200+ attempts)")
+    print(f"  the most attempts among them: {int(top.fg3a)} ({top.player}, {top.year}). Curry took {int(curry.fg3a)}.")
+    return out
+
+
+def volume_leader_accuracy():
+    """Where the league's attempts leader usually ranks in accuracy."""
+    section("The attempts leader is not supposed to be accurate")
+    rows = []
+    for y, d in ps[ps.year >= 1993].groupby("year"):
+        qualified = d[d.fg3 >= 82 * SHORT_SEASONS.get(y, 82) / 82]  # the league's minimum to qualify
+        rank = qualified.fg3_pct.rank(ascending=False, method="min")
+        lead = qualified.fg3a.idxmax()
+        rows.append((y, qualified.player[lead], int(rank[lead]), len(qualified)))
+    r = pd.DataFrame(rows, columns=["year", "player", "accuracy_rank", "qualified"]).set_index("year")
+    second = season[season.player != CURRY].fg3a.max()
+    best_other = r[r.player != CURRY].accuracy_rank.min()
+    out = {"median_rank": float(r.accuracy_rank.median()), "curry_2016_rank": int(r.accuracy_rank[YEAR]),
+           "qualified_2016": int(r.qualified[YEAR]), "best_rank_by_anyone_else": int(best_other),
+           "attempts_lead_over_second": int(curry.fg3a - second)}
+    print(f"  median accuracy rank of the attempts leader since 1992-93: {out['median_rank']:.0f}")
+    print(f"  Curry in 2015-16: {out['curry_2016_rank']} of {out['qualified_2016']}, with {out['attempts_lead_over_second']} more attempts than anyone")
+    print(f"  best by any other attempts leader: {best_other}")
+    return out
+
+
+def ahead_of_schedule():
+    """How many threes the league leader 'should' have had.
+
+    Regress the leader's total on how many threes teams take per game, using
+    every season since 1997-98 except 2015-16, then ask what league it would
+    take for the line to reach 402.
+    """
+    section("Ahead of schedule")
+    tg = team_games(ps, teams)
+    rate = league.fg3a / tg                        # three-point attempts per team per game
+    games = tg / teams.groupby("year").size()      # games per team
+    leader = ps.groupby("year").fg3.max() * 82 / games  # leader, scaled to 82 games
+    fit_years = [y for y in SEASONS if y >= 1998 and y != YEAR]
+    fit = stats.linregress(rate[fit_years], leader[fit_years])
+    predicted = fit.intercept + fit.slope * rate
+    resid_sd = (leader[fit_years] - predicted[fit_years]).std(ddof=2)
+    needed = (curry.fg3 - fit.intercept) / fit.slope
+    out = {"r_squared": fit.rvalue ** 2, "expected_leader_2016": predicted[YEAR],
+           "residual": curry.fg3 - predicted[YEAR], "residual_sd": (curry.fg3 - predicted[YEAR]) / resid_sd,
+           "team_attempts_needed_for_402": needed, "team_attempts_2016": rate[YEAR], "team_attempts_2026": rate[2026]}
+    print(f"  fit: leader = {fit.intercept:.0f} + {fit.slope:.2f} x team attempts per game (r2 = {fit.rvalue ** 2:.2f})")
+    print(f"  expected leader in 2015-16: {predicted[YEAR]:.0f}. Curry was {out['residual']:.0f} over, {out['residual_sd']:.1f} residual SDs")
+    print(f"  the line reaches 402 at {needed:.0f} attempts per team per game. 2015-16: {rate[YEAR]:.1f}. 2025-26: {rate[2026]:.1f}")
+    return out
+
+
+def how_rare(n_boot=2000, seed=0):
+    """A return period from extreme-value theory. Treat this one as rough.
+
+    For each season take the leader's total divided by the average of the next
+    ten players, which removes the era. Fit a Gumbel distribution to every
+    season since 1989-90 except 2015-16 and ask how often it produces a ratio
+    as large as Curry's. Thirty-six points is not much to fit a tail with, so
+    the bootstrap interval matters more than the point estimate.
+    """
+    section("How rare, as a return period")
+    ratio = {}
+    for y, d in ps[ps.year >= 1990].groupby("year"):
+        top = d.fg3.nlargest(11).values
+        ratio[y] = top[0] / top[1:].mean()
+    ratio = pd.Series(ratio)
+    rest = ratio.drop(YEAR)
+    loc, scale = stats.gumbel_r.fit(rest)
+    period = 1 / stats.gumbel_r.sf(ratio[YEAR], loc, scale)
+    rng = np.random.default_rng(seed)
+    boots = []
+    for _ in range(n_boot):
+        sample = rng.choice(rest.values, len(rest))
+        boots.append(1 / stats.gumbel_r.sf(ratio[YEAR], *stats.gumbel_r.fit(sample)))
+    lo, hi = np.percentile(boots, [5, 95])
+    out = {"ratio_2016": ratio[YEAR], "next_highest_ratio": rest.max(), "next_highest_year": int(rest.idxmax()),
+           "return_period_seasons": period, "interval_90": [lo, hi]}
+    print(f"  leader / average of the next ten: {ratio[YEAR]:.2f} in 2015-16, next highest {rest.max():.2f} ({rest.idxmax()})")
+    print(f"  Gumbel return period: one season in {period:.0f} (90% interval {lo:.0f} to {hi:.0f})")
+    return out
+
+
+if __name__ == "__main__":
+    results = {f.__name__: f() for f in (three_quarters, one_quarter, coldest_stretch, clinched, versus_teams,
+                                         shot_value, threes_alone, accuracy_ceiling, volume_leader_accuracy,
+                                         ahead_of_schedule, how_rare)}
+    OUTPUT.mkdir(exist_ok=True)
+    (OUTPUT / "new_stats.json").write_text(json.dumps(to_jsonable(results), indent=2) + "\n")
+    print("\nsaved output/new_stats.json")

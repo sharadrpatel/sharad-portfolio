@@ -1,0 +1,104 @@
+{
+  "three_quarters": {
+    "by_quarter": {
+      "1": 144,
+      "2": 70,
+      "3": 123,
+      "4": 61,
+      "5": 3
+    },
+    "through_three": 337,
+    "margin_over_old_record": 51,
+    "games_without_a_fourth_quarter_shot": 21
+  },
+  "one_quarter": {
+    "first_quarter_makes": 144,
+    "first_quarter_rank": 24,
+    "third_quarter_makes": 123,
+    "third_quarter_rank": 39,
+    "players_in_league": 476
+  },
+  "coldest_stretch": {
+    "window": 20,
+    "makes_per_game": 4.1,
+    "pct": 43.850267,
+    "from": "2015-11-20",
+    "to": "2016-01-05",
+    "pace_over_his_79_games": 323.9,
+    "runner_up_season_per_game": 3.45
+  },
+  "clinched": {
+    "matched_runner_up_total_in_game": 55,
+    "date": "2016-02-25",
+    "games_left": 24,
+    "threes_after": 126,
+    "rank_of_threes_after": 36,
+    "broke_old_record_in_game": 56,
+    "broke_old_record_date": "2016-02-27"
+  },
+  "versus_teams": {
+    "team_seasons_with_fewer": 520,
+    "team_seasons": 1195,
+    "share": 43.51464435146444,
+    "latest_team_with_fewer": "MEM 2013",
+    "latest_team_fg3": 382,
+    "curry_per_game": 5.088608,
+    "last_season_avg_team_below": 2001,
+    "avg_team_per_game_then": 4.846089,
+    "deep_curry": 44,
+    "deep_best_other_team": "LA Clippers",
+    "deep_best_other_team_made": 27
+  },
+  "shot_value": {
+    "curry_three": 1.361174,
+    "curry_from_28_feet": 1.552941,
+    "curry_from_28_feet_attempts": 85,
+    "league_at_the_rim": 1.204988,
+    "league_three": 1.061073,
+    "league_two_free_throws": 1.513477
+  },
+  "threes_alone": {
+    "points_from_threes": 1206,
+    "rank_in_scoring": 39,
+    "notable_totals_below": {
+      "Rudy Gay": 1204,
+      "Pau Gasol": 1187,
+      "Nikola Vu\u010devi\u0107": 1181,
+      "Will Barton": 1178,
+      "Kobe Bryant": 1161,
+      "Avery Bradley": 1155
+    }
+  },
+  "accuracy_ceiling": {
+    "seasons_as_accurate": 40,
+    "most_attempts_among_them": 449,
+    "by": "Kyle Korver 2015",
+    "curry_attempts": 886
+  },
+  "volume_leader_accuracy": {
+    "median_rank": 38.5,
+    "curry_2016_rank": 2,
+    "qualified_2016": 103,
+    "best_rank_by_anyone_else": 5,
+    "attempts_lead_over_second": 229
+  },
+  "ahead_of_schedule": {
+    "r_squared": 0.684533,
+    "expected_leader_2016": 268.326402,
+    "residual": 133.673598,
+    "residual_sd": 3.996529,
+    "team_attempts_needed_for_402": 48.225048,
+    "team_attempts_2016": 24.081707,
+    "team_attempts_2026": 36.979675
+  },
+  "how_rare": {
+    "ratio_2016": 1.879383,
+    "next_highest_ratio": 1.548155,
+    "next_highest_year": 1991,
+    "return_period_seasons": 496.769274,
+    "interval_90": [
+      195.113686,
+      2332.891052
+    ]
+  }
+}
