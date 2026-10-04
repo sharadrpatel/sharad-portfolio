@@ -11,6 +11,7 @@ export default function Footer() {
           <span> · {PROFILE.degree}, {PROFILE.school}</span>
         </p>
         <ul className="site-footer__links">
+          <li><Link to="/blog">Blog</Link></li>
           <li><a href={`mailto:${PROFILE.email}`}>Email</a></li>
           <li><a href={PROFILE.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href={PROFILE.github} target="_blank" rel="noopener">GitHub</a></li>

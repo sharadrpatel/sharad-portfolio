@@ -474,6 +474,19 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
   }
 }
 
+/* With seven links the wordmark's role label doesn't fit beside them until
+   the window is a little wider. */
+.wordmark {
+  flex: none;
+  white-space: nowrap;
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .wordmark__role {
+    display: none;
+  }
+}
+
 /* ── Footer ─────────────────────────────────────────────────────────────── */
 
 .site-footer {

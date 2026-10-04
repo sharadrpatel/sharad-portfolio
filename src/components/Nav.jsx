@@ -10,7 +10,11 @@ export const NAV = [
   { id: "experience", label: "Experience" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
+  // A page of its own, not a homepage section.
+  { id: "blog", label: "Blog", to: "/blog" },
 ];
+
+const hrefOf = (n) => n.to ?? `/#${n.id}`;
 
 // Tracks which homepage section sits under the reading line.
 function useActiveSection(enabled) {
@@ -93,7 +97,7 @@ export default function Nav({ path, section }) {
             <ul>
               {NAV.map((n) => (
                 <li key={n.id}>
-                  <Link to={`/#${n.id}`} aria-current={current === n.id ? "true" : undefined}>
+                  <Link to={hrefOf(n)} aria-current={current === n.id ? "true" : undefined}>
                     {n.label}
                   </Link>
                 </li>
@@ -124,7 +128,7 @@ export default function Nav({ path, section }) {
             <ol>
               {NAV.map((n, i) => (
                 <li key={n.id}>
-                  <Link to={`/#${n.id}`} onClick={() => setOpen(false)} aria-current={current === n.id ? "true" : undefined}>
+                  <Link to={hrefOf(n)} onClick={() => setOpen(false)} aria-current={current === n.id ? "true" : undefined}>
                     <span className="mobile-menu__num">{String(i + 1).padStart(2, "0")}</span>
                     {n.label}
                   </Link>
