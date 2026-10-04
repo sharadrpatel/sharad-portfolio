@@ -29,7 +29,8 @@ function useWidth() {
  *   b      = plot bounds in px: { l, r, t, bt, w, h, compact }
  *   points = [{ x, y, d }] in px, used to find what the pointer is nearest to
  * tip(d) returns the tooltip content for a point's datum.
- * snap    = "xy" (nearest point) or "x" (nearest column, for bars and time series)
+ * snap    = "xy" (nearest point), "x" (nearest column, for bars and time series),
+ *           or "y" (nearest row, for horizontal bars)
  */
 export function Chart({ label, build, tip, snap = "xy", ratio = 0.6, minH = 260, maxH = 430, margin = {}, fallbackWidth = 0 }) {
   const [ref, measured] = useWidth();
@@ -50,13 +51,13 @@ export function Chart({ label, build, tip, snap = "xy", ratio = 0.6, minH = 260,
     for (const p of built.points) {
       const dx = p.x - px;
       const dy = p.y - py;
-      const dist = snap === "x" ? Math.abs(dx) : Math.hypot(dx, dy);
+      const dist = snap === "x" ? Math.abs(dx) : snap === "y" ? Math.abs(dy) : Math.hypot(dx, dy);
       if (dist < bestD) {
         bestD = dist;
         best = p;
       }
     }
-    setHot(best && bestD < (snap === "x" ? 24 : 40) ? best : null);
+    setHot(best && bestD < (snap === "xy" ? 40 : 24) ? best : null);
   };
 
   const side = hot && (hot.x < 110 ? "left" : hot.x > w - 110 ? "right" : "center");

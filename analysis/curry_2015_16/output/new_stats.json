@@ -9,6 +9,7 @@
     },
     "through_three": 337,
     "margin_over_old_record": 51,
+    "next_best_through_three": 221,
     "games_without_a_fourth_quarter_shot": 21
   },
   "one_quarter": {
@@ -20,6 +21,8 @@
   },
   "coldest_stretch": {
     "window": 20,
+    "first_game": 14,
+    "last_game": 33,
     "makes_per_game": 4.1,
     "pct": 43.850267,
     "from": "2015-11-20",
@@ -83,12 +86,16 @@
     "attempts_lead_over_second": 229
   },
   "ahead_of_schedule": {
+    "intercept": 134.994048,
+    "slope": 5.536665,
     "r_squared": 0.684533,
     "expected_leader_2016": 268.326402,
     "residual": 133.673598,
-    "residual_sd": 3.996529,
+    "typical_miss": 33.447422,
+    "residual_in_sds": 3.996529,
     "team_attempts_needed_for_402": 48.225048,
     "team_attempts_2016": 24.081707,
+    "team_attempts_2025": 37.582927,
     "team_attempts_2026": 36.979675
   },
   "how_rare": {

@@ -1,6 +1,9 @@
 import { Link } from "../../lib/router.jsx";
 import { Chart, ChartFigure, YAxis, XAxis, Note, lin, season } from "../../components/charts.jsx";
-import { TOP10, GAPS, VOLUME, SCORERS, DISTANCE } from "./data.js";
+import {
+  TOP10, GAPS, VOLUME, SCORERS, DISTANCE,
+  THREE_QUARTERS, PACE, COLDEST, TEAM_AVERAGE, SHOT_VALUE, TREND, TREND_FIT,
+} from "./data.js";
 
 const pct = (n, d) => `${((100 * n) / d).toFixed(1)}%`;
 const num = (n) => n.toLocaleString("en-US");
@@ -361,10 +364,236 @@ function ScoringChart() {
   );
 }
 
+/* ── Horizontal bars, label above each bar. rows: [label, value, isCurry] ── */
+function RowBars({ rows, max, fmt = String, label, tip }) {
+  const ROW = 46;
+  const height = rows.length * ROW + 6;
+  const build = (b) => {
+    const x = lin(0, max, b.l, b.r - 46); // room for the value at the tip
+    const points = rows.map((d, i) => ({ x: x(d[1]), y: b.t + i * ROW + 27, d, r: 0 }));
+    return {
+      points,
+      svg: rows.map((d, i) => {
+        const top = b.t + i * ROW;
+        const end = x(d[1]);
+        return (
+          <g key={d[0]}>
+            <text className={`ch-note ${d[2] ? "ch-note--strong" : ""}`} x={b.l} y={top + 12}>
+              {d[0]}
+            </text>
+            <path
+              className={d[2] ? "ch-accent" : "ch-bar"}
+              d={`M${b.l} ${top + 20} H${end - 3} Q${end} ${top + 20} ${end} ${top + 23} V${top + 31} Q${end} ${top + 34} ${end - 3} ${top + 34} H${b.l} Z`}
+            />
+            <text className="ch-note ch-note--strong" x={end + 8} y={top + 31.5}>
+              {fmt(d[1])}
+            </text>
+          </g>
+        );
+      }),
+    };
+  };
+  return (
+    <Chart label={label} build={build} snap="y" ratio={0} minH={height} maxH={height} margin={{ left: 0, right: 0, top: 2, bottom: 4 }} tip={tip} />
+  );
+}
+
+/* ── Fig. 4: running total by game ──────────────────────────────────────── */
+function PaceChart() {
+  const OLD_RECORD = 286;
+  const build = (b) => {
+    const x = lin(1, 80, b.l + 4, b.r - (b.compact ? 66 : 104));
+    const y = lin(0, 430, b.bt, b.t);
+    const path = (k) =>
+      "M" + PACE.filter((d) => d[k] != null).map((d) => `${x(d[0]).toFixed(1)} ${y(d[k]).toFixed(1)}`).join(" L");
+    const mine = PACE.filter((d) => d[1] != null);
+    const points = mine.map((d) => ({ x: x(d[0]), y: y(d[1]), d }));
+    const last = mine[mine.length - 1];
+    const other = PACE[PACE.length - 1];
+    const passed = mine.find((d) => d[1] > OLD_RECORD);
+    const [c0, c1, perGame] = COLDEST;
+    return {
+      points,
+      svg: (
+        <>
+          <rect className="ch-band" x={x(c0 - 0.5)} width={x(c1 + 0.5) - x(c0 - 0.5)} y={b.t} height={b.bt - b.t} />
+          <YAxis b={b} y={y} ticks={[0, 100, 200, 300, 400]} />
+          <XAxis b={{ ...b, r: x(80) }} x={x} ticks={b.compact ? [1, 40, 79] : [1, 20, 40, 60, 79]} title="his game number" />
+          <text className="ch-tick ch-tick--ink" x={x((c0 + c1) / 2)} y={b.t + 12} textAnchor="middle">
+            {b.compact ? "Coldest 20" : `Coldest 20 games: ${perGame.toFixed(1)} a game`}
+          </text>
+          <line className="ch-refline" x1={b.l} x2={x(80)} y1={y(OLD_RECORD)} y2={y(OLD_RECORD)} />
+          <text className="ch-tick ch-tick--ink" x={b.l + 4} y={y(OLD_RECORD) - 6}>
+            Old record, {OLD_RECORD}
+          </text>
+          <path className="ch-line-muted" d={path(2)} />
+          <path className="ch-line-accent" d={path(1)} />
+          <circle className="ch-dot ch-ring" cx={x(passed[0])} cy={y(passed[1])} r="4" />
+          {!b.compact && (
+            <Note x={x(passed[0])} y={y(passed[1])} dx={-12} dy={-34} anchor="end" leader>
+              {[`Game ${passed[0]}, Feb 27`, "passes the record"]}
+            </Note>
+          )}
+          <circle className="ch-accent ch-ring" cx={x(last[0])} cy={y(last[1])} r="5" />
+          <Note x={x(last[0])} y={y(last[1])} dx={9} dy={4} strong>
+            {`Curry, ${last[1]}`}
+          </Note>
+          <Note x={x(other[0])} y={y(other[2])} dx={8} dy={4}>
+            {b.compact ? `${other[2]}` : `Thompson, ${other[2]}`}
+          </Note>
+        </>
+      ),
+    };
+  };
+
+  return (
+    <Chart
+      label="Line chart of running three-point totals by game in 2015–16. Stephen Curry passes the old record of 286 in his 56th game and finishes with 402. Klay Thompson, who finished second, ends at 276 after 80 games."
+      build={build}
+      snap="x"
+      margin={{ left: 34, right: 0, bottom: 46 }}
+      tip={(d) => (
+        <>
+          <strong>{d[1]} threes</strong>
+          <span>
+            Game {d[0]}, {d[3]}
+          </span>
+          <span>
+            {d[4]} that night{d[2] != null ? ` · Thompson after ${d[0]} games: ${d[2]}` : ""}
+          </span>
+        </>
+      )}
+    />
+  );
+}
+
+/* ── Fig. 5: the average team's threes per game ─────────────────────────── */
+function TeamsChart() {
+  const CURRY_PER_GAME = 402 / 79;
+  const build = (b) => {
+    const x = lin(1979.5, 2026.5, b.l, b.r);
+    const y = lin(0, 15, b.bt, b.t);
+    const points = TEAM_AVERAGE.map((d) => ({ x: x(d[0]), y: y(d[1]), d }));
+    const d = "M" + points.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" L");
+    const y2001 = points.find((p) => p.d[0] === 2001);
+    const end = points[points.length - 1];
+    return {
+      points,
+      svg: (
+        <>
+          <rect className="ch-band" x={x(1994.5)} width={x(1997.5) - x(1994.5)} y={b.t} height={b.bt - b.t} />
+          <YAxis b={b} y={y} ticks={[0, 5, 10, 15]} />
+          <XAxis b={b} x={x} ticks={b.compact ? [1980, 2000, 2020] : [1980, 1990, 2000, 2010, 2020]} />
+          <line className="ch-refline-accent" x1={b.l} x2={b.r} y1={y(CURRY_PER_GAME)} y2={y(CURRY_PER_GAME)} />
+          <text className="ch-note ch-note--strong" x={b.l + 4} y={y(CURRY_PER_GAME) - 8}>
+            {b.compact ? "Curry, 5.09" : "Curry alone: 5.09 a game"}
+          </text>
+          <path className="ch-line" d={d} />
+          <circle className="ch-dot ch-ring" cx={y2001.x} cy={y2001.y} r="4" />
+          <Note {...y2001} dx={8} dy={17}>
+            {b.compact ? "’01: 4.85" : "2000–01: 4.85"}
+          </Note>
+          <Note {...end} dx={-2} dy={-10} anchor="end">
+            {`Average team, ${end.d[1].toFixed(1)}`}
+          </Note>
+        </>
+      ),
+    };
+  };
+
+  return (
+    <Chart
+      label="Line chart of three-pointers made per game by the average NBA team in each season from 1979–80 to 2025–26, with a horizontal line at 5.09, the number Stephen Curry made per game by himself in 2015–16. The average team was below that line as recently as 2000–01."
+      build={build}
+      snap="x"
+      ratio={0.5}
+      minH={240}
+      maxH={350}
+      margin={{ left: 30, right: 10 }}
+      tip={(d) => (
+        <>
+          <strong>{d[1].toFixed(2)} a game</strong>
+          <span>Average team, {season(d[0])}</span>
+        </>
+      )}
+    />
+  );
+}
+
+/* ── Fig. 10: the leader's total against league volume ──────────────────── */
+function TrendChart() {
+  const [a, slope] = TREND_FIT;
+  const fit = (v) => a + slope * v;
+  const needed = (402 - a) / slope;
+  const build = (b) => {
+    const x = lin(10, 51, b.l, b.r);
+    const y = lin(150, 430, b.bt, b.t);
+    const points = TREND.map((d) => ({ x: x(d[1]), y: y(d[2]), d }));
+    const find = (yr) => points.find((p) => p.d[0] === yr);
+    const curry = find(2016);
+    const lastX = TREND[TREND.length - 2][1] > TREND[TREND.length - 1][1] ? TREND[TREND.length - 2][1] : TREND[TREND.length - 1][1];
+    const firstX = TREND[0][1];
+    return {
+      points,
+      svg: (
+        <>
+          <YAxis b={b} y={y} ticks={[200, 300, 400]} />
+          <XAxis b={b} x={x} ticks={[10, 20, 30, 40, 50]} title={b.compact ? "team 3PA per game" : "three-point attempts per team per game"} />
+          <line className="ch-leader" x1={x(needed)} x2={x(needed)} y1={y(402)} y2={b.bt} />
+          <path className="ch-fit" d={`M${x(firstX)} ${y(fit(firstX))} L${x(lastX)} ${y(fit(lastX))}`} />
+          <path className="ch-fit ch-fit--projected" d={`M${x(lastX)} ${y(fit(lastX))} L${x(needed)} ${y(402)}`} />
+          {points.map((p) => (
+            <circle key={p.d[0]} className="ch-bar" cx={p.x} cy={p.y} r={b.compact ? 3 : 3.5} />
+          ))}
+          <circle className="ch-dot ch-ring" cx={x(needed)} cy={y(402)} r="4" />
+          <Note x={x(needed)} y={y(402)} dx={-9} dy={-9} anchor="end">
+            {b.compact ? "Trend hits 402 at 48" : "The trend reaches 402 at 48 a game"}
+          </Note>
+          <circle className="ch-accent ch-ring" cx={curry.x} cy={curry.y} r="5.5" />
+          <Note {...curry} dx={-10} dy={4} anchor="end" strong>
+            {b.compact ? "Curry, ’16" : "Curry, 2015–16"}
+          </Note>
+          {!b.compact && (
+            <>
+              <Note {...find(2019)} dx={-9} dy={-6} anchor="end">
+                Harden, 2018–19
+              </Note>
+              <Note {...find(2026)} dx={9} dy={12}>
+                2025–26
+              </Note>
+            </>
+          )}
+        </>
+      ),
+    };
+  };
+
+  return (
+    <Chart
+      label="Scatter plot of the league leader's three-point total against three-point attempts per team per game, for each season since 1997–98, with a fitted line. The line predicts 268 for 2015–16. Stephen Curry made 402. Extended, the line reaches 402 when teams take 48 threes a game. In 2025–26 they took 37."
+      build={build}
+      ratio={0.62}
+      maxH={440}
+      margin={{ left: 34, right: 12, bottom: 46, top: 18 }}
+      tip={(d) => (
+        <>
+          <strong>{d[2]} threes</strong>
+          <span>
+            {d[3]}, {season(d[0])}
+          </span>
+          <span>Teams took {d[1].toFixed(1)} a game</span>
+        </>
+      )}
+    />
+  );
+}
+
 /* ── Sections (also used for the table of contents) ─────────────────────── */
 export const SECTIONS = [
   { id: "record", label: "The record moved by 116" },
   { id: "field", label: "Second place was 126 behind" },
+  { id: "parts", label: "Parts of the season were enough" },
+  { id: "teams", label: "One player against whole teams" },
   { id: "tradeoff", label: "Volume and accuracy" },
   { id: "scoring", label: "It wasn't only the threes" },
   { id: "since", label: "Ten seasons of trying" },
@@ -386,6 +615,12 @@ const NEEDS = [
   ["40%", "", "1,008", "12.3"],
   ["38%", "", "1,061", "12.9"],
   ["36.8%", "Harden, 2018–19", "1,096", "13.4"],
+];
+
+// Share of 100,000 replays of 2016–17 through 2025–26 in which someone reaches 402.
+const REPLAYS = [
+  ["With the attempts each player really took", "4.6%", "3.6%"],
+  ["If every player had played all 82 games", "Nearly 100%", "30%"],
 ];
 
 export default function Curry2016() {
@@ -486,6 +721,96 @@ export default function Curry2016() {
         </p>
       </section>
 
+      <section className="post__prose" aria-labelledby="parts">
+        <h2 id="parts">Parts of the season were enough</h2>
+        <p>
+          Here's a different way to size it up. Take pieces of the season away and see how much is left.
+        </p>
+        <p>
+          Start with fourth quarters. Golden State won a lot of games early, and in 21 of his 79 games Curry didn't
+          take a shot after the third quarter. So I counted only the threes he made in the first three quarters.
+          That's 337. The old record, set over full games, was 286.
+        </p>
+      </section>
+
+      <ChartFigure
+        n={3}
+        title="Three quarters would have broken the record"
+        sub="Threes made in 2015–16"
+        caption="If every game that season had ended after the third quarter, he still breaks the record by 51. Counted from the shot-location data, which has 401 of his 402 makes."
+      >
+        <RowBars
+          rows={THREE_QUARTERS}
+          max={337}
+          label="Bar chart. Stephen Curry made 337 threes in the first three quarters of games in 2015–16. The old full-season record was 286. Klay Thompson made 276 in full games and 221 in the first three quarters."
+          tip={(d) => (
+            <>
+              <strong>{d[1]} threes</strong>
+              <span>{d[0]}</span>
+              {d[2] && <span>144 in first quarters, 70 in second, 123 in third</span>}
+            </>
+          )}
+        />
+      </ChartFigure>
+
+      <section className="post__prose">
+        <p>
+          His first quarters are a season on their own. He made 144 threes in first quarters, and only 23 other
+          players in the league made more than that all year.
+        </p>
+        <p>
+          His slow stretches don't change the picture either. His coldest 20 games ran from November 20 to January 5.
+          He averaged 4.1 threes a game over that stretch and shot 43.9%. Thompson averaged 3.45 for the season. At the
+          pace of his worst 20 games, Curry makes 324 over his 79 games and still breaks the record by 38.
+        </p>
+      </section>
+
+      <ChartFigure
+        n={4}
+        title="He had the title won in February"
+        sub="Running total of threes by game, 2015–16"
+        legend={[
+          { kind: "line-accent", label: "Curry" },
+          { kind: "line-muted", label: "Klay Thompson, who finished second" },
+        ]}
+        caption="The shaded band is his 20 games with the fewest threes. Hover or tap for each game."
+      >
+        <PaceChart />
+      </ChartFigure>
+
+      <section className="post__prose">
+        <p>
+          He matched Thompson's final total on February 25, in his 55th game, with 24 still to play. Two days later he
+          passed his own record. He could have stopped in February and still led the league.
+        </p>
+      </section>
+
+      <section className="post__prose" aria-labelledby="teams">
+        <h2 id="teams">One player against whole teams</h2>
+        <p>
+          Curry made 5.09 threes a game. As recently as 2000–01, the average NBA team made 4.85.
+        </p>
+      </section>
+
+      <ChartFigure
+        n={5}
+        title="More threes than the average team used to make"
+        sub="Threes made per game by the average team, by season"
+        caption="The shaded band is the three seasons with the shorter line. Hover or tap for each season."
+      >
+        <TeamsChart />
+      </ChartFigure>
+
+      <section className="post__prose">
+        <p>
+          Since the line came in, 44% of the teams that played a full 82-game season finished with fewer than 402
+          threes. The most recent was Memphis in 2012–13, with 382. That was three seasons before Curry did it alone.
+        </p>
+        <p>
+          It holds for the deep ones too. From 28 to 35 feet he made 44. No other team made more than 27.
+        </p>
+      </section>
+
       <section className="post__prose" aria-labelledby="tradeoff">
         <h2 id="tradeoff">Volume and accuracy usually trade off</h2>
         <p>
@@ -502,7 +827,7 @@ export default function Curry2016() {
       </section>
 
       <ChartFigure
-        n={3}
+        n={6}
         title="Nobody else has been near the 402 line"
         sub="Attempts and accuracy, every season with at least 400 three-point attempts"
         legend={[
@@ -521,6 +846,12 @@ export default function Curry2016() {
           also his. The best by anyone else is Malik Beasley's 41.6% in 2024–25.
         </p>
         <p>
+          The player who takes the most threes is usually not one of the most accurate. Since 1992–93 the league's
+          attempts leader has typically ranked around 38th in three-point percentage among qualified shooters. Curry
+          took 229 more than anyone else and ranked second out of 103. No attempts leader other than Curry has finished
+          higher than fifth.
+        </p>
+        <p>
           A number I like for this is makes above average. It's how many more threes a player made than a
           league-average shooter would have made on the same attempts. Curry was 89 above average in 2015–16. Second on
           the all-time list is Curry again, at 66 in 2018–19. The best season by anyone else is Korver's, at 64.
@@ -534,7 +865,7 @@ export default function Curry2016() {
       </section>
 
       <ChartFigure
-        n={4}
+        n={7}
         title="He got better where everyone else falls off"
         sub="Three-point percentage by distance, 2015–16"
         legend={[
@@ -553,6 +884,37 @@ export default function Curry2016() {
           of its two-pointers that year, so a Curry three from four feet behind the line went in more often than an
           average two.
         </p>
+        <p>
+          Put that in points. A Curry three was worth 1.36 points every time he took one. The league's average shot at
+          the rim was worth 1.20.
+        </p>
+      </section>
+
+      <ChartFigure
+        n={8}
+        title="A Curry three was worth more than a shot at the rim"
+        sub="Points per shot, 2015–16"
+        caption="Shots at the rim are those in the restricted area. The top bar is 85 shots, so I wouldn't lean on its second decimal."
+      >
+        <RowBars
+          rows={SHOT_VALUE}
+          max={1.55}
+          fmt={(v) => v.toFixed(2)}
+          label="Bar chart of points per shot in 2015–16. Stephen Curry from 28 feet and out, 1.55. Two free throws by a league-average shooter, 1.51. All of Curry's threes, 1.36. League-average shots at the rim, 1.20. League-average threes, 1.06. League-average twos, 0.98."
+          tip={(d) => (
+            <>
+              <strong>{d[1].toFixed(2)} points</strong>
+              <span>{d[0]}</span>
+            </>
+          )}
+        />
+      </ChartFigure>
+
+      <section className="post__prose">
+        <p>
+          His shots from 28 feet and out were worth 1.55 each. Sending an average shooter to the line for two free
+          throws costs you 1.51. So fouling an ordinary player was cheaper than letting Curry shoot from 28 feet.
+        </p>
       </section>
 
       <section className="post__prose" aria-labelledby="scoring">
@@ -568,7 +930,7 @@ export default function Curry2016() {
       </section>
 
       <ChartFigure
-        n={5}
+        n={9}
         title="The most efficient 30-point season"
         sub="True shooting percentage minus the league average, by points per game"
         legend={[
@@ -607,6 +969,27 @@ export default function Curry2016() {
           The extra threes didn't go to one player. They got spread around. Curry made 1.9% of all the threes in the
           league in 2015–16. Knueppel led the league with 0.8%. To take the share Curry took, a player in 2025–26 would
           have needed about 630.
+        </p>
+        <p>
+          I also asked what the league leader should have made in 2015–16. Since 1997–98 the leader's total has tracked
+          how many threes teams take. Each extra attempt per team per game has been worth about 5.5 more threes for
+          the leader. For 2015–16 that line says 268. Curry was 134 over it, and a typical miss is about 33.
+        </p>
+      </section>
+
+      <ChartFigure
+        n={10}
+        title="By the trend, 402 is still a long way off"
+        sub="The league leader's threes against how many threes teams take, each season since 1997–98"
+        caption="The line is fit to every season except 2015–16. The dashed part is beyond anything the league has done. Shortened seasons are scaled to 82 games."
+      >
+        <TrendChart />
+      </ChartFigure>
+
+      <section className="post__prose">
+        <p>
+          The line doesn't reach 402 until teams are taking 48 threes a game. They took 37 in 2025–26, slightly fewer
+          than the season before.
         </p>
       </section>
 
@@ -659,6 +1042,12 @@ export default function Curry2016() {
           once in 50 tries. So 2015–16 was the best three-point shooter ever, taking more threes than in any other
           season of his career, in the best shooting year of his life. All three had to line up.
         </p>
+        <p>
+          The last thing I did was replay the ten seasons since. Every player with 300 or more attempts keeps the
+          attempts he really took and gets a true three-point percentage based on his career. His makes are then drawn
+          at random. I ran that 100,000 times. The record fell in 4.6% of the replays, and only two seasons ever got
+          there: Harden's 2018–19, about 3.5% of the time, and Curry's 2023–24, about 1%.
+        </p>
       </section>
 
       <section className="post__prose" aria-labelledby="caveats">
@@ -669,6 +1058,40 @@ export default function Curry2016() {
           didn't play enough games either time. At his 2020–21 rate over the 79 games he played in 2015–16, he makes
           423. So the record has been within reach for exactly one player, and he turns 39 in March 2027.
         </p>
+        <p>
+          The replays say the same thing. If I give every player a full 82 games at his own rate, the record falls
+          almost every time, and it's nearly always Curry in 2020–21. Take Curry out and it falls in 30% of the
+          replays, nearly all of them Harden in 2018–19.
+        </p>
+      </section>
+
+      <div className="post__table">
+        <table>
+          <caption className="visually-hidden">How often the record falls in 100,000 replays of the ten seasons since</caption>
+          <thead>
+            <tr>
+              <th scope="col">Replaying 2016–17 to 2025–26</th>
+              <th scope="col" className="is-num">
+                Record falls
+              </th>
+              <th scope="col" className="is-num">
+                Without Curry
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {REPLAYS.map(([scenario, all, without]) => (
+              <tr key={scenario}>
+                <th scope="row">{scenario}</th>
+                <td className="is-num">{all}</td>
+                <td className="is-num">{without}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <section className="post__prose">
         <p>
           Measures like standard deviations get strange when almost nobody shoots. By that measure Darrell Griffith in
           1983–84 was further from the pack than Curry, because he made 91 threes when the average regular made about
@@ -686,7 +1109,7 @@ export default function Curry2016() {
         <p>
           League averages here are added up from player totals, and true shooting uses the usual 0.44 weight on free
           throws. The shot-location data is missing 2 of Curry's 886 three-point attempts and about 0.3% of the
-          league's. Everything is regular season only.
+          league's, so the quarter-by-quarter counts could each be one low. Everything is regular season only.
         </p>
       </section>
 

@@ -1,4 +1,6 @@
-"""New angles on the 2015-16 season that are not in the post yet.
+"""The numbers for the sections added to the post after the first draft:
+parts of the season, whole teams, shot value, the attempts leader, the trend
+line. Plus a few that did not make it in.
 
 Each function is one idea. It prints what it finds and returns the numbers,
 which are saved to output/new_stats.json.
@@ -11,8 +13,9 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from common import (CURRY, OUTPUT, SEASONS, SHORT_SEASONS, YEAR, league_by_season, load_gamelog,
-                    load_player_seasons, load_shots, load_team_seasons, section, team_games, to_jsonable)
+from common import (CURRY, OUTPUT, SHORT_SEASONS, YEAR, coldest_window, leader_trend, league_by_season,
+                    load_gamelog, load_player_seasons, load_shots, load_team_seasons, section, team_games,
+                    to_jsonable)
 
 ps = load_player_seasons()
 league = league_by_season(ps)
@@ -45,7 +48,8 @@ def three_quarters():
     print(f"  next best through three quarters: {next_best.index[0]}, {int(next_best.iloc[0])}")
     print(f"  games with no shot attempt after the third quarter: {no_fourth} of {last_quarter.size}")
     return {"by_quarter": by_quarter.to_dict(), "through_three": through_three,
-            "margin_over_old_record": through_three - OLD_RECORD, "games_without_a_fourth_quarter_shot": no_fourth}
+            "margin_over_old_record": through_three - OLD_RECORD, "next_best_through_three": int(next_best.iloc[0]),
+            "games_without_a_fourth_quarter_shot": no_fourth}
 
 
 def one_quarter():
@@ -66,13 +70,12 @@ def one_quarter():
 def coldest_stretch(window=20):
     """His worst run of games, compared with everyone else's best."""
     section(f"His coldest {window} games")
-    makes = gamelog.fg3.rolling(window).sum()
-    att = gamelog.fg3a.rolling(window).sum()
-    end = int(makes.idxmin())
-    worst_pg = makes.min() / window
-    worst_pct = makes[end] / att[end] * 100
-    start_date, end_date = gamelog.date[end - window + 1], gamelog.date[end]
-    out = {"window": window, "makes_per_game": worst_pg, "pct": worst_pct,
+    first, last = coldest_window(gamelog, window)
+    stretch = gamelog[gamelog.game.between(first, last)]
+    worst_pg = stretch.fg3.sum() / window
+    worst_pct = stretch.fg3.sum() / stretch.fg3a.sum() * 100
+    start_date, end_date = stretch.date.iloc[0], stretch.date.iloc[-1]
+    out = {"window": window, "first_game": first, "last_game": last, "makes_per_game": worst_pg, "pct": worst_pct,
            "from": start_date, "to": end_date,
            "pace_over_his_79_games": worst_pg * curry.games,
            "runner_up_season_per_game": runner_up.fg3 / runner_up.games}
@@ -197,21 +200,19 @@ def ahead_of_schedule():
     take for the line to reach 402.
     """
     section("Ahead of schedule")
-    tg = team_games(ps, teams)
-    rate = league.fg3a / tg                        # three-point attempts per team per game
-    games = tg / teams.groupby("year").size()      # games per team
-    leader = ps.groupby("year").fg3.max() * 82 / games  # leader, scaled to 82 games
-    fit_years = [y for y in SEASONS if y >= 1998 and y != YEAR]
-    fit = stats.linregress(rate[fit_years], leader[fit_years])
-    predicted = fit.intercept + fit.slope * rate
-    resid_sd = (leader[fit_years] - predicted[fit_years]).std(ddof=2)
+    table, fit = leader_trend(ps, teams)
+    predicted = fit.intercept + fit.slope * table.team_attempts
+    rest = table.drop(YEAR)
+    resid_sd = (rest.leader_per_82 - predicted[rest.index]).std(ddof=2)
     needed = (curry.fg3 - fit.intercept) / fit.slope
-    out = {"r_squared": fit.rvalue ** 2, "expected_leader_2016": predicted[YEAR],
-           "residual": curry.fg3 - predicted[YEAR], "residual_sd": (curry.fg3 - predicted[YEAR]) / resid_sd,
-           "team_attempts_needed_for_402": needed, "team_attempts_2016": rate[YEAR], "team_attempts_2026": rate[2026]}
+    out = {"intercept": fit.intercept, "slope": fit.slope, "r_squared": fit.rvalue ** 2,
+           "expected_leader_2016": predicted[YEAR], "residual": curry.fg3 - predicted[YEAR],
+           "typical_miss": resid_sd, "residual_in_sds": (curry.fg3 - predicted[YEAR]) / resid_sd,
+           "team_attempts_needed_for_402": needed, "team_attempts_2016": table.team_attempts[YEAR],
+           "team_attempts_2025": table.team_attempts[2025], "team_attempts_2026": table.team_attempts[2026]}
     print(f"  fit: leader = {fit.intercept:.0f} + {fit.slope:.2f} x team attempts per game (r2 = {fit.rvalue ** 2:.2f})")
-    print(f"  expected leader in 2015-16: {predicted[YEAR]:.0f}. Curry was {out['residual']:.0f} over, {out['residual_sd']:.1f} residual SDs")
-    print(f"  the line reaches 402 at {needed:.0f} attempts per team per game. 2015-16: {rate[YEAR]:.1f}. 2025-26: {rate[2026]:.1f}")
+    print(f"  expected leader in 2015-16: {predicted[YEAR]:.0f}. Curry was {out['residual']:.0f} over; a typical miss is {resid_sd:.0f}")
+    print(f"  the line reaches 402 at {needed:.0f} attempts per team per game. 2015-16: {table.team_attempts[YEAR]:.1f}. 2025-26: {table.team_attempts[2026]:.1f}")
     return out
 
 

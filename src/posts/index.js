@@ -18,7 +18,7 @@ export const POSTS = [
     title: "Why Stephen Curry's 2015–16 season won't happen again",
     dek: "He made 402 threes when the record was 286. Ten seasons later the league takes over 50% more threes and nobody has made 380. I went through the numbers to see whether anyone could do it again.",
     date: "2026-10",
-    minutes: 9,
+    minutes: 14,
     topics: ["Sports", "Statistics"],
     sections: currySections,
     Body: Curry2016,

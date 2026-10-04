@@ -1,7 +1,8 @@
-"""Every number in the post, in the order the post uses them.
+"""The numbers in the post's original sections, in the order the post uses them.
 
 Prints each one and saves them all to output/post_numbers.json, so the text
-can be checked against the data after any change.
+can be checked against the data after any change. The sections added later
+are covered by 04_new_stats.py and 05_simulation.py.
 
     python analysis/curry_2015_16/03_post_numbers.py
 """

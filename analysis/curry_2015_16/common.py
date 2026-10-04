@@ -84,6 +84,37 @@ def load_box() -> pd.DataFrame:
     return pd.read_csv(PROCESSED / "box_2016.csv")
 
 
+def leader_trend(ps: pd.DataFrame, teams: pd.DataFrame, first_year: int = 1998):
+    """The league leader's total against how many threes teams take.
+
+    Returns one row per season since `first_year` (team attempts per game, the
+    leader's total scaled to 82 games, and who it was) and a straight-line fit
+    through every season except 2015-16.
+    """
+    from scipy import stats
+
+    league = league_by_season(ps)
+    tg = team_games(ps, teams)
+    games_per_team = tg / teams.groupby("year").size()
+    lead = ps.loc[ps.groupby("year").fg3.idxmax()].set_index("year")
+    table = pd.DataFrame({
+        "team_attempts": league.fg3a / tg,
+        "leader_per_82": lead.fg3 * 82 / games_per_team,
+        "leader": lead.player,
+        "leader_fg3": lead.fg3,
+    }).loc[first_year:]
+    rest = table.drop(YEAR)
+    fit = stats.linregress(rest.team_attempts, rest.leader_per_82)
+    return table, fit
+
+
+def coldest_window(gamelog: pd.DataFrame, window: int = 20) -> tuple[int, int]:
+    """First and last game number of the `window` games with the fewest threes."""
+    makes = gamelog.fg3.rolling(window).sum()
+    end = int(makes.idxmin())
+    return int(gamelog.game[end - window + 1]), int(gamelog.game[end])
+
+
 def section(title: str) -> None:
     print(f"\n== {title}")
 

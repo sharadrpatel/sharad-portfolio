@@ -20,8 +20,8 @@ Run these from the repo root, in order.
 |---|---|
 | `01_fetch.py` | Downloads the raw data into `analysis/data/raw`. About three minutes the first time, because Basketball-Reference asks for no more than 20 requests a minute. Later runs skip what is already there. |
 | `02_build.py` | Parses the downloads into tidy tables in `analysis/data/processed`. |
-| `03_post_numbers.py` | Prints every number in the post, section by section, and saves them to `output/post_numbers.json`. |
-| `04_new_stats.py` | Angles that are not in the post yet. One function per idea. Saves `output/new_stats.json`. |
+| `03_post_numbers.py` | Prints the numbers in the post's original sections, in order, and saves them to `output/post_numbers.json`. |
+| `04_new_stats.py` | The numbers for the sections added later (parts of the season, whole teams, shot value, the attempts leader, the trend line), plus a few that did not make it in. One function per idea. Saves `output/new_stats.json`. |
 | `05_simulation.py` | Replays the ten seasons since 2015-16 to see how often the record falls. Saves `output/simulation.json`. |
 | `06_export_site.py` | Writes `src/posts/curry-2015-16/data.js` and the CSVs in `public/data`. |
 
