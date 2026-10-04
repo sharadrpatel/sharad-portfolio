@@ -284,6 +284,11 @@ const FIGURES = {
     caption: "Our University of Florida team, as pictured on MathWorks' SCUDEM 2025 winners page.",
     photo: true,
   },
+  "shot-dna-explorer": {
+    img: { src: "/images/shot-dna-explorer.jpg", width: 1400, height: 1290 },
+    alt: "The Shot DNA explorer showing Stephen Curry's 2025–26 season: a hexagon shot map of the half court and a table of his share of shots by zone compared with the league.",
+    caption: "The explorer, showing Stephen Curry's 2025–26 season: where he shoots, how his makes compare with an average shooter, and his share of shots by zone.",
+  },
   "scudem-kl": {
     img: { src: "/images/scudem-kl-drift.png", width: 1000, height: 749 },
     alt: "Line plot of KL divergence from the human data over 40 generations for one, three, and five models. One model levels off near 0.28, three near 0.17, and five near 0.15.",
