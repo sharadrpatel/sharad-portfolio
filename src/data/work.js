@@ -521,9 +521,78 @@ export const SHOT_DNA_FEATURE = {
   figure: "shot-dna-explorer",
 };
 
+// Cell Engineering Lab team study (BME3323L). Source: our final presentation
+// (Apr 17, 2026) and the CV entry. "Lab B" in the slides is our group.
+export const COLLAGEN_FEATURE = {
+  slug: "collagen-fibroblasts",
+  index: "L.01",
+  tier: "featured",
+  caseStudy: true,
+  title: "Does a collagen coating push fibroblasts toward myofibroblasts?",
+  area: ["Cell culture", "Tissue engineering"],
+  lab: "Cell Engineering Lab (BME3323L)",
+  org: "Team of 4, University of Florida",
+  period: "Apr 2026",
+  role: "Team member: study design, cell culture, assays, and analysis",
+  question:
+    "Does coating the culture surface with Type I collagen shift human dermal fibroblasts away from dividing and toward becoming myofibroblasts?",
+  summary:
+    "When a wound heals, fibroblasts can turn into contractile myofibroblasts that make α-smooth muscle actin (α-SMA). Collagen is one of the main proteins cells grip in the extracellular matrix, so our team ran a four-week study testing whether a collagen-coated surface on its own, with no added growth factors, pushes human dermal fibroblasts toward that state.",
+  problem:
+    "This transition is usually driven with soluble signals like TGF-β. Changing the surface the cells grow on could steer them without changing what's in the media. We set success criteria before starting: at least 15% more α-SMA-positive cells and at least a 10% longer doubling time than uncoated controls.",
+  approach: [
+    {
+      label: "Cell culture",
+      text: "Thawed, passaged, and seeded human dermal fibroblasts with aseptic technique: trypsinization, hemocytometer counts with trypan blue exclusion, and Type I collagen coating (1:10 in PBS) for the experimental plates.",
+    },
+    {
+      label: "Metabolic assay",
+      text: "AlamarBlue at three seeding densities in triplicate, reported as percent reduction against blank wells and the highest-density wells.",
+    },
+    {
+      label: "Live/dead imaging",
+      text: "Calcein AM for live cells and ethidium homodimer-1 for dead cells, with a Hoechst nuclear stain, imaged in the DAPI, GFP, and RFP channels.",
+    },
+    {
+      label: "Migration",
+      text: "A 48-hour scratch wound-healing assay with brightfield images at 0, 8, 24, 32, and 48 hours, measuring percent closure and closure rate.",
+    },
+  ],
+  contributions: [
+    "Designing the study and its success criteria with the team",
+    "Thawing, passaging, counting, and seeding cells",
+    "Running the AlamarBlue, live/dead, and scratch assays",
+    "Analyzing the results and tracking down assay artifacts",
+  ],
+  outcomes: [
+    {
+      value: "2×",
+      label: "Faster wound closure",
+      text: "Our collagen-coated replicate closed at 2.51%/hr versus 1.25%/hr for the uncoated control. A parallel collagen replicate closed more slowly (0.49%/hr), so this needs more trials.",
+    },
+    {
+      label: "Adhesion",
+      text: "Live/dead imaging showed denser, more even cell coverage on collagen than the sparse, clustered cells on the uncoated control.",
+    },
+    {
+      label: "Assay issues",
+      text: "AlamarBlue readings were close to saturation at moderate densities, and one blank well read higher than a seeded well. We recommended seeding below 20,000 cells per well and pipetting blanks without bubbles.",
+    },
+    {
+      label: "Not answered yet",
+      text: "Proliferation still looked strong on collagen, so the shift we hypothesized hadn't shown up yet. Testing the success criteria needs α-SMA immunofluorescence and doubling-time measurements, which we proposed as next steps.",
+    },
+  ],
+  tools: ["Mammalian cell culture", "Aseptic technique", "Fluorescence microscopy", "AlamarBlue", "Live/dead staining", "Scratch assay"],
+  figure: "celllab-fluorescence",
+  secondaryFigure: ["celllab-wound-healing"],
+};
+
+export const WETLAB_FEATURES = [COLLAGEN_FEATURE];
+
 export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, SHOT_DNA_FEATURE];
 
-export const CASE_STUDIES = [...RESEARCH, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
+export const CASE_STUDIES = [...RESEARCH, ...WETLAB_FEATURES, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 
 // Old URLs that should keep working.
 const ALIASES = { "plasticity-disease-dynamics": "holt-lab" };

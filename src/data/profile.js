@@ -132,6 +132,18 @@ export const TOOLKIT = [
       "IRB applications & study protocols",
       "Technical reports",
       "Scientific writing",
+    ],
+  },
+  {
+    group: "Wet lab",
+    items: [
+      "Mammalian cell culture & aseptic technique",
+      "Protein purification",
+      "ELISA",
+      "Immunostaining",
+      "Histology",
+      "Fluorescence microscopy",
+      "Cell viability & migration assays",
       "BSL-2 lab techniques",
     ],
   },
