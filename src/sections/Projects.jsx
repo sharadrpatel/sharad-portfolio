@@ -4,6 +4,7 @@ import { FeaturedStudy } from "./Research.jsx";
 import { PROJECTS } from "../data/projects.js";
 import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
+import { FIGURES } from "../components/figures.jsx";
 
 export function SpecTable({ specs, caption }) {
   return (
@@ -33,7 +34,7 @@ export function SpecTable({ specs, caption }) {
 
 function DesignLead({ d }) {
   return (
-    <Reveal as="article" className="design-lead" aria-labelledby={`t-${d.slug}`}>
+    <Reveal as="article" className="design-lead" id={`project-${d.slug}`} aria-labelledby={`t-${d.slug}`}>
       <div className="design-lead__head">
         <p className="label label--accent">{d.index} · {d.lab}</p>
         <h4 id={`t-${d.slug}`} className="h3">{d.title}</h4>
@@ -67,8 +68,12 @@ function DesignLead({ d }) {
 }
 
 function DesignCard({ d, delay }) {
+  const img = d.figure && FIGURES[d.figure]?.img;
   return (
-    <Reveal as="article" className="design-card" delay={delay} aria-labelledby={`t-${d.slug}`}>
+    <Reveal as="article" className="design-card" id={`project-${d.slug}`} delay={delay} aria-labelledby={`t-${d.slug}`}>
+      {img && (
+        <img className="design-card__img" src={img.src} width={img.width} height={img.height} alt="" loading="lazy" decoding="async" />
+      )}
       <p className="label label--muted">
         {d.index} · {d.period}
       </p>
@@ -89,6 +94,19 @@ function DesignCard({ d, delay }) {
         </div>
       </dl>
       <Tags items={d.tools} />
+      {d.caseStudy && (
+        <div className="design-card__links">
+          <TextLink to={`/work/${d.slug}`}>
+            Read the case study<span className="visually-hidden">: {d.title}</span>
+          </TextLink>
+          {d.links?.map((l) => (
+            <a key={l.href} className="text-link" href={l.href} target="_blank" rel="noopener">
+              <span>{l.label}</span>
+              <Arrow dir="out" />
+            </a>
+          ))}
+        </div>
+      )}
     </Reveal>
   );
 }

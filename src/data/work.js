@@ -418,16 +418,69 @@ export const DESIGN = [
   {
     slug: "pediatric-crutch",
     index: "D.02",
+    caseStudy: true,
     title: "Height-adjustable crutch for kids",
     area: ["CAD", "Technical drawing"],
+    lab: "CAD final project, BME 3012",
+    org: "University of Florida",
     period: "Oct 2025",
+    role: "Solo project: every part, drawing, and the assembly",
+    question:
+      "Can a crutch for growing kids adjust to their height and lock securely, with every part drawn well enough to manufacture?",
+    summary:
+      "For my CAD final project I designed a height-adjustable axillary crutch in Onshape for children and shorter teens. It has 11 parts, a telescoping leg that locks with a pin, a dimensioned and toleranced drawing for each part, and an assembly that simulates the height adjustment.",
     problem:
       "Kids grow out of fixed-length crutches, so this one needed to adjust to different heights and lock securely.",
     method:
       "I designed an 11-part telescoping crutch in Onshape, sized with the clinical rule that crutch length is about 77% of height. It fits users from 1.33 to 1.56 m with about 180 mm of pin-locked adjustment. The assembly uses slider mates and travel limits to simulate the telescoping leg.",
     contribution:
       "Dimensioned drawings for every part with ±0.01 mm tolerances at the sliding and pin interfaces, material choices for each part, and a technical report on the design reasoning, tolerancing, limitations, and next steps like FEA and a spring-loaded lock.",
+    approach: [
+      {
+        label: "Sizing",
+        text: "An axillary crutch should be about 77% of the user's height. Collapsed, the crutch is 1,023 mm tall, and about 180 mm of travel takes it to roughly 1,203 mm, which fits users from 1.33 to 1.56 m.",
+      },
+      {
+        label: "Parts",
+        text: "A forked upper frame (one part, mirrored for left and right), a lower frame and extendable leg that telescope, a three-way connector joining them, shoulder and hand rests, a floor cap, and three locking pegs. I picked aluminum alloy for the frames for strength, weight, and corrosion resistance, and stainless steel for the pegs.",
+      },
+      {
+        label: "Drawings",
+        text: "Each part has a multiview drawing with general tolerances by decimal place (±0.1, ±0.01, ±0.001 mm). I tightened the peg holes and the bore the leg slides through to ±0.01 mm, since each peg has to pass through holes in both frames.",
+      },
+      {
+        label: "Assembly",
+        text: "Fastened mates hold the fixed joints. Slider mates move the telescoping leg, limited to 47–230 mm so it reaches every pin hole and no further, and let each peg slide in and out without its head passing through the frame.",
+      },
+    ],
+    contributions: [
+      "Modeled all 11 parts and the assembly in Onshape",
+      "Made a dimensioned multiview drawing for each part, with tolerances and material choices",
+      "Wrote the technical report, including the design's weaknesses and next steps",
+    ],
+    outcomes: [
+      {
+        value: "≈ 180 mm",
+        label: "Height adjustment",
+        text: "From 1,023 mm collapsed to about 1,203 mm extended, in pin-locked steps.",
+      },
+      {
+        label: "Strengths",
+        text: "Realistic, modular parts. The forked frame is stable and has a row of holes, so the hand grip can be moved too.",
+      },
+      {
+        label: "Limitations",
+        text: "The pegs have nothing holding them in and would work loose with use, the rests aren't shaped for comfort, the leg uses a pin instead of a spring-loaded lock, and I haven't simulated loads yet.",
+      },
+      {
+        label: "Next steps",
+        text: "A spring-loaded lock and retained pegs, finite element analysis to cut weight while keeping stiffness, a curved upper frame, and contoured, textured grips.",
+      },
+    ],
+    links: [{ label: "Read the report (PDF)", href: "/papers/crutch-cad-report.pdf" }],
     tools: ["Onshape", "Fusion 360", "Tolerancing", "Technical writing"],
+    figure: "crutch-assembly",
+    secondaryFigure: "crutch-drawing",
   },
   {
     slug: "prosthetic-hand",
@@ -445,8 +498,7 @@ export const DESIGN = [
   },
 ];
 
-// Independent sports analytics project. Source: the shot-dna repository README
-// and the published write-up on GitHub Pages.
+// COMAP MCM/ICM 2026, Problem A. Source: the team's paper.
 export const MCM_FEATURE = {
   slug: "smartphone-battery",
   index: "M.03",
@@ -513,6 +565,7 @@ export const MCM_FEATURE = {
   secondaryFigure: "mcm-soc",
 };
 
+// MAP 4484 team project. Source: the class presentation.
 export const SEATROUT_FEATURE = {
   slug: "seatrout",
   index: "M.04",
@@ -578,6 +631,8 @@ export const SEATROUT_FEATURE = {
   secondaryFigure: "seatrout-validation",
 };
 
+// Independent sports analytics project. Source: the shot-dna repository README
+// and the published write-up on GitHub Pages.
 export const SHOT_DNA_FEATURE = {
   slug: "shot-dna",
   index: "M.05",
