@@ -325,6 +325,18 @@ const FIGURES = {
     caption:
       "State of charge (percent) over one simulated day of heavy use. It drops in steep steps during use and reaches empty at about 11 hours. (The y-axis label in the original plot reads \"cumulative charge drawn,\" but the curve is the battery percentage.) From our paper.",
   },
+  "seatrout-forecast": {
+    img: { src: "/images/seatrout-forecast.png", width: 893, height: 490 },
+    alt: "Line chart of Gulf seatrout biomass from 2000 to 2023, declining from about 74,000 to 52,000 model units, then four 10-year forecasts. Status quo and plus or minus 20% effort keep declining; only the F_MSY scenario rises toward the B_MSY line.",
+    caption:
+      "Historical biomass (2000–2023) and 10-year forecasts under constant fishing rates. Only fishing at F_MSY (0.12/yr) moves the stock back toward B_MSY, the dashed line. From our presentation.",
+  },
+  "seatrout-validation": {
+    img: { src: "/images/seatrout-validation.png", width: 889, height: 470 },
+    alt: "Line chart comparing the assessment's spawning stock biomass, in metric tons, with the scaled model biomass from 2000 to 2023. Both trend down from about 5,000 tons with similar ups and downs.",
+    caption:
+      "External check: model biomass, scaled once, against the assessment's spawning stock biomass, which the model was not fit to. Typical relative error was about 10%. From our presentation.",
+  },
 };
 
 export function WorkFigure({ name, n, wide }) {
