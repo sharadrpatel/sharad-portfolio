@@ -289,6 +289,18 @@ const FIGURES = {
     alt: "The Shot DNA explorer showing Stephen Curry's 2025–26 season: a hexagon shot map of the half court and a table of his share of shots by zone compared with the league.",
     caption: "The explorer, showing Stephen Curry's 2025–26 season: where he shoots, how his makes compare with an average shooter, and his share of shots by zone.",
   },
+  "celllab-fluorescence": {
+    img: { src: "/images/celllab-fluorescence.jpg", width: 1400, height: 710 },
+    alt: "Six fluorescence microscope images of fibroblasts in a grid. Collagen replicate B shows dense, even cell coverage with very few red dead cells. The uncoated control's first well has only a few scattered cells.",
+    caption:
+      "Live/dead imaging, merged DAPI (nuclei), GFP (live), and RFP (dead) channels. Our collagen-coated replicate (B) had dense, even coverage with very few dead cells; the uncoated control's first well had low confluency. Scale bars are 1000 µm.",
+  },
+  "celllab-wound-healing": {
+    img: { src: "/images/celllab-wound-healing.jpg", width: 1400, height: 625 },
+    alt: "Table of brightfield images of scratch wounds from Wednesday morning to Friday morning for Lab A, Lab B, and the control, with red lines marking the wound edges and closure rates of 0.49, 2.51, and 1.25 percent per hour.",
+    caption:
+      "Scratch wound-healing assay over 48 hours, with red lines marking the wound edges. Lab B is our group's collagen-coated replicate (2.51%/hr); Lab A is a parallel collagen replicate (0.49%/hr); the uncoated control closed at 1.25%/hr.",
+  },
   "scudem-kl": {
     img: { src: "/images/scudem-kl-drift.png", width: 1000, height: 749 },
     alt: "Line plot of KL divergence from the human data over 40 generations for one, three, and five models. One model levels off near 0.28, three near 0.17, and five near 0.15.",

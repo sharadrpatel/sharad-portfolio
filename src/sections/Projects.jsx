@@ -1,5 +1,5 @@
 import { useState, useId } from "react";
-import { DESIGN, MODELING_FEATURES } from "../data/work.js";
+import { DESIGN, MODELING_FEATURES, WETLAB_FEATURES } from "../data/work.js";
 import { FeaturedStudy } from "./Research.jsx";
 import { PROJECTS } from "../data/projects.js";
 import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
@@ -162,8 +162,8 @@ export default function Projects() {
           id="projects-title"
           number="02"
           label="Projects"
-          title="Design and modeling projects"
-          dek="Senior design, class projects, modeling competitions, and a few things I built on my own. Each one covers the problem, what we did, and how it turned out."
+          title="Design, lab, and modeling projects"
+          dek="Senior design, class projects, wet lab work, modeling competitions, and a few things I built on my own. Each one covers the problem, what we did, and how it turned out."
         />
 
         <div className="subhead">
@@ -178,12 +178,22 @@ export default function Projects() {
         </div>
 
         <div className="subhead">
+          <h3 className="label">Wet lab</h3>
+          <p className="subhead__note">Cell culture and assays.</p>
+        </div>
+        <div className="studies">
+          {WETLAB_FEATURES.map((w, i) => (
+            <FeaturedStudy key={w.slug} w={w} figN={4 + i} idPrefix="project" heading="h4" />
+          ))}
+        </div>
+
+        <div className="subhead">
           <h3 className="label">Modeling &amp; computation</h3>
           <p className="subhead__note">Class projects, competitions, and independent work.</p>
         </div>
         <div className="studies">
           {MODELING_FEATURES.map((w, i) => (
-            <FeaturedStudy key={w.slug} w={w} figN={4 + i} idPrefix="project" heading="h4" />
+            <FeaturedStudy key={w.slug} w={w} figN={4 + WETLAB_FEATURES.length + i} idPrefix="project" heading="h4" />
           ))}
         </div>
 
