@@ -313,6 +313,18 @@ const FIGURES = {
     caption:
       "Model 2: the task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. The distribution collapses into spikes at those tasks. From our report.",
   },
+  "mcm-sensitivity": {
+    img: { src: "/images/mcm-sensitivity.png", width: 1261, height: 1070 },
+    alt: "Bar chart of linear and rank correlation between each of 22 model parameters and the final state of charge. The largest bars are negative for network and processor draw terms and positive for battery capacity; thermal parameters are near zero.",
+    caption:
+      "Global sensitivity analysis: linear and rank correlation of each parameter with the state of charge after 16 hours, from 10⁴ Monte Carlo samples. Negative bars mean faster drain. From our paper.",
+  },
+  "mcm-soc": {
+    img: { src: "/images/mcm-soc.png", width: 1261, height: 1360 },
+    alt: "Line plot of battery percentage over 16 hours. It falls slowly for the first five hours, then in steep steps, reaching zero at about 11 hours.",
+    caption:
+      "State of charge (percent) over one simulated day of heavy use. It drops in steep steps during use and reaches empty at about 11 hours. (The y-axis label in the original plot reads \"cumulative charge drawn,\" but the curve is the battery percentage.) From our paper.",
+  },
 };
 
 export function WorkFigure({ name, n, wide }) {

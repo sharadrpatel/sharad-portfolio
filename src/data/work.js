@@ -447,9 +447,75 @@ export const DESIGN = [
 
 // Independent sports analytics project. Source: the shot-dna repository README
 // and the published write-up on GitHub Pages.
+export const MCM_FEATURE = {
+  slug: "smartphone-battery",
+  index: "M.03",
+  tier: "featured",
+  caseStudy: true,
+  title: "Why phone batteries drain unevenly: a coupled ODE model",
+  area: ["ODE modeling", "Uncertainty quantification"],
+  lab: "2026 MCM/ICM, Problem A",
+  org: "COMAP Mathematical Contest in Modeling",
+  period: "2026",
+  role: "Team member and co-author of the paper",
+  badge: "Successful Participant",
+  question:
+    "Why does a phone's battery percentage drop in uneven jumps over a day instead of in a straight line, and which parts of the phone actually drive it?",
+  summary:
+    "For Problem A of the 2026 Mathematical Contest in Modeling, our team built a continuous-time model of a smartphone's state of charge over a 16-hour day. Instead of subtracting charge at a fixed rate, it ties battery drain to processor, network, and display use, plus battery temperature, efficiency, and effective capacity. Our paper was recognized as a Successful Participant.",
+  problem:
+    "Phones usually estimate remaining battery by extrapolating in a straight line, which is why they can die sooner than the percentage suggests. The real drain depends on what the phone is doing, when, and how hot the battery gets, and those effects feed back on each other.",
+  approach: [
+    {
+      label: "Core equation",
+      text: "We started from Coulomb counting: the rate of change of state of charge is the current drawn, scaled by Coulombic efficiency and divided by effective capacity. Normalizing by capacity keeps the state of charge between 0 and 1, like the percentage on a phone.",
+    },
+    {
+      label: "Usage",
+      text: "We split the total current into processor, network, and display draw, all gated by a screen on/off indicator. Screen time was scattered randomly across a 07:00 to 23:00 waking window, and processor and network load followed truncated Fourier series.",
+    },
+    {
+      label: "Feedbacks",
+      text: "Three nonlinear effects are coupled in: a Newton-cooling equation for battery temperature, an Arrhenius model of SEI-related losses for Coulombic efficiency, and the Peukert effect, which shrinks usable capacity at high current.",
+    },
+    {
+      label: "Sensitivity",
+      text: "We treated 22 parameters as uniform random variables and ran 10⁴ Monte Carlo samples through UQLab, using linear and rank correlations to see which ones moved the final state of charge after 16 hours.",
+    },
+  ],
+  contributions: [
+    "Co-developed the ODE model and its MATLAB implementation",
+    "Worked on the global sensitivity analysis and time-to-empty simulations",
+    "Co-wrote the paper",
+  ],
+  outcomes: [
+    {
+      value: "Successful Participant",
+      label: "MCM/ICM 2026",
+      text: "COMAP's recognition for a complete paper that addressed the problem.",
+    },
+    {
+      label: "What drives drain",
+      text: "Current-draw terms for the processor, network activity, and background load had the strongest effect on the final charge. Screen brightness mattered less than we expected, and temperature acted mostly indirectly, through efficiency and capacity.",
+    },
+    {
+      label: "Uneven decline",
+      text: "Simulated state of charge falls in steep steps during heavy use instead of in a straight line, which helps explain why phones sometimes shut down earlier than their battery indicator predicts.",
+    },
+    {
+      label: "Recommendations",
+      text: "Cutting processor-heavy background work does more than dimming the screen, and keeping a stable Wi-Fi connection avoids the repeated high-power \"tail\" after network activity.",
+    },
+  ],
+  links: [{ label: "Read our paper (PDF)", href: "/papers/mcm-2026-smartphone-battery.pdf" }],
+  tools: ["MATLAB", "ode45", "UQLab", "Monte Carlo simulation", "Sensitivity analysis"],
+  figure: "mcm-sensitivity",
+  secondaryFigure: "mcm-soc",
+};
+
 export const SHOT_DNA_FEATURE = {
   slug: "shot-dna",
-  index: "M.03",
+  index: "M.04",
   tier: "featured",
   caseStudy: true,
   title: "Shot DNA: describing NBA players by the shots they take",
@@ -590,7 +656,7 @@ export const COLLAGEN_FEATURE = {
 
 export const WETLAB_FEATURES = [COLLAGEN_FEATURE];
 
-export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, SHOT_DNA_FEATURE];
+export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SHOT_DNA_FEATURE];
 
 export const CASE_STUDIES = [...RESEARCH, ...WETLAB_FEATURES, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 
