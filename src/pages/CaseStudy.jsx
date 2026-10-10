@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CASE_STUDIES, RESEARCH, MODELING_FEATURES, WETLAB_FEATURES } from "../data/work.js";
+import { CASE_STUDIES, RESEARCH } from "../data/work.js";
 import { Link } from "../lib/router.jsx";
 import { Tags, TextLink, Arrow, Rich } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
@@ -26,9 +26,7 @@ export default function CaseStudy({ work: w }) {
   const isResearch = RESEARCH.includes(w);
   const backHref = isResearch
     ? `/#research-${w.slug}`
-    : [...MODELING_FEATURES, ...WETLAB_FEATURES].includes(w)
-      ? `/#project-${w.slug}`
-      : "/#projects";
+    : `/#project-${w.slug}`;
   const i = CASE_STUDIES.indexOf(w);
   const next = CASE_STUDIES[(i + 1) % CASE_STUDIES.length];
 

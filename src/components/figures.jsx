@@ -252,7 +252,7 @@ function SigmoidResponse() {
   );
 }
 
-const FIGURES = {
+export const FIGURES = {
   hill: {
     Svg: HillModel,
     caption:
@@ -336,6 +336,16 @@ const FIGURES = {
     alt: "Line chart comparing the assessment's spawning stock biomass, in metric tons, with the scaled model biomass from 2000 to 2023. Both trend down from about 5,000 tons with similar ups and downs.",
     caption:
       "External check: model biomass, scaled once, against the assessment's spawning stock biomass, which the model was not fit to. Typical relative error was about 10%. From our presentation.",
+  },
+  "crutch-assembly": {
+    img: { src: "/images/crutch-assembly.png", width: 1200, height: 1424 },
+    alt: "Two Onshape renders of the crutch side by side: on the left collapsed, with the leg tucked into the lower frame; on the right fully extended, with the gray leg reaching well below the frame. Both have a padded shoulder rest, a hand grip between two blue aluminum frame rails, and rows of pin holes.",
+    caption: "The assembly in Onshape, collapsed (left) and fully extended (right). The leg slides on a slider mate and locks with a pin.",
+  },
+  "crutch-drawing": {
+    img: { src: "/images/crutch-drawing.png", width: 1600, height: 1234 },
+    alt: "Multiview engineering drawing of the left upper frame with an overall height of 926.89 mm, 172.1 degree bends, a 19 mm tube diameter, and 10 mm pin holes toleranced at plus or minus 0.01 mm.",
+    caption: "Multiview drawing of the left upper frame, one of the drawings in the report. Pin holes are held to ±0.01 mm.",
   },
 };
 
