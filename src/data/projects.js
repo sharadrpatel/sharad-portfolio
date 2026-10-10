@@ -3,18 +3,6 @@
 
 export const PROJECTS = [
   {
-    id: "battery-dynamics",
-    title: "Smartphone battery drain",
-    context: "COMAP Mathematical Contest in Modeling",
-    domain: "ODE modeling · UQ",
-    problem: "Predict how a phone's battery charge drops over a day of realistic, uneven use.",
-    method:
-      "A continuous-time ODE model that includes processor load, screen brightness, network activity, and temperature effects. We modeled user behavior with random on/off indicator functions and Fourier-series patterns for CPU and network use.",
-    outcome:
-      "A global Monte Carlo sensitivity analysis (10⁴ simulations) showed processor load was the biggest driver of battery drain.",
-    tools: ["MATLAB", "ode45", "Stochastic modeling", "Uncertainty quantification"],
-  },
-  {
     id: "seatrout",
     title: "Spotted seatrout population model",
     context: "Independent project",
