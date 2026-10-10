@@ -3,20 +3,6 @@
 
 export const PROJECTS = [
   {
-    id: "seatrout",
-    title: "Spotted seatrout population model",
-    context: "Independent project",
-    domain: "ODE modeling · Calibration",
-    problem:
-      "Estimate how Florida's spotted seatrout population changes over time and test fishing policies against sustainable-yield targets.",
-    method:
-      "A stock-assessment ODE model with logistic growth and fishing removals. I combined FWC landings, CPUE, and spawning stock biomass data from 2000 to 2023 into one time series and fit the parameters with constrained Nelder–Mead optimization.",
-    outcome:
-      "The model matched independent spawning stock biomass data with less than 10% relative error. Ten-year simulations at constant fishing rates gave estimates of F_MSY and B_MSY.",
-    tools: ["Python", "SciPy", "pandas", "Matplotlib", "Jupyter"],
-    link: { label: "Code on GitHub", href: "https://github.com/sharadrpatel/Fish_Stock_ODE_Modeling" },
-  },
-  {
     id: "neural-network",
     title: "Neural network from scratch",
     context: "Independent project",

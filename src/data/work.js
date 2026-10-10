@@ -513,9 +513,74 @@ export const MCM_FEATURE = {
   secondaryFigure: "mcm-soc",
 };
 
+export const SEATROUT_FEATURE = {
+  slug: "seatrout",
+  index: "M.04",
+  tier: "featured",
+  caseStudy: true,
+  title: "Modeling Florida's Gulf spotted seatrout to test fishing rules",
+  area: ["Population modeling", "Parameter estimation"],
+  lab: "MAP 4484 class project, team of 3",
+  org: "University of Florida",
+  role: "Team member, with Pranav Kulkarni and Hiren Patel",
+  question:
+    "How has the Gulf spotted seatrout population changed since 2000, and what fishing pressure would let it recover instead of keep shrinking?",
+  summary:
+    "A class project in mathematical modeling: we built population models for spotted seatrout on Florida's Gulf coast and fit them to the data in FWC's 2024 stock assessment (2000 to 2023). We checked the fitted model against the assessment's spawning stock biomass, forecast ten years ahead under different fishing rates, and proposed four management changes.",
+  problem:
+    "Spotted seatrout is one of Florida's most popular inshore fish. Nobody counts the fish directly; what exists are indexes of abundance (catch per unit of fishing effort from anglers, and fishery-independent surveys), each on its own scale. The model has to infer the population behind those noisy indexes before it can say anything about how much fishing is sustainable.",
+  approach: [
+    {
+      label: "Baseline",
+      text: "Because the data are annual, we started with a discrete, year-by-year logistic model: births follow logistic growth and a removal term accounts for harvest. We fit growth rate, carrying capacity, starting biomass, and a catchability scale factor to the CPUE index by minimizing a log-residual loss with the Nelder–Mead method.",
+    },
+    {
+      label: "Two indexes",
+      text: "We upgraded to a logistic model with fishing mortality F(t) taken from the assessment, fit to two independent indexes at once: the fishery-dependent MRIP catch rate and the fishery-independent FIM survey. Using both as separate readings of the same hidden biomass made the estimates of r and K more robust.",
+    },
+    {
+      label: "Age structure",
+      text: "We also built a two-state juvenile–adult ODE with Beverton–Holt recruitment, natural mortality for each stage, a maturation rate, and F-based catch removals from each stage.",
+    },
+    {
+      label: "Forecasts",
+      text: "We projected the stock ten years forward under constant fishing rates: the status quo (F = 0.27/yr), 20% less effort, 20% more, and F_MSY, the rate that gives maximum sustainable yield.",
+    },
+  ],
+  contributions: [
+    "Co-developed the logistic and juvenile–adult models in Python",
+    "Co-wrote the parameter fitting, validation, and 10-year harvest forecasts",
+    "Co-authored the management proposals and the final presentation",
+  ],
+  outcomes: [
+    {
+      value: "≈ 10%",
+      label: "Typical error vs. assessment",
+      text: "Scaled to the assessment's spawning stock biomass, which we did not fit to, the model's log RMSE was 0.095, about 9.9% typical relative error.",
+    },
+    {
+      value: "0.119/yr",
+      label: "Estimated F_MSY",
+      text: "Less than half the current fishing rate of about 0.27/yr.",
+    },
+    {
+      label: "Forecasts",
+      text: "At the status quo rate, and even with 20% less effort, the forecast stock keeps declining over the next decade. Only fishing near F_MSY turned it back toward the maximum-sustainable-yield level.",
+    },
+    {
+      label: "Proposed rules",
+      text: "Cut the Big Bend bag limit from 5 to 3 fish, ban night fishing during the spring and summer spawning season, close key spawning grounds near grass flats, and allow 4 fish in deeper winter waters to offset the spawning-season limits.",
+    },
+  ],
+  links: [{ label: "Code on GitHub", href: "https://github.com/sharadrpatel/Fish_Stock_ODE_Modeling" }],
+  tools: ["Python", "SciPy", "NumPy", "pandas", "Matplotlib", "Jupyter"],
+  figure: "seatrout-forecast",
+  secondaryFigure: "seatrout-validation",
+};
+
 export const SHOT_DNA_FEATURE = {
   slug: "shot-dna",
-  index: "M.04",
+  index: "M.05",
   tier: "featured",
   caseStudy: true,
   title: "Shot DNA: describing NBA players by the shots they take",
@@ -656,7 +721,7 @@ export const COLLAGEN_FEATURE = {
 
 export const WETLAB_FEATURES = [COLLAGEN_FEATURE];
 
-export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SHOT_DNA_FEATURE];
+export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SEATROUT_FEATURE, SHOT_DNA_FEATURE];
 
 export const CASE_STUDIES = [...RESEARCH, ...WETLAB_FEATURES, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 

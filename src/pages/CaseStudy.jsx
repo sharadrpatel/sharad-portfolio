@@ -81,10 +81,12 @@ export default function CaseStudy({ work: w }) {
                 <span>{w.org}</span>
               </dd>
             </div>
-            <div>
-              <dt className="label label--muted">When</dt>
-              <dd>{w.period}</dd>
-            </div>
+            {w.period && (
+              <div>
+                <dt className="label label--muted">When</dt>
+                <dd>{w.period}</dd>
+              </div>
+            )}
             <div>
               <dt className="label label--muted">Role</dt>
               <dd>{w.role}</dd>

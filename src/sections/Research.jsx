@@ -27,10 +27,12 @@ function StudyMeta({ w }) {
           <dt>Where</dt>
           <dd>{w.lab}</dd>
         </div>
-        <div>
-          <dt>Period</dt>
-          <dd>{w.period}</dd>
-        </div>
+        {w.period && (
+          <div>
+            <dt>Period</dt>
+            <dd>{w.period}</dd>
+          </div>
+        )}
         <div>
           <dt>Field</dt>
           <dd>{w.area.join(" · ")}</dd>
