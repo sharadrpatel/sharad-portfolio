@@ -286,25 +286,25 @@ export const MODELING_FEATURE = {
   secondaryFigure: "artery",
 };
 
-// MAP 4314 team project, in the planning stage. Source: the team's design and
+// Teaching demo built for the MAP 4314 instructor, in the planning stage. Source: the team's design and
 // prototyping plan (Oct 2026).
 export const DUFFING_FEATURE = {
   slug: "duffing-oscillator",
   index: "M.02",
   tier: "featured",
   caseStudy: true,
-  title: "A tabletop chaos demo: building a Duffing oscillator for class",
+  title: "A tabletop chaos demo: building a Duffing oscillator for teaching",
   area: ["Nonlinear dynamics", "Hardware prototyping"],
-  lab: "Dynamical Systems and Chaos (MAP 4314), team project",
+  lab: "Teaching demo for Dynamical Systems and Chaos (MAP 4314)",
   org: "University of Florida",
   period: "Oct 2026 – Present",
   role: "Team member; co-wrote the design and prototyping plan",
   question:
     "Can one device on an instructor's table show a pitchfork bifurcation, hysteresis, period doubling, and chaos on demand, with the live data plotted against the equations?",
   summary:
-    "Our team is building a classroom demo for Dynamical Systems and Chaos: a thin steel beam pulled toward two magnets and shaken at its base. Every parameter in the model is on a knob, and a laptop app solves the Duffing equation with the live settings and overlays it on the measured motion. We picked it over a Hopf circuit, a flutter reed, a Watt governor, and a pendulum because one device covers the most of the course.",
+    "Our team is building a demo that a professor will use in her lectures for Dynamical Systems and Chaos (MAP 4314): a thin steel beam pulled toward two magnets and shaken at its base. Every parameter in the model is on a knob, and a laptop app solves the Duffing equation with the live settings and overlays it on the measured motion. We picked it over a Hopf circuit, a flutter reed, a Watt governor, and a pendulum because one device covers the most of what the course teaches.",
   problem:
-    "Bifurcations and chaos are usually taught with phase portraits on a slide. The course asked for a demo that fits on an instructor's table with no utilities, lets students change the model's parameters and see them, plots device data against the numerical solution, and shows different behavior in different regimes. The bonus is something students don't expect: a perfectly periodic push that produces motion that never repeats.",
+    "Bifurcations and chaos are usually taught with phase portraits on a slide. The professor asked for a demo that fits on an instructor's table with no utilities, lets students change the model's parameters and see them, plots device data against the numerical solution, and shows different behavior in different regimes. The bonus is something students don't expect: a perfectly periodic push that produces motion that never repeats.",
   approach: [
     {
       label: "Model",
