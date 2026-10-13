@@ -252,7 +252,54 @@ function SigmoidResponse() {
   );
 }
 
+function DoubleWell() {
+  const panels = [
+    { alpha: 1, cx: 62, name: "wide spacing", note: "one well", rests: [0], unstable: [] },
+    { alpha: 0, cx: 180, name: "critical spacing", note: "flat bottom", rests: [0], unstable: [] },
+    { alpha: -1, cx: 298, name: "narrow spacing", note: "two wells", rests: [-1, 1], unstable: [0] },
+  ];
+  const base = 92, sx = 30, sy = 40;
+  const V = (a, x) => 0.5 * a * x * x + 0.25 * x ** 4;
+  const path = (a, cx) => {
+    const pts = [];
+    for (let i = 0; i <= 64; i++) {
+      const x = -1.6 + (3.2 * i) / 64;
+      if (V(a, x) <= 1.5) pts.push([cx + x * sx, base - V(a, x) * sy]);
+    }
+    return "M" + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(" L");
+  };
+  return (
+    <svg viewBox="0 0 360 160" role="img" aria-labelledby="fig-dw-t">
+      <title id="fig-dw-t">
+        Three potential energy curves for the beam. With the magnets far apart there is one well with the beam resting
+        in the middle. At a critical spacing the bottom flattens. With the magnets close there are two wells, one on
+        each side, with an unstable balance point between them.
+      </title>
+      {panels.map((p) => (
+        <g key={p.name}>
+          <line className="fig-grid" x1={p.cx - 54} x2={p.cx + 54} y1={base} y2={base} strokeDasharray="3 4" />
+          <path className="fig-accent-stroke fig-thick" d={path(p.alpha, p.cx)} fill="none" />
+          {p.rests.map((x) => (
+            <circle key={x} className="fig-model" cx={p.cx + x * sx} cy={base - V(p.alpha, x) * sy - 5} r="5" />
+          ))}
+          {p.unstable.map((x) => (
+            <circle key={x} className="fig-ink" cx={p.cx + x * sx} cy={base - V(p.alpha, x) * sy - 5} r="5" fill="none" />
+          ))}
+          <text className="fig-label fig-label--ink" x={p.cx} y={base + 34} textAnchor="middle">{p.name}</text>
+          <text className="fig-label" x={p.cx} y={base + 48} textAnchor="middle">{p.note}</text>
+        </g>
+      ))}
+      <text className="fig-label" x={8} y={16}>potential energy V(x)</text>
+    </svg>
+  );
+}
+
 export const FIGURES = {
+  "double-well": {
+    Svg: DoubleWell,
+    caption:
+      "Illustration of the pitchfork the demo starts with: the scaled potential V(x) = ½αx² + ¼x⁴ as the magnets move closer. Once α turns negative, the single rest position (filled dot) splits into two stable ones with an unstable one (open dot) between them.",
+  },
   hill: {
     Svg: HillModel,
     caption:
