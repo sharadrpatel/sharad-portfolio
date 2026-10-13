@@ -60,6 +60,12 @@ export const CURRENTLY = [
     href: "/work/in-stent-restenosis",
   },
   {
+    what: "Dynamical Systems: a tabletop chaos demo (Duffing oscillator)",
+    where: "Class project, MAP 4314",
+    since: "2026",
+    href: "/work/duffing-oscillator",
+  },
+  {
     what: "CNA on a medical–surgical unit",
     where: "HCA Florida North Florida",
     since: "2026",

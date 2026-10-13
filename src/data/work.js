@@ -286,11 +286,79 @@ export const MODELING_FEATURE = {
   secondaryFigure: "artery",
 };
 
+// MAP 4314 team project, in the planning stage. Source: the team's design and
+// prototyping plan (Oct 2026).
+export const DUFFING_FEATURE = {
+  slug: "duffing-oscillator",
+  index: "M.02",
+  tier: "featured",
+  caseStudy: true,
+  title: "A tabletop chaos demo: building a Duffing oscillator for class",
+  area: ["Nonlinear dynamics", "Hardware prototyping"],
+  lab: "Dynamical Systems and Chaos (MAP 4314), team project",
+  org: "University of Florida",
+  period: "Oct 2026 – Present",
+  role: "Team member; co-wrote the design and prototyping plan",
+  question:
+    "Can one device on an instructor's table show a pitchfork bifurcation, hysteresis, period doubling, and chaos on demand, with the live data plotted against the equations?",
+  summary:
+    "Our team is building a classroom demo for Dynamical Systems and Chaos: a thin steel beam pulled toward two magnets and shaken at its base. Every parameter in the model is on a knob, and a laptop app solves the Duffing equation with the live settings and overlays it on the measured motion. We picked it over a Hopf circuit, a flutter reed, a Watt governor, and a pendulum because one device covers the most of the course.",
+  problem:
+    "Bifurcations and chaos are usually taught with phase portraits on a slide. The course asked for a demo that fits on an instructor's table with no utilities, lets students change the model's parameters and see them, plots device data against the numerical solution, and shows different behavior in different regimes. The bonus is something students don't expect: a perfectly periodic push that produces motion that never repeats.",
+  approach: [
+    {
+      label: "Model",
+      text: "The beam tip follows the forced Duffing equation, ẍ + δẋ + αx + βx³ = γ cos ωt. Each knob maps to one parameter: magnet spacing sets α (its sign change is the pitchfork), an eddy-current brake sets the damping δ, drive amplitude sets γ, and drive frequency sets ω. Magnet spacing is calibrated from equilibrium positions, δ from ring-down tests, and γ from an accelerometer on the base.",
+    },
+    {
+      label: "Hardware",
+      text: "Spring-steel shim clamped to a heavy base plate, two neodymium magnets on a lead-screw slide, and a copper or aluminum brake plate near the tip. The riskiest part is the drive, since the beam's natural frequency is likely a few hertz to about 15 Hz, so the first bench test compares a voice-coil shaker against a servo-driven Scotch yoke for stroke at low frequency.",
+    },
+    {
+      label: "Electronics",
+      text: "A microcontroller generates the sine drive, samples a Hall sensor at the beam tip and the base accelerometer on a fixed schedule, and streams frames over USB. A PI loop holds the measured base acceleration at the commanded γ, so the number in the model matches the hardware. Knob values show on an OLED and in the app.",
+    },
+    {
+      label: "Software",
+      text: "A Python app with live plots, sliders that mirror the knobs, an ODE overlay started from the measured state, Poincaré sections strobed at the drive phase, and an automatic amplitude sweep that builds a bifurcation diagram live. A simulated device that emits the same data from the ODE plus noise lets the app be finished before the hardware works.",
+    },
+    {
+      label: "Testing",
+      text: "Ten tests run from sensor calibration and ring-down fits through frequency sweeps for hysteresis, amplitude sweeps for period doubling, model overlay in periodic regimes (and Poincaré sections in chaotic ones), an hour-long endurance run, a classroom dry run, and a safety review for the magnets and moving parts.",
+    },
+  ],
+  contributions: [
+    "Co-wrote the design and prototyping plan: concept-to-knob mapping, governing model, architecture, test plan, and risks",
+    "Mapped each hardware knob to a parameter of the Duffing equation and planned how to identify it from data",
+  ],
+  outcomes: [
+    {
+      label: "Regimes on demand",
+      text: "Show at least three distinct behaviors repeatably in one class: one well, two wells, period doubling, and chaotic hopping between wells.",
+    },
+    {
+      label: "Model vs. device",
+      text: "Plot measured and simulated motion together, live, with the parameter values visible to the room. Within about 10% in periodic regimes; in chaos, compare Poincaré sections instead.",
+    },
+    {
+      label: "Easy to run",
+      text: "Someone who didn't build it can set it up in about 10 minutes, with recorded parameter sweeps as a backup if the device can't come to class.",
+    },
+    {
+      label: "Stretch goal",
+      text: "Feed velocity back through the drive to add negative damping and bring back a Hopf bifurcation (Van der Pol–Duffing behavior).",
+    },
+  ],
+  status: "In planning: the design is written up, and bench tests of the drive come first.",
+  tools: ["Python", "SciPy", "PySide6 / pyqtgraph", "C++ firmware", "Teensy or STM32", "Hall and MEMS sensors"],
+  figure: "double-well",
+};
+
 // SCUDEM 2025 entry (Outstanding award). Source: our written report in
 // public/papers/ and the MathWorks student competition winners page.
 export const SCUDEM_FEATURE = {
   slug: "ai-model-collapse",
-  index: "M.02",
+  index: "M.03",
   tier: "featured",
   caseStudy: true,
   title: "Modeling AI model collapse when many models share the same data",
@@ -501,7 +569,7 @@ export const DESIGN = [
 // COMAP MCM/ICM 2026, Problem A. Source: the team's paper.
 export const MCM_FEATURE = {
   slug: "smartphone-battery",
-  index: "M.03",
+  index: "M.04",
   tier: "featured",
   caseStudy: true,
   title: "Why phone batteries drain unevenly: a coupled ODE model",
@@ -568,7 +636,7 @@ export const MCM_FEATURE = {
 // MAP 4484 team project. Source: the class presentation.
 export const SEATROUT_FEATURE = {
   slug: "seatrout",
-  index: "M.04",
+  index: "M.05",
   tier: "featured",
   caseStudy: true,
   title: "Modeling Florida's Gulf spotted seatrout to test fishing rules",
@@ -635,7 +703,7 @@ export const SEATROUT_FEATURE = {
 // and the published write-up on GitHub Pages.
 export const SHOT_DNA_FEATURE = {
   slug: "shot-dna",
-  index: "M.05",
+  index: "M.06",
   tier: "featured",
   caseStudy: true,
   title: "Shot DNA: describing NBA players by the shots they take",
@@ -776,7 +844,7 @@ export const COLLAGEN_FEATURE = {
 
 export const WETLAB_FEATURES = [COLLAGEN_FEATURE];
 
-export const MODELING_FEATURES = [MODELING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SEATROUT_FEATURE, SHOT_DNA_FEATURE];
+export const MODELING_FEATURES = [MODELING_FEATURE, DUFFING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SEATROUT_FEATURE, SHOT_DNA_FEATURE];
 
 export const CASE_STUDIES = [...RESEARCH, ...WETLAB_FEATURES, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 
