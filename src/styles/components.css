@@ -315,7 +315,7 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 
 .site-nav.is-scrolled,
 .site-nav.is-open {
-  background: rgb(243 242 238 / 0.92);
+  background: var(--nav-glass);
   border-bottom-color: var(--rule);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
   backdrop-filter: saturate(140%) blur(10px);
@@ -330,6 +330,7 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 }
 
 .wordmark {
+  margin-right: auto;
   display: flex;
   align-items: center;
   gap: 0.7rem;

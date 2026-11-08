@@ -9,7 +9,18 @@
       content="Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics."
     />
     <meta name="theme-color" content="#f3f2ee" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      // Pick the theme before first paint: a saved choice, else the system setting.
+      (function () {
+        try {
+          var t = localStorage.getItem("sp-theme");
+          if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.theme = t;
+          if (t === "dark") document.querySelector('meta[name="theme-color"]').content = "#0e0e0d";
+        } catch (e) {}
+      })();
+    </script>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sharad Patel — Biomedical Engineering" />
     <meta

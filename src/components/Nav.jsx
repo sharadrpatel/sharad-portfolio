@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "../lib/router.jsx";
 import { PROFILE } from "../data/profile.js";
 import { Arrow } from "./ui.jsx";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 export const NAV = [
   { id: "research", label: "Research" },
@@ -48,6 +49,8 @@ export default function Nav({ path, section }) {
   const active = useActiveSection(isHome);
   const current = isHome ? active : section;
   const [scrolled, setScrolled] = useState(false);
+  // Tucks away while reading down the page, comes back on any scroll up.
+  const [tucked, setTucked] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const toggleRef = useRef(null);
@@ -55,9 +58,15 @@ export default function Nav({ path, section }) {
   const progressRef = useRef(null);
   useEffect(() => {
     let frame = 0;
+    let lastY = window.scrollY;
     const update = () => {
       frame = 0;
-      setScrolled(window.scrollY > 8);
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      if (Math.abs(y - lastY) > 6) {
+        setTucked(y > 320 && y > lastY);
+        lastY = y;
+      }
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
     };
@@ -98,7 +107,12 @@ export default function Nav({ path, section }) {
 
   return (
     <>
-      <header className={`site-nav ${scrolled || !isHome ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
+      <header
+        className={`site-nav ${scrolled || !isHome ? "is-scrolled" : ""} ${open ? "is-open" : ""} ${
+          tucked && !open ? "is-tucked" : ""
+        }`}
+        onFocus={() => setTucked(false)}
+      >
         <div className="site-nav__inner wrap">
           <Link to="/" className="wordmark" aria-label={`${PROFILE.name}, home`}>
             <span className="wordmark__mark" aria-hidden="true">SP</span>
@@ -121,6 +135,8 @@ export default function Nav({ path, section }) {
               <Arrow dir="out" />
             </a>
           </nav>
+
+          <ThemeToggle />
 
           <button
             ref={toggleRef}

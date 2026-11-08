@@ -1,6 +1,7 @@
 // Small presentational primitives shared across sections.
 import { Link } from "../lib/router.jsx";
-import Reveal from "./Reveal.jsx";
+import Scramble from "./Scramble.jsx";
+import { useInView } from "../lib/motion.js";
 import { useScrub } from "../lib/scroll.js";
 
 // Section opener: a ruled line with the section number and a note, then a
@@ -9,10 +10,11 @@ import { useScrub } from "../lib/scroll.js";
 export function SectionHead({ id, number, title, dek, aside, night = false }) {
   // The title drifts sideways as the head passes through the viewport.
   const drift = useScrub("through");
+  const [ref, inView] = useInView();
   return (
-    <Reveal as="header" className={`section-head ${night ? "section-head--night" : ""}`}>
+    <header ref={ref} className={`reveal section-head ${inView ? "is-in" : ""} ${night ? "section-head--night" : ""}`}>
       <div className="section-head__rule">
-        <span className="section-head__num">{number}</span>
+        <Scramble className="section-head__num" text={number} active={inView} />
         {aside && <span className="section-head__aside">{aside}</span>}
       </div>
       <div className="section-head__body" ref={drift}>
@@ -21,7 +23,7 @@ export function SectionHead({ id, number, title, dek, aside, night = false }) {
         </h2>
         {dek && <p className="dek section-head__dek">{dek}</p>}
       </div>
-    </Reveal>
+    </header>
   );
 }
 

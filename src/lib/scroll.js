@@ -18,6 +18,9 @@ const MODES = {
   read: (r, vh, o) => clamp((vh * (o.line ?? 0.6) - r.top) / r.height),
   // Element scrolling off the top (0 while fully in place).
   exit: (r, vh, o) => clamp(-r.top / (r.height * (o.span ?? 0.85))),
+  // Starts `lead` viewports before the top enters; done once the bottom is in view.
+  // Suits the last thing on a page, which can never scroll further up.
+  land: (r, vh, o) => clamp((vh * (1 + (o.lead ?? 0.4)) - r.top) / (r.height + vh * (o.lead ?? 0.4))),
   // Page scroll from the very top, over `span` viewport heights.
   page: (r, vh, o) => clamp(window.scrollY / (vh * (o.span ?? 1))),
 };

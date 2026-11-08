@@ -1,21 +1,21 @@
 /* Motion and interaction layer: intro, scroll reveals, and the hero figure's
    controls. Every effect here has a still fallback under reduced motion. */
 
-/* ── Intro (first visit): model meets data ─────────────────────────────── */
+/* ── Intro (first visit): the name, assembled from data ─────────────────────
+   Fixed colors: the intro looks the same in both themes. */
 
 .loader {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  color: var(--night-ink);
+  color: #f3f2ee;
   cursor: pointer;
 }
 
 .loader__bg {
   position: absolute;
   inset: 0;
-  background: var(--night);
-  transition: opacity 700ms var(--ease);
+  transition: opacity 950ms var(--ease) 150ms;
 }
 
 /* Faint measurement grid, strongest behind the plot */
@@ -24,13 +24,21 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(var(--night-rule) 1px, transparent 1px),
-    linear-gradient(90deg, var(--night-rule) 1px, transparent 1px);
+    linear-gradient(rgb(243 242 238 / 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(243 242 238 / 0.16) 1px, transparent 1px);
   background-size: 40px 40px;
   background-position: center;
   opacity: 0.3;
   -webkit-mask-image: radial-gradient(ellipse at center, #000 0, transparent 68%);
   mask-image: radial-gradient(ellipse at center, #000 0, transparent 68%);
+}
+
+.loader__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 520ms var(--ease);
 }
 
 .loader__chrome {
@@ -40,7 +48,8 @@
   flex-direction: column;
   justify-content: space-between;
   padding-block: 1.25rem clamp(1.5rem, 1rem + 2vw, 3rem);
-  transition: opacity 400ms var(--ease);
+  pointer-events: none;
+  transition: opacity 380ms var(--ease);
 }
 
 .loader__top {
@@ -53,8 +62,8 @@
 }
 
 .loader__top .wordmark__mark {
-  background: var(--night-ink);
-  color: var(--night);
+  background: #f3f2ee;
+  color: #121211;
 }
 
 .loader__status {
@@ -64,7 +73,7 @@
   font-weight: 500;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--night-ink-2);
+  color: #a3a29b;
 }
 
 .loader__status::after {
@@ -73,7 +82,7 @@
   width: 6px;
   height: 6px;
   margin-left: 0.6rem;
-  background: var(--night-accent);
+  background: #a9b1ff;
   animation: blink 900ms steps(2) infinite;
 }
 
@@ -93,20 +102,9 @@
   animation: rise 700ms var(--ease-out) 120ms both;
 }
 
-.loader__r2-label {
-  font-family: var(--f-text);
-  font-size: 1.1rem;
-  font-style: italic;
-  color: var(--night-ink-2);
-}
-
-.loader__r2-label sup {
-  font-size: 0.65em;
-}
-
-.loader__r2 {
+.loader__count {
   font-family: var(--f-display);
-  font-size: clamp(4.25rem, 1.5rem + 11vw, 11rem);
+  font-size: clamp(3.75rem, 1.5rem + 9vw, 9rem);
   font-weight: 600;
   line-height: 0.82;
   letter-spacing: -0.06em;
@@ -117,8 +115,12 @@
   margin-top: 0.9rem;
   font-family: var(--f-mono);
   font-size: 0.72rem;
-  color: var(--night-ink-2);
+  color: #a3a29b;
   font-variant-numeric: tabular-nums;
+}
+
+.loader__meta span {
+  color: #a9b1ff;
 }
 
 .loader__words {
@@ -140,7 +142,7 @@
   font-family: var(--f-mono);
   font-size: 0.68rem;
   letter-spacing: 0.04em;
-  color: var(--night-ink-2);
+  color: #a3a29b;
 }
 
 .loader__skip--touch {
@@ -156,181 +158,42 @@
   }
 }
 
-/* The plot */
-.loader__stage {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  width: min(74vw, 820px);
-  transform: translate(-50%, -50%);
-}
-
-.loader__plot {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 800 / 360;
-  overflow: visible;
-}
-
-.loader__grid {
-  stroke: var(--night-rule);
-  stroke-width: 1;
-  stroke-dasharray: 2 5;
-}
-
-.loader__axes {
-  fill: none;
-  stroke: var(--night-ink-2);
-  stroke-width: 1;
-}
-
-.loader__axis-label {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  fill: var(--night-ink-2);
-}
-
-.loader__pt {
-  fill: var(--night-ink);
-  opacity: 0;
-  transform: scale(0);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: opacity 260ms var(--ease), transform 420ms var(--ease-out), fill 400ms var(--ease);
-}
-
-.loader__pt.is-on {
-  opacity: 1;
-  transform: none;
-}
-
-.loader__res {
-  stroke: var(--night-accent);
-  stroke-width: 1;
-  opacity: 0;
-  transition: opacity 400ms var(--ease);
-}
-
-.loader__curve {
-  fill: none;
-  stroke: var(--night-accent);
-  stroke-width: 2.25;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  opacity: 0;
-  transition: opacity 400ms var(--ease);
-}
-
-.loader__plot.is-fitting .loader__res {
-  opacity: 0.45;
-}
-
-.loader__plot.is-fitting .loader__curve {
-  opacity: 1;
-}
-
-/* Flatten: data, residuals, and frame fall away; only the curve remains */
-.loader__plot.is-flat .loader__pt,
-.loader__plot.is-flat .loader__res,
-.loader__plot.is-flat .loader__grid,
-.loader__plot.is-flat .loader__axes,
-.loader__plot.is-flat .loader__axis-label {
-  opacity: 0;
-  transition: opacity 320ms var(--ease);
-}
-
-.loader__caption {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-  font-family: var(--f-mono);
-  font-size: 0.68rem;
-  color: var(--night-ink-2);
-  transition: opacity 320ms var(--ease);
-}
-
-.loader__legend {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  white-space: nowrap;
-}
-
-.loader__key-pt {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--night-ink);
-}
-
-.loader__key-line {
-  width: 16px;
-  height: 2px;
-  margin-left: 0.6rem;
-  background: var(--night-accent);
-}
-
-/* The flattened curve, as a page element that can fly to the hero rule */
-.loader__rule {
-  position: fixed;
-  height: 1px;
-  background: var(--night-accent);
-  opacity: 0;
-  transform-origin: 0 0;
-  transition:
-    transform 900ms cubic-bezier(0.65, 0, 0.2, 1),
-    background-color 700ms var(--ease);
-}
-
-.loader__rule.is-on {
-  opacity: 1;
-}
-
-.loader.is-fly .loader__bg,
-.loader.is-settle .loader__bg,
-.loader.is-flatten .loader__chrome,
-.loader.is-fly .loader__chrome,
-.loader.is-settle .loader__chrome,
-.loader.is-flatten .loader__caption,
-.loader.is-fly .loader__caption,
-.loader.is-settle .loader__caption {
-  opacity: 0;
-}
-
-.loader.is-flatten,
-.loader.is-fly,
+/* Forming: the dark field and labels fall away while points travel */
+.loader.is-form,
 .loader.is-settle {
   pointer-events: none;
 }
 
-.loader.is-fly .loader__rule,
-.loader.is-settle .loader__rule {
-  background: var(--ink);
+.loader.is-form .loader__bg,
+.loader.is-settle .loader__bg,
+.loader.is-form .loader__chrome,
+.loader.is-settle .loader__chrome {
+  opacity: 0;
 }
 
-/* Falls back to a lift when the hero isn't on screen (deep links) */
+/* Settling: the dotted name dissolves into the real one */
+.loader.is-settle .loader__canvas {
+  opacity: 0;
+}
+
+/* No hero on screen (deep links): the panel lifts away */
 .loader.is-lift {
   transform: translateY(-100%);
   transition: transform 850ms cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* The hero rule stays hidden until the flying one lands on it */
-html.is-intro .hero__top {
-  border-bottom-color: transparent;
+/* The real name waits under the points, then fades up as they dissolve */
+.hero__name {
+  transition: opacity 520ms var(--ease);
+}
+
+html.is-intro .hero__name {
+  opacity: 0;
 }
 
 @media (max-width: 600px) {
-  .loader__stage {
-    width: 90vw;
-    top: 44%;
-  }
   .loader__status,
   .loader__line-1 {
-    display: none;
-  }
-  .loader__caption > span:first-child {
     display: none;
   }
 }

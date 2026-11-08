@@ -1,0 +1,175 @@
+/* Theme switch, theme-specific details, and the switch transition */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 0.35rem;
+  border: 0;
+  background: none;
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+}
+
+/* A disc that is half paper, half ink; it turns over when the theme flips */
+.theme-toggle__icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: transform 600ms var(--ease-out);
+}
+
+.theme-toggle__icon::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 50%;
+  background: currentColor;
+}
+
+[data-theme="dark"] .theme-toggle__icon {
+  transform: rotate(180deg);
+}
+
+.theme-toggle__text {
+  min-width: 2.6rem;
+}
+
+@media (max-width: 1279px) {
+  .site-nav__links + .theme-toggle .theme-toggle__text {
+    display: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .site-nav__links + .theme-toggle .theme-toggle__text {
+    display: inline;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-nav__links + .theme-toggle .theme-toggle__text {
+    display: none;
+  }
+}
+
+/* The new theme grows out of the switch as a circle (see ThemeToggle.jsx) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* Hold scroll-driven effects still while the page is being swapped */
+html.is-theming *,
+html.is-theming *::before,
+html.is-theming *::after {
+  transition: none !important;
+}
+
+/* Raster figures are white plots; keep them on a light plate in either theme */
+[data-theme="dark"] .fig__plot:has(> img),
+[data-theme="dark"] .preview__art:has(> img) {
+  background: #fbfaf7;
+  border-color: var(--rule);
+}
+
+[data-theme="dark"] .fig--photo .fig__plot {
+  background: none;
+}
+
+/* Portrait reads better a touch dimmer on black */
+[data-theme="dark"] .about__frame img {
+  opacity: 0.94;
+}
+
+/* Nav: slide away while reading down */
+.site-nav {
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform 420ms var(--ease-out);
+}
+
+.site-nav.is-tucked {
+  transform: translateY(-100%);
+}
+
+/* ── Tools ticker (between Projects and Publications) ──────────────────── */
+
+.ticker {
+  overflow: hidden;
+  padding-block: clamp(1.25rem, 1rem + 1vw, 2rem);
+  border-block: 1px solid var(--ink);
+}
+
+.ticker__row {
+  overflow: hidden;
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ticker__item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1rem, 0.6rem + 1.4vw, 2rem);
+  padding-right: clamp(1rem, 0.6rem + 1.4vw, 2rem);
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 1.2rem + 3.6vw, 4.75rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.ticker__row--alt .ticker__item {
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.ticker__mark {
+  width: 0.22em;
+  height: 0.22em;
+  background: var(--accent);
+}
+
+/* ── Footer signature ───────────────────────────────────────────────────── */
+
+.signature {
+  padding-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(1rem, 0.5rem + 1.5vw, 2rem);
+}
+
+.signature__canvas {
+  display: block;
+  width: 100%;
+  font-family: var(--f-display);
+  color: var(--night-ink);
+}
+
+/* ── Magnetic hero buttons ──────────────────────────────────────────────── */
+
+.magnetic {
+  display: inline-block;
+  transition: transform 420ms var(--ease-out);
+}

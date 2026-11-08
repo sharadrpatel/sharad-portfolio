@@ -33,9 +33,12 @@ src/
 - Motion: `src/lib/scroll.js` gives registered elements a `--p` custom property (0 → 1) that follows
   the scroll both ways, and the scroll scenes in `src/styles/motion.css` are written against it.
   `Reveal` entrances replay when content drops back below the fold. The intro screen
-  (`src/components/Loader.jsx`, "model meets data") runs once per session; its fitted curve lands as the
-  hero's top rule.
+  (`src/components/Loader.jsx`) runs once per session: a data cloud and model fit whose points
+  assemble into the hero name. The footer signature (`Signature.jsx`) reverses the idea on scroll.
   Everything rests in its finished state under `prefers-reduced-motion`.
+- Themes: white (default) and black. Dark values live under `:root[data-theme="dark"]` in
+  `tokens.css`; `index.html` sets the theme before first paint (saved choice, else system setting),
+  and `ThemeToggle.jsx` switches it with a circular view transition.
 - `public/CV.pdf` is the downloadable CV and the factual source for site content.
 
 ## Writing a blog post

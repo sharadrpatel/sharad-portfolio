@@ -1,6 +1,7 @@
 import { PROFILE } from "../data/profile.js";
 import { Link } from "../lib/router.jsx";
 import { Arrow } from "./ui.jsx";
+import Signature from "./Signature.jsx";
 
 export default function Footer() {
   return (
@@ -23,6 +24,9 @@ export default function Footer() {
           </li>
         </ul>
         <p className="site-footer__note">© {new Date().getFullYear()} {PROFILE.name}. Built with React and Vite.</p>
+      </div>
+      <div className="wrap">
+        <Signature />
       </div>
     </footer>
   );

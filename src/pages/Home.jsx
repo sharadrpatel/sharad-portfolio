@@ -6,6 +6,7 @@ import Publications from "../sections/Publications.jsx";
 import Experience from "../sections/Experience.jsx";
 import About from "../sections/About.jsx";
 import Contact from "../sections/Contact.jsx";
+import Ticker from "../components/Ticker.jsx";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Now />
       <Research />
       <Projects />
+      <Ticker />
       <Publications />
       <Experience />
       <About />

@@ -3,6 +3,7 @@ import { Link } from "../lib/router.jsx";
 import { Button, Arrow } from "../components/ui.jsx";
 import PhasePortrait from "../components/PhasePortrait.jsx";
 import CountUp from "../components/CountUp.jsx";
+import Magnetic from "../components/Magnetic.jsx";
 import { useParallax } from "../lib/motion.js";
 import { useScrub } from "../lib/scroll.js";
 import { INTRO } from "../lib/intro.js";
@@ -15,20 +16,19 @@ export default function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title" ref={scene}>
       <div className="wrap">
-        {/* When the intro plays, its fitted curve lands as this rule, so the rule
-            holds still and only the labels rise. */}
-        <div className={`hero__top ${INTRO ? "" : "load-in"}`} style={{ "--i": 0 }}>
-          <span className={INTRO ? "load-in" : ""}>{PROFILE.degree}</span>
-          <span className={`hero__top-mid ${INTRO ? "load-in" : ""}`}>{PROFILE.school}</span>
-          <span className={INTRO ? "load-in" : ""}>Class of {PROFILE.classOf}</span>
+        <div className="hero__top load-in" style={{ "--i": 0 }}>
+          <span>{PROFILE.degree}</span>
+          <span className="hero__top-mid">{PROFILE.school}</span>
+          <span>Class of {PROFILE.classOf}</span>
         </div>
 
         <h1 id="hero-title" className="hero__name">
+          {/* With the intro, the name is assembled from points instead of rising. */}
           <span className="hero__name-line">
-            <span className="mask-in" style={{ "--i": 1 }}>{FIRST}</span>
+            <span className={INTRO ? "" : "mask-in"} style={{ "--i": 1 }}>{FIRST}</span>
           </span>{" "}
           <span className="hero__name-line">
-            <span className="mask-in" style={{ "--i": 2 }}>{REST.join(" ")}</span>
+            <span className={INTRO ? "" : "mask-in"} style={{ "--i": 2 }}>{REST.join(" ")}</span>
           </span>
         </h1>
 
@@ -41,8 +41,12 @@ export default function Hero() {
               ))}
             </ul>
             <div className="hero__actions">
-              <Button to="/#research" icon="down">Research</Button>
-              <Button to="/#projects" variant="outline">Projects</Button>
+              <Magnetic>
+                <Button to="/#research" icon="down">Research</Button>
+              </Magnetic>
+              <Magnetic>
+                <Button to="/#projects" variant="outline">Projects</Button>
+              </Magnetic>
               <Button to={PROFILE.cv} variant="ghost" icon="out" target="_blank" rel="noopener">
                 CV
               </Button>

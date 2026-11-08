@@ -33,6 +33,9 @@
   --data: #b4441c;
   --data-soft: #f2dfd6;
 
+  /* Nav glass */
+  --nav-glass: rgb(243 242 238 / 0.92);
+
   /* Inverted (dark) bands */
   --night: #121211;
   --night-2: #1c1c1a;
@@ -90,4 +93,42 @@
   --dur-fast: 160ms;
   --dur: 280ms;
   --dur-slow: 700ms;
+
+  color-scheme: light;
+}
+
+/* ── Dark ("black") theme ───────────────────────────────────────────────────
+   Same structure, inverted: near-black paper and bone ink, a lighter cobalt,
+   and the night bands (Now, Contact, footer) flip to bone so the page keeps
+   its black-and-white rhythm. Set on <html data-theme="dark"> by the theme
+   switch, or from the system preference before first paint (index.html). */
+:root[data-theme="dark"] {
+  --paper: #0e0e0d;
+  --surface: #161615;
+  --wash: #1c1c1a;
+  --rule: #2c2b28;
+  --rule-strong: #4b4a45;
+
+  --ink: #f1efe9;
+  --ink-2: #c6c4bc;
+  --ink-3: #9a988f;
+
+  --accent: #9aa5ff;
+  --accent-ink: #c3c9ff;
+  --accent-soft: #2a2f63;
+  --accent-wash: #191c3a;
+
+  --data: #f0875a;
+  --data-soft: #3a2117;
+
+  --nav-glass: rgb(14 14 13 / 0.88);
+
+  --night: #ecebe6;
+  --night-2: #e2e0da;
+  --night-rule: rgb(18 18 17 / 0.16);
+  --night-ink: #121211;
+  --night-ink-2: #55544f;
+  --night-accent: #2b39c4;
+
+  color-scheme: dark;
 }
