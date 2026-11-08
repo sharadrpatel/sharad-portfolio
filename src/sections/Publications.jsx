@@ -1,6 +1,7 @@
 import { PUBLICATIONS, SELF } from "../data/publications.js";
 import { SectionHead, Badge } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -27,6 +28,16 @@ function Authors({ list }) {
   );
 }
 
+// A rail beside the list fills down to the reading line.
+function Rail({ className, children }) {
+  const ref = useScrub("read", { line: 0.55 });
+  return (
+    <ol ref={ref} className={`${className} has-rail`}>
+      {children}
+    </ol>
+  );
+}
+
 export default function Publications() {
   const firstAuthor = PUBLICATIONS.filter((p) => p.authors[0] === SELF).length;
   const years = [...new Set(PUBLICATIONS.map((p) => p.date.slice(0, 4)))];
@@ -44,7 +55,7 @@ export default function Publications() {
           {years.map((y) => (
             <Reveal key={y} className="pubs__year has-st">
               <h3 className="pubs__y">{y}</h3>
-              <ol className="pubs__list">
+              <Rail className="pubs__list">
                 {PUBLICATIONS.filter((p) => p.date.startsWith(y)).map((p, i) => (
                   <li key={p.title} className="pub st" style={{ "--si": i }}>
                     <p className="pub__when">
@@ -61,7 +72,7 @@ export default function Publications() {
                     </div>
                   </li>
                 ))}
-              </ol>
+              </Rail>
             </Reveal>
           ))}
         </div>

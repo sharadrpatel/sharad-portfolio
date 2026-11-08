@@ -1,6 +1,7 @@
 import { PROFILE } from "../data/profile.js";
 import { SectionHead, Arrow } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 const CHANNELS = [
   { label: "LinkedIn", value: "in/patel108", href: PROFILE.linkedin },
@@ -10,6 +11,7 @@ const CHANNELS = [
 
 export default function Contact() {
   const [user, domain] = PROFILE.email.split("@");
+  const slide = useScrub("enter", { end: 0.35 });
   return (
     <section id="contact" className="section section--night contact" aria-labelledby="contact-title">
       <div className="wrap">
@@ -22,7 +24,7 @@ export default function Contact() {
           night
         />
         <Reveal className="contact__grid">
-          <a className="contact__email" href={`mailto:${PROFILE.email}`}>
+          <a className="contact__email" href={`mailto:${PROFILE.email}`} ref={slide}>
             <span className="contact__email-text">
               {user}
               <wbr />@{domain}

@@ -1291,12 +1291,6 @@
   aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: 50% 20%;
-  filter: grayscale(1) contrast(1.04);
-  transition: filter 900ms var(--ease);
-}
-
-.about__portrait:hover img {
-  filter: none;
 }
 
 .about__lede {

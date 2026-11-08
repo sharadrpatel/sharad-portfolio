@@ -1,67 +1,53 @@
-import { useMemo, useState, useId } from "react";
+import { useEffect, useMemo, useRef, useState, useId } from "react";
+import { DELTA, OMEGA, DT, GAMMA_DEFAULT, SIZE, PAD, sx, sy, trace } from "../lib/duffing.js";
+import { useScrub } from "../lib/scroll.js";
+import { INTRO } from "../lib/intro.js";
 
-// The hero's plate: a forced Duffing oscillator, x'' + δx' − x + x³ = γ cos ωt,
-// integrated in the browser with RK4 and drawn in phase space (x against x').
-// Visitors can change the forcing strength γ; damping and drive frequency stay
-// fixed. The readout only reports what this run of the simulation did.
-const DELTA = 0.3;
-const OMEGA = 1.2;
-const GAMMA_DEFAULT = 0.5;
-
-function simulate(gamma) {
-  const steps = 48; // per drive period
-  const dt = (2 * Math.PI) / OMEGA / steps;
-  const f = (t, x, v) => [v, -DELTA * v + x - x * x * x + gamma * Math.cos(OMEGA * t)];
-  let t = 0;
-  let x = 1;
-  let v = 0;
-  const pts = [];
-  const total = steps * 110;
-  const skip = steps * 30; // let the transient die out
-  for (let i = 0; i < total; i++) {
-    const [k1x, k1v] = f(t, x, v);
-    const [k2x, k2v] = f(t + dt / 2, x + (dt / 2) * k1x, v + (dt / 2) * k1v);
-    const [k3x, k3v] = f(t + dt / 2, x + (dt / 2) * k2x, v + (dt / 2) * k2v);
-    const [k4x, k4v] = f(t + dt, x + dt * k3x, v + dt * k3v);
-    x += (dt / 6) * (k1x + 2 * k2x + 2 * k3x + k4x);
-    v += (dt / 6) * (k1v + 2 * k2v + 2 * k3v + k4v);
-    t += dt;
-    if (i >= skip) pts.push([x, v]);
-  }
-  return pts;
-}
-
-const SIZE = 400;
-const PAD = 28;
-// Fixed scale so the drawing doesn't jump around as γ changes.
-const XR = 1.75;
-const VR = 1.4;
-const sx = (x) => SIZE / 2 + (x / XR) * (SIZE / 2 - PAD);
-const sy = (v) => SIZE / 2 - (v / VR) * (SIZE / 2 - PAD);
-
-function describe(pts) {
-  let crossings = 0;
-  for (let i = 1; i < pts.length; i++) if (Math.sign(pts[i][0]) !== Math.sign(pts[i - 1][0])) crossings++;
-  return crossings === 0 ? "stays in one well" : "hops between wells";
-}
+// The hero's plate: a forced Duffing oscillator integrated in the browser and
+// drawn in phase space (x against x'). Two things are live:
+// - γ, the forcing strength, on a slider; the readout reports what this run did.
+// - Time, on the scroll wheel: scrolling moves a comet along the trajectory and
+//   scrolling back rewinds it.
+const TAIL = 70;
 
 export default function PhasePortrait() {
   const [gamma, setGamma] = useState(GAMMA_DEFAULT);
   const [run, setRun] = useState(0);
-  const [drawing, setDrawing] = useState(true);
+  // When the intro plays, it hands over an already drawn trajectory.
+  const [drawing, setDrawing] = useState(!INTRO);
   const uid = useId();
 
-  const { d, regime } = useMemo(() => {
-    const pts = simulate(gamma);
-    const clip = (p) => Math.max(PAD / 2, Math.min(SIZE - PAD / 2, p));
-    const d = "M" + pts.map(([x, v]) => `${clip(sx(x)).toFixed(1)} ${clip(sy(v)).toFixed(1)}`).join("L");
-    return { d, regime: describe(pts) };
-  }, [gamma]);
+  const { xy, d, regime } = useMemo(() => trace(gamma), [gamma]);
+
+  const head = useRef(null);
+  const tail = useRef(null);
+  const clock = useRef(null);
+  const last = useRef(0);
+  const xyRef = useRef(xy);
+  xyRef.current = xy;
+
+  const place = (p) => {
+    last.current = p;
+    const pts = xyRef.current;
+    const i = Math.round(p * (pts.length - 1));
+    const [x, y] = pts[i];
+    head.current?.setAttribute("cx", x.toFixed(1));
+    head.current?.setAttribute("cy", y.toFixed(1));
+    const from = Math.max(0, i - TAIL);
+    tail.current?.setAttribute(
+      "d",
+      i > 0 ? "M" + pts.slice(from, i + 1).map(([a, b]) => `${a.toFixed(1)} ${b.toFixed(1)}`).join("L") : ""
+    );
+    if (clock.current) clock.current.textContent = `t = ${(i * DT).toFixed(1)}`;
+  };
+
+  const plate = useScrub("page", { span: 1.1, onProgress: place });
+  useEffect(() => place(last.current), [xy]);
 
   const c = SIZE / 2;
   const ticks = [-1, 1];
   return (
-    <div className="phase-plate">
+    <div className="phase-plate" ref={plate}>
       <svg className="phase" viewBox={`0 0 ${SIZE} ${SIZE}`} role="img" aria-labelledby={`${uid}-t`}>
         <title id={`${uid}-t`}>
           Phase portrait of a forced Duffing oscillator with forcing strength {gamma.toFixed(2)}: the trajectory{" "}
@@ -87,6 +73,8 @@ export default function PhasePortrait() {
         {ticks.map((t) => (
           <circle key={t} className="phase__well" cx={sx(t)} cy={sy(0)} r="3" />
         ))}
+        <path ref={tail} className="phase__tail" d="" />
+        <circle ref={head} className="phase__head" cx={xy[0][0]} cy={xy[0][1]} r="4" />
         <text className="phase__label" x={SIZE - PAD / 2} y={c - 8} textAnchor="end">
           x
         </text>
@@ -132,7 +120,7 @@ export default function PhasePortrait() {
       </div>
       <p className="phase__readout" aria-hidden="true">
         <span>
-          δ = {DELTA} · ω = {OMEGA}
+          <span ref={clock} className="phase__clock">t = 0.0</span> · δ = {DELTA} · ω = {OMEGA}
         </span>
         <span>{regime}</span>
       </p>

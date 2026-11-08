@@ -4,6 +4,8 @@ import { SectionHead, Tags, TextLink, Arrow, Badge, shortPeriod } from "../compo
 import { WorkFigure } from "../components/figures.jsx";
 import Reveal from "../components/Reveal.jsx";
 import CountUp from "../components/CountUp.jsx";
+import DrawOnScroll from "../components/DrawOnScroll.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 export function ExternalLinks({ links }) {
   return (
@@ -111,9 +113,9 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
         </div>
 
         {w.figure && (
-          <div className="plate__figure">
+          <DrawOnScroll className="plate__figure">
             <WorkFigure name={w.figure} n={figN} />
-          </div>
+          </DrawOnScroll>
         )}
       </div>
     </Reveal>

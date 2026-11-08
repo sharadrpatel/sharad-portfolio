@@ -5,8 +5,13 @@ export function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 }
 
-// True once the element has scrolled into view (never resets).
-export function useInView(options = { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }) {
+// Tracks whether an element has come into view. With `replay` (the default),
+// it resets once the element drops back below the viewport, so scrolling up
+// and down again replays the entrance. Scrolling past it upward keeps it shown.
+// The root margin reaches far above the viewport, so anything scrolled past
+// counts as seen; only dropping below the fold resets it. That also catches
+// jumps straight from far down to the top, which never pass through view.
+export function useInView({ replay = true, rootMargin = "100000px 0px -10% 0px" } = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -15,12 +20,17 @@ export function useInView(options = { rootMargin: "0px 0px -8% 0px", threshold: 
       setInView(true);
       return;
     }
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setInView(true);
-        io.disconnect();
-      }
-    }, options);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          if (!replay) io.disconnect();
+        } else if (replay && entry.boundingClientRect.top > 0) {
+          setInView(false);
+        }
+      },
+      { rootMargin, threshold: 0 }
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);

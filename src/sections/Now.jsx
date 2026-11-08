@@ -2,10 +2,13 @@ import { CURRENTLY } from "../data/profile.js";
 import { Link } from "../lib/router.jsx";
 import { Arrow, Mask } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 export default function Now() {
+  // The band opens from a framed panel to full width as it rises into view.
+  const scene = useScrub("enter", { end: 0.2 });
   return (
-    <section id="now" className="section section--night now" aria-labelledby="now-title">
+    <section id="now" className="section section--night now" aria-labelledby="now-title" ref={scene}>
       <div className="wrap now__grid">
         <div className="now__head">
           <p className="now__kicker">

@@ -1,18 +1,21 @@
 // Small presentational primitives shared across sections.
 import { Link } from "../lib/router.jsx";
 import Reveal from "./Reveal.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 // Section opener: a ruled line with the section number and a note, then a
 // large one-word title with its dek set beside it. On scroll the rule draws
 // across and the title rises out of a mask.
 export function SectionHead({ id, number, title, dek, aside, night = false }) {
+  // The title drifts sideways as the head passes through the viewport.
+  const drift = useScrub("through");
   return (
     <Reveal as="header" className={`section-head ${night ? "section-head--night" : ""}`}>
       <div className="section-head__rule">
         <span className="section-head__num">{number}</span>
         {aside && <span className="section-head__aside">{aside}</span>}
       </div>
-      <div className="section-head__body">
+      <div className="section-head__body" ref={drift}>
         <h2 id={id} className="h2 section-head__title">
           <Mask>{title}</Mask>
         </h2>

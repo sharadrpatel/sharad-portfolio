@@ -2,9 +2,12 @@ import { EDUCATION, INTERESTS, TOOLKIT } from "../data/profile.js";
 import { SectionHead } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
 import { useParallax } from "../lib/motion.js";
+import { useScrub } from "../lib/scroll.js";
 
 export default function About() {
   const drift = useParallax(0.05);
+  // The portrait warms from black and white to color as you arrive.
+  const develop = useScrub("enter", { end: 0.25 });
   return (
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
@@ -12,15 +15,17 @@ export default function About() {
 
         <div className="about">
           <Reveal className="about__portrait">
-            <img
-              ref={drift}
-              src="/headshot.jpg"
-              alt="Portrait of Sharad Patel in a suit, in front of the University of Florida College of Medicine."
-              width="676"
-              height="733"
-              loading="lazy"
-              decoding="async"
-            />
+            <div className="about__frame" ref={develop}>
+              <img
+                ref={drift}
+                src="/headshot.jpg"
+                alt="Portrait of Sharad Patel in a suit, in front of the University of Florida College of Medicine."
+                width="676"
+                height="733"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </Reveal>
 
           <Reveal className="about__text" delay={80}>

@@ -1,6 +1,7 @@
 import { CLINICAL, TEACHING, LEADERSHIP } from "../data/experience.js";
 import { SectionHead, Badge } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 // One grammar for every group: period on the left, role and place, then what
 // the work involves.
@@ -24,13 +25,16 @@ function Entry({ period, role, org, note, highlight, index = 0, children }) {
 }
 
 function Group({ id, label, count, children }) {
+  const rail = useScrub("read", { line: 0.55 });
   return (
     <Reveal className="cv__group has-st" aria-labelledby={id}>
       <div className="cv__label">
         <h3 id={id} className="label">{label}</h3>
         {count && <p className="cv__count">{count}</p>}
       </div>
-      <ol className="cv__entries">{children}</ol>
+      <ol className="cv__entries has-rail" ref={rail}>
+        {children}
+      </ol>
     </Reveal>
   );
 }

@@ -7,28 +7,41 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: var(--night);
   color: var(--night-ink);
-  transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+  cursor: pointer;
+  --ls: min(60vmin, 500px);
 }
 
-.loader.is-leaving {
-  transform: translateY(-100%);
+.loader__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--night);
+  transition: opacity 900ms var(--ease) 150ms;
 }
 
-.loader__inner {
+/* Faint integration grid behind the drawing */
+.loader__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--night-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--night-rule) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center;
+  opacity: 0.35;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0, transparent 70%);
+  mask-image: radial-gradient(circle at center, #000 0, transparent 70%);
+}
+
+.loader__chrome {
   position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding-block: 1.25rem clamp(1.5rem, 1rem + 2vw, 3rem);
-  transition: opacity 400ms var(--ease), transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-.loader.is-leaving .loader__inner {
-  opacity: 0;
-  transform: translateY(-12%);
+  transition: opacity 500ms var(--ease);
 }
 
 .loader__top {
@@ -55,51 +68,193 @@
   color: var(--night-ink-2);
 }
 
+.loader__role::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 0.6rem;
+  background: var(--night-accent);
+  animation: blink 900ms steps(2) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
 .loader__bottom {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   gap: 1.5rem;
-  padding-bottom: 1.25rem;
 }
 
 .loader__count {
+  display: block;
   font-family: var(--f-display);
-  font-size: clamp(5rem, 2rem + 16vw, 16rem);
+  font-size: clamp(4.5rem, 1.5rem + 12vw, 12rem);
   font-weight: 600;
   line-height: 0.8;
   letter-spacing: -0.06em;
   font-variant-numeric: tabular-nums;
 }
 
-.loader__note {
-  max-width: 14rem;
-  font-family: var(--f-text);
-  font-size: 1.05rem;
+.loader__skip {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
   color: var(--night-ink-2);
+}
+
+.loader__skip--touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .loader__skip--pointer {
+    display: none;
+  }
+  .loader__skip--touch {
+    display: block;
+  }
+}
+
+.loader__stats span {
+  white-space: nowrap;
+}
+
+.loader__math {
   text-align: right;
+  animation: rise 700ms var(--ease-out) 200ms both;
 }
 
-.loader__bar {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  bottom: clamp(1.5rem, 1rem + 2vw, 3rem);
-  height: 1px;
-  background: var(--night-rule);
+.loader__eq {
+  font-family: var(--f-text);
+  font-size: clamp(1.1rem, 0.9rem + 1vw, 1.6rem);
+  font-style: italic;
+  color: var(--night-ink);
 }
 
-.loader__bar span {
-  position: absolute;
-  inset: 0;
-  background: var(--night-accent);
-  transform-origin: left;
+.loader__stats {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  margin-top: 0.6rem;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  color: var(--night-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.loader__art {
+  position: fixed;
+  left: calc(50% - var(--ls) / 2);
+  top: calc(50% - var(--ls) / 2);
+  width: var(--ls);
+  height: var(--ls);
+  overflow: visible;
+  transform-origin: 0 0;
+  transition: transform 1150ms cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.loader__axis {
+  stroke: var(--night-rule);
+  stroke-width: 1;
+  transition: stroke 900ms var(--ease);
+}
+
+.loader__line {
+  fill: none;
+  stroke: var(--night-accent);
+  stroke-width: 0.6;
+  stroke-opacity: 0.9;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke 900ms var(--ease), stroke-opacity 900ms var(--ease);
+}
+
+.loader__well {
+  fill: var(--night);
+  stroke: var(--night-ink);
+  stroke-width: 1.25;
+  transition: fill 900ms var(--ease), stroke 900ms var(--ease);
+}
+
+.loader__head {
+  fill: var(--night-ink);
+  transition: opacity 400ms var(--ease);
+}
+
+/* Hand-off: the page fades in around the drawing as it flies into the hero */
+.loader.is-fly,
+.loader.is-settle {
+  pointer-events: none;
+}
+
+.loader.is-fly .loader__bg,
+.loader.is-settle .loader__bg {
+  opacity: 0;
+}
+
+.loader.is-fly .loader__chrome,
+.loader.is-settle .loader__chrome,
+.loader.is-fly .loader__head,
+.loader.is-settle .loader__head {
+  opacity: 0;
+}
+
+.loader.is-fly .loader__axis,
+.loader.is-settle .loader__axis {
+  stroke: var(--rule-strong);
+}
+
+.loader.is-fly .loader__line,
+.loader.is-settle .loader__line {
+  stroke: var(--accent);
+  stroke-opacity: 0.82;
+}
+
+.loader.is-fly .loader__well,
+.loader.is-settle .loader__well {
+  fill: var(--paper);
+  stroke: var(--ink);
+}
+
+/* Small screens: the panel lifts away instead */
+.loader.is-lift {
+  transform: translateY(-100%);
+  transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.loader.is-lift .loader__art {
+  transform: translateY(-10vh) scale(0.9);
+  opacity: 0;
+  transition: transform 900ms var(--ease), opacity 600ms var(--ease);
+}
+
+/* The hero's own copy stays hidden until the flying one lands on it */
+html.is-intro .hero__figure .phase {
+  opacity: 0;
+}
+
+.hero__figure .phase {
+  transition: opacity 280ms var(--ease);
 }
 
 @media (max-width: 600px) {
+  .loader {
+    --ls: min(78vw, 400px);
+  }
   .loader__role,
-  .loader__note {
+  .loader__eq {
     display: none;
+  }
+  .loader__stats {
+    flex-direction: column;
+    gap: 0.2rem;
   }
 }
 
@@ -222,28 +377,6 @@ html.is-loading .phase__line {
 .reveal.is-in .st {
   opacity: 1;
   transform: none;
-}
-
-/* ── Figures wipe in from the bottom edge ──────────────────────────────── */
-
-.reveal .plate__figure .fig__plot,
-.case__figure.reveal .fig__plot {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 1200ms var(--ease-out) 250ms;
-}
-
-.reveal.is-in .plate__figure .fig__plot,
-.case__figure.reveal.is-in .fig__plot {
-  clip-path: inset(0);
-}
-
-.reveal .plate__figure .fig__caption {
-  opacity: 0;
-  transition: opacity 800ms var(--ease) 700ms;
-}
-
-.reveal.is-in .plate__figure .fig__caption {
-  opacity: 1;
 }
 
 /* Plate questions: the accent rule grows down beside the text */
@@ -444,6 +577,131 @@ html.is-loading .phase__line {
   color: var(--accent);
 }
 
+/* ── Scroll scenes ──────────────────────────────────────────────────────────
+   Driven by --p (0 → 1) from src/lib/scroll.js, so they follow the scroll
+   both ways. A missing --p is the finished state (reduced motion). */
+
+/* Scenes slide things sideways; clip at the section edge so the page never
+   scrolls horizontally (clip, unlike hidden, keeps sticky children working). */
+.hero,
+.section {
+  overflow-x: clip;
+}
+
+/* Hero: the name parts as the hero scrolls away */
+.hero__name-line:first-child {
+  transform: translateX(calc(var(--p, 0) * -9vw));
+}
+
+.hero__name-line:last-child {
+  transform: translateX(calc(var(--p, 0) * 9vw));
+}
+
+/* Hero figure: scrolling runs the simulation clock */
+.phase__tail {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phase__head {
+  fill: var(--accent);
+  stroke: var(--paper);
+  stroke-width: 2;
+}
+
+.phase__clock {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Now: the band opens from a framed panel to full width */
+.now {
+  clip-path: inset(0 calc((1 - var(--p, 1)) * 5vw));
+}
+
+.now__grid {
+  transform: translateY(calc((1 - var(--p, 1)) * 70px));
+}
+
+/* Section titles glide in from the right and settle on the grid line */
+.section-head__title {
+  transform: translateX(calc(max(0, 0.55 - var(--p, 0.55)) * 12vw));
+}
+
+/* Figures draw themselves as they come up */
+.draw .draw-stroke {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--p, 1));
+  fill-opacity: clamp(0, calc(var(--p, 1) * 2 - 0.9), 1);
+}
+
+.draw .draw-fade {
+  opacity: clamp(0, calc(var(--p, 1) * 2.4 - 1.2), 1);
+}
+
+.draw .fig__plot img {
+  clip-path: inset(calc((1 - var(--p, 1)) * 100%) 0 0 0);
+}
+
+.draw .fig__caption {
+  opacity: clamp(0, calc(var(--p, 1) * 2 - 1), 1);
+}
+
+/* Timelines: a rail fills down to the reading line */
+.has-rail {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.has-rail::before,
+.has-rail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.has-rail::after {
+  left: -0.5px;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(var(--p, 1));
+  transform-origin: top;
+}
+
+@media (min-width: 900px) {
+  .has-rail {
+    padding-left: 0;
+  }
+  .has-rail::before {
+    left: calc(var(--col-gap) * -0.5);
+  }
+  .has-rail::after {
+    left: calc(var(--col-gap) * -0.5 - 0.5px);
+  }
+}
+
+/* Portrait: black and white warms to color on arrival */
+.about__frame {
+  overflow: hidden;
+}
+
+.about__frame img {
+  filter: grayscale(calc(1 - var(--p, 1)));
+}
+
+/* Contact: the address slides in from the right */
+.contact__email {
+  transform: translateX(calc((1 - var(--p, 1)) * 16vw));
+  opacity: calc(0.2 + var(--p, 1) * 0.8);
+}
+
 /* ── Reduced motion: everything lands in place ─────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -458,13 +716,6 @@ html.is-loading .phase__line {
   .section-head__rule::before,
   .plate__question::before {
     transform: none;
-  }
-  .reveal .plate__figure .fig__plot,
-  .case__figure.reveal .fig__plot {
-    clip-path: none;
-  }
-  .reveal .plate__figure .fig__caption {
-    opacity: 1;
   }
   .phase__line.is-drawing {
     stroke-dashoffset: 0;

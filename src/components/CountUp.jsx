@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useInView, prefersReducedMotion } from "../lib/motion.js";
 
-// Counts the first number in a string up from zero once it scrolls into view:
+// Counts the first number in a string up from zero each time it scrolls into view:
 // "3.94", "≈ 45%", "0.119/yr". Strings without a number render as they are.
 // Screen readers get the final value only.
 export default function CountUp({ value, duration = 1400 }) {
@@ -10,7 +10,12 @@ export default function CountUp({ value, duration = 1400 }) {
   const [shown, setShown] = useState(() => (match ? null : value));
 
   useEffect(() => {
-    if (!match || !inView) return;
+    if (!match) return;
+    if (!inView) {
+      // Back below the fold: rewind so the count replays next time.
+      setShown(prefersReducedMotion() ? value : null);
+      return;
+    }
     const target = parseFloat(match[0]);
     const decimals = (match[0].split(".")[1] ?? "").length;
     const before = value.slice(0, match.index);

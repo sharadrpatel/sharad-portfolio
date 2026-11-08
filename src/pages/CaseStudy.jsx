@@ -7,6 +7,7 @@ import { SpecTable } from "../sections/Projects.jsx";
 import { ExternalLinks } from "../sections/Research.jsx";
 import CountUp from "../components/CountUp.jsx";
 import Reveal from "../components/Reveal.jsx";
+import DrawOnScroll from "../components/DrawOnScroll.jsx";
 
 function useActiveHeading(ids) {
   const [active, setActive] = useState(ids[0]);
@@ -114,9 +115,9 @@ export default function CaseStudy({ work: w }) {
           <p className="case__summary">{w.summary}</p>
 
           {w.figure && (
-            <Reveal className="case__figure">
+            <DrawOnScroll className="case__figure">
               <WorkFigure name={w.figure} n={++fig} wide />
-            </Reveal>
+            </DrawOnScroll>
           )}
 
           {w.problem && (
@@ -181,9 +182,9 @@ export default function CaseStudy({ work: w }) {
                 ))}
               </ol>
               {[].concat(w.secondaryFigure ?? []).map((name) => (
-                <Reveal key={name} className="case__figure">
+                <DrawOnScroll key={name} className="case__figure">
                   <WorkFigure name={name} n={++fig} wide />
-                </Reveal>
+                </DrawOnScroll>
               ))}
             </Reveal>
           )}
