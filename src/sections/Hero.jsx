@@ -15,10 +15,12 @@ export default function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title" ref={scene}>
       <div className="wrap">
-        <div className="hero__top load-in" style={{ "--i": 0 }}>
-          <span>{PROFILE.degree}</span>
-          <span className="hero__top-mid">{PROFILE.school}</span>
-          <span>Class of {PROFILE.classOf}</span>
+        {/* When the intro plays, its fitted curve lands as this rule, so the rule
+            holds still and only the labels rise. */}
+        <div className={`hero__top ${INTRO ? "" : "load-in"}`} style={{ "--i": 0 }}>
+          <span className={INTRO ? "load-in" : ""}>{PROFILE.degree}</span>
+          <span className={`hero__top-mid ${INTRO ? "load-in" : ""}`}>{PROFILE.school}</span>
+          <span className={INTRO ? "load-in" : ""}>Class of {PROFILE.classOf}</span>
         </div>
 
         <h1 id="hero-title" className="hero__name">
@@ -47,8 +49,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* When the intro plays, its drawing flies in here instead of fading up. */}
-          <figure className={`hero__figure ${INTRO ? "" : "load-in"}`} style={{ "--i": 4 }}>
+          <figure className="hero__figure load-in" style={{ "--i": 4 }}>
             <div ref={drift}>
               <PhasePortrait />
             </div>

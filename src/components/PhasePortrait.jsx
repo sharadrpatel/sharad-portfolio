@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useId } from "react";
 import { DELTA, OMEGA, DT, GAMMA_DEFAULT, SIZE, PAD, sx, sy, trace } from "../lib/duffing.js";
 import { useScrub } from "../lib/scroll.js";
-import { INTRO } from "../lib/intro.js";
 
 // The hero's plate: a forced Duffing oscillator integrated in the browser and
 // drawn in phase space (x against x'). Two things are live:
@@ -13,8 +12,7 @@ const TAIL = 70;
 export default function PhasePortrait() {
   const [gamma, setGamma] = useState(GAMMA_DEFAULT);
   const [run, setRun] = useState(0);
-  // When the intro plays, it hands over an already drawn trajectory.
-  const [drawing, setDrawing] = useState(!INTRO);
+  const [drawing, setDrawing] = useState(true);
   const uid = useId();
 
   const { xy, d, regime } = useMemo(() => trace(gamma), [gamma]);

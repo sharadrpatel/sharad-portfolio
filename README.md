@@ -33,7 +33,8 @@ src/
 - Motion: `src/lib/scroll.js` gives registered elements a `--p` custom property (0 → 1) that follows
   the scroll both ways, and the scroll scenes in `src/styles/motion.css` are written against it.
   `Reveal` entrances replay when content drops back below the fold. The intro screen
-  (`src/components/Loader.jsx`) runs once per session and hands its drawing to the hero.
+  (`src/components/Loader.jsx`, "model meets data") runs once per session; its fitted curve lands as the
+  hero's top rule.
   Everything rests in its finished state under `prefers-reduced-motion`.
 - `public/CV.pdf` is the downloadable CV and the factual source for site content.
 
