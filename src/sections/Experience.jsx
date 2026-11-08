@@ -4,9 +4,9 @@ import Reveal from "../components/Reveal.jsx";
 
 // One grammar for every group: period on the left, role and place, then what
 // the work involves.
-function Entry({ period, role, org, note, highlight, children }) {
+function Entry({ period, role, org, note, highlight, index = 0, children }) {
   return (
-    <li className="cv-entry">
+    <li className="cv-entry st" style={{ "--si": index }}>
       <p className="cv-entry__period">{period}</p>
       <div className="cv-entry__body">
         <h4 className="cv-entry__role">
@@ -25,7 +25,7 @@ function Entry({ period, role, org, note, highlight, children }) {
 
 function Group({ id, label, count, children }) {
   return (
-    <Reveal className="cv__group" aria-labelledby={id}>
+    <Reveal className="cv__group has-st" aria-labelledby={id}>
       <div className="cv__label">
         <h3 id={id} className="label">{label}</h3>
         {count && <p className="cv__count">{count}</p>}
@@ -63,16 +63,16 @@ export default function Experience() {
           </Group>
 
           <Group id="cv-teaching" label="Teaching" count={`${TEACHING.length} roles`}>
-            {TEACHING.map((t) => (
-              <Entry key={t.course} period={t.period} role={t.course} org={t.role} note={t.format} highlight={t.highlight}>
+            {TEACHING.map((t, i) => (
+              <Entry key={t.course} index={i} period={t.period} role={t.course} org={t.role} note={t.format} highlight={t.highlight}>
                 <p className="cv-entry__text">{t.text}</p>
               </Entry>
             ))}
           </Group>
 
           <Group id="cv-leadership" label="Leadership & service" count={`${LEADERSHIP.length} roles`}>
-            {LEADERSHIP.map((l) => (
-              <Entry key={l.role + l.org} period={l.period} role={l.role} org={l.org}>
+            {LEADERSHIP.map((l, i) => (
+              <Entry key={l.role + l.org} index={i} period={l.period} role={l.role} org={l.org}>
                 <p className="cv-entry__text">{l.text}</p>
               </Entry>
             ))}

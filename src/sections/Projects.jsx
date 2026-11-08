@@ -119,12 +119,12 @@ function RowInner({ e, open }) {
   );
 }
 
-function Row({ e, active, onActivate }) {
+function Row({ e, active, onActivate, index }) {
   const [open, setOpen] = useState(false);
   const uid = useId();
   const hover = { onMouseEnter: onActivate, onFocus: onActivate };
   return (
-    <li id={`project-${e.key}`} className={`work-item ${active ? "is-active" : ""}`}>
+    <li id={`project-${e.key}`} className={`work-item st ${active ? "is-active" : ""}`} style={{ "--si": index }}>
       {e.href ? (
         <Link to={e.href} className="work-row" {...hover}>
           <RowInner e={e} />
@@ -240,21 +240,27 @@ export default function Projects() {
         </div>
 
         <div className="work__layout">
-          <Reveal className="work__list">
+          <div className="work__list" key={filter}>
             {visible.map((g) => (
               <div key={g.id} className="work-group">
                 <div className="work-group__head">
                   <h3 className="label">{g.label}</h3>
                   <p className="work-group__note">{g.note}</p>
                 </div>
-                <ol className="work-group__rows">
-                  {g.items.map((e) => (
-                    <Row key={e.key} e={e} active={e.key === active.key} onActivate={() => setActiveKey(e.key)} />
+                <Reveal as="ol" className="work-group__rows has-st">
+                  {g.items.map((e, i) => (
+                    <Row
+                      key={e.key}
+                      e={e}
+                      index={i}
+                      active={e.key === active.key}
+                      onActivate={() => setActiveKey(e.key)}
+                    />
                   ))}
-                </ol>
+                </Reveal>
               </div>
             ))}
-          </Reveal>
+          </div>
           <Preview e={active} />
         </div>
       </div>

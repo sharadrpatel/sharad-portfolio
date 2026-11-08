@@ -8,6 +8,7 @@ import Home from "./pages/Home.jsx";
 import CaseStudy from "./pages/CaseStudy.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Blog from "./pages/Blog.jsx";
+import Loader from "./components/Loader.jsx";
 import { findPost } from "./lib/posts.js";
 
 // Loaded only when a post is opened, so the Markdown renderer stays off other pages.
@@ -73,6 +74,7 @@ export default function App() {
 
   return (
     <>
+      <Loader />
       <a className="skip-link" href="#main">Skip to content</a>
       <Nav path={route.page === "home" ? "/" : loc.path} section={section} />
       <main id="main" tabIndex={-1} key={loc.path} className="page">

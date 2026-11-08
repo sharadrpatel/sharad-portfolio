@@ -1,8 +1,10 @@
 import { EDUCATION, INTERESTS, TOOLKIT } from "../data/profile.js";
 import { SectionHead } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
+import { useParallax } from "../lib/motion.js";
 
 export default function About() {
+  const drift = useParallax(0.05);
   return (
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
@@ -11,6 +13,7 @@ export default function About() {
         <div className="about">
           <Reveal className="about__portrait">
             <img
+              ref={drift}
               src="/headshot.jpg"
               alt="Portrait of Sharad Patel in a suit, in front of the University of Florida College of Medicine."
               width="676"
@@ -59,14 +62,14 @@ export default function About() {
           </Reveal>
         </div>
 
-        <Reveal className="toolkit" aria-labelledby="toolkit-title">
+        <Reveal className="toolkit has-st" aria-labelledby="toolkit-title">
           <div className="toolkit__head">
             <h3 id="toolkit-title" className="h3">Toolkit</h3>
             <p className="toolkit__note">Software, methods, and certifications I use in the work above.</p>
           </div>
           <dl className="toolkit__grid">
             {TOOLKIT.map((g, i) => (
-              <div key={g.group}>
+              <div key={g.group} className="st" style={{ "--si": i }}>
                 <dt>
                   <span className="toolkit__n">{String(i + 1).padStart(2, "0")}</span>
                   {g.group}

@@ -52,12 +52,27 @@ export default function Nav({ path, section }) {
   const menuRef = useRef(null);
   const toggleRef = useRef(null);
 
+  const progressRef = useRef(null);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setScrolled(window.scrollY > 8);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [path]);
 
   useEffect(() => setOpen(false), [path]);
 
@@ -119,6 +134,7 @@ export default function Nav({ path, section }) {
             <span className="site-nav__toggle-icon" aria-hidden="true" />
           </button>
         </div>
+        <span className="site-nav__progress" ref={progressRef} aria-hidden="true" />
       </header>
 
       <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>

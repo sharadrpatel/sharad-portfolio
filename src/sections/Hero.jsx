@@ -2,10 +2,13 @@ import { PROFILE, EDUCATION } from "../data/profile.js";
 import { Link } from "../lib/router.jsx";
 import { Button, Arrow } from "../components/ui.jsx";
 import PhasePortrait from "../components/PhasePortrait.jsx";
+import CountUp from "../components/CountUp.jsx";
+import { useParallax } from "../lib/motion.js";
 
 const [FIRST, ...REST] = PROFILE.name.split(" ");
 
 export default function Hero() {
+  const drift = useParallax(0.06);
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="wrap">
@@ -16,8 +19,12 @@ export default function Hero() {
         </div>
 
         <h1 id="hero-title" className="hero__name">
-          <span className="hero__name-line load-in" style={{ "--i": 1 }}>{FIRST}</span>{" "}
-          <span className="hero__name-line load-in" style={{ "--i": 2 }}>{REST.join(" ")}</span>
+          <span className="hero__name-line">
+            <span className="mask-in" style={{ "--i": 1 }}>{FIRST}</span>
+          </span>{" "}
+          <span className="hero__name-line">
+            <span className="mask-in" style={{ "--i": 2 }}>{REST.join(" ")}</span>
+          </span>
         </h1>
 
         <div className="hero__grid">
@@ -38,10 +45,13 @@ export default function Hero() {
           </div>
 
           <figure className="hero__figure load-in" style={{ "--i": 4 }}>
-            <PhasePortrait />
+            <div ref={drift}>
+              <PhasePortrait />
+            </div>
             <figcaption>
               <span className="hero__fig-num">Fig. 0</span>
-              A forced Duffing oscillator, simulated in your browser. The same equation runs the{" "}
+              A forced Duffing oscillator, simulated live in your browser. Turn up the forcing and watch it start
+              hopping between wells. The same equation runs the{" "}
               <Link to="/work/duffing-oscillator" className="hero__fig-link">
                 tabletop chaos demo
                 <Arrow />
@@ -76,7 +86,7 @@ export default function Hero() {
           <div>
             <dt>GPA</dt>
             <dd>
-              {EDUCATION.gpa}
+              <CountUp value={EDUCATION.gpa} />
               <span>Out of 4.00</span>
             </dd>
           </div>

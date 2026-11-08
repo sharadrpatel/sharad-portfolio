@@ -1,6 +1,6 @@
 import { CURRENTLY } from "../data/profile.js";
 import { Link } from "../lib/router.jsx";
-import { Arrow } from "../components/ui.jsx";
+import { Arrow, Mask } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
 
 export default function Now() {
@@ -12,17 +12,17 @@ export default function Now() {
             <span className="status__dot" aria-hidden="true" />
             Fall 2026
           </p>
-          <h2 id="now-title" className="now__title">
-            Now
-          </h2>
+          <Reveal as="h2" id="now-title" className="now__title">
+            <Mask>Now</Mask>
+          </Reveal>
           <p className="now__dek">
             What's in progress this semester, across the lab, the classroom, and the hospital.
           </p>
         </div>
 
-        <Reveal as="ol" className="now__list">
+        <Reveal as="ol" className="now__list has-st">
           {CURRENTLY.map((c, i) => (
-            <li key={c.what}>
+            <li key={c.what} className="st" style={{ "--si": i }}>
               <Link to={c.href} className="now__item">
                 <span className="now__n">{String(i + 1).padStart(2, "0")}</span>
                 <span className="now__what">{c.what}</span>

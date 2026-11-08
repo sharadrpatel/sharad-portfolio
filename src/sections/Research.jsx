@@ -3,6 +3,7 @@ import { RESEARCH } from "../data/work.js";
 import { SectionHead, Tags, TextLink, Arrow, Badge, shortPeriod } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
 import Reveal from "../components/Reveal.jsx";
+import CountUp from "../components/CountUp.jsx";
 
 export function ExternalLinks({ links }) {
   return (
@@ -77,7 +78,9 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
                 <div key={o.label}>
                   <dt>{o.label}</dt>
                   <dd>
-                    <span className="stats__value">{o.value}</span>
+                    <span className="stats__value">
+                      <CountUp value={o.value} />
+                    </span>
                     <span className="stats__note">{o.text}</span>
                   </dd>
                 </div>

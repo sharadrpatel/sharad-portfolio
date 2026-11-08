@@ -42,11 +42,11 @@ export default function Publications() {
         />
         <div className="pubs">
           {years.map((y) => (
-            <Reveal key={y} className="pubs__year">
+            <Reveal key={y} className="pubs__year has-st">
               <h3 className="pubs__y">{y}</h3>
               <ol className="pubs__list">
-                {PUBLICATIONS.filter((p) => p.date.startsWith(y)).map((p) => (
-                  <li key={p.title} className="pub">
+                {PUBLICATIONS.filter((p) => p.date.startsWith(y)).map((p, i) => (
+                  <li key={p.title} className="pub st" style={{ "--si": i }}>
                     <p className="pub__when">
                       <time dateTime={p.date}>{formatMonth(p.date)}</time>
                       <span>{p.type}</span>

@@ -1,22 +1,35 @@
 // Small presentational primitives shared across sections.
 import { Link } from "../lib/router.jsx";
+import Reveal from "./Reveal.jsx";
 
 // Section opener: a ruled line with the section number and a note, then a
-// large one-word title with its dek set beside it.
+// large one-word title with its dek set beside it. On scroll the rule draws
+// across and the title rises out of a mask.
 export function SectionHead({ id, number, title, dek, aside, night = false }) {
   return (
-    <header className={`section-head ${night ? "section-head--night" : ""}`}>
+    <Reveal as="header" className={`section-head ${night ? "section-head--night" : ""}`}>
       <div className="section-head__rule">
         <span className="section-head__num">{number}</span>
         {aside && <span className="section-head__aside">{aside}</span>}
       </div>
       <div className="section-head__body">
         <h2 id={id} className="h2 section-head__title">
-          {title}
+          <Mask>{title}</Mask>
         </h2>
         {dek && <p className="dek section-head__dek">{dek}</p>}
       </div>
-    </header>
+    </Reveal>
+  );
+}
+
+// Text that slides up out of its own line box when a parent .reveal comes in.
+export function Mask({ children, delay = 0 }) {
+  return (
+    <span className="mask">
+      <span className="mask__in" style={delay ? { "--mask-delay": `${delay}ms` } : undefined}>
+        {children}
+      </span>
+    </span>
   );
 }
 
