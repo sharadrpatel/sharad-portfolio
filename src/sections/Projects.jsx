@@ -1,10 +1,10 @@
-import { useState, useId } from "react";
+import { useMemo, useState, useId } from "react";
 import { DESIGN, MODELING_FEATURES, WETLAB_FEATURES } from "../data/work.js";
-import { FeaturedStudy } from "./Research.jsx";
 import { PROJECTS } from "../data/projects.js";
-import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
+import { Link } from "../lib/router.jsx";
+import { SectionHead, Tags, Arrow, Badge, shortPeriod, isOngoing } from "../components/ui.jsx";
+import { FigureArt } from "../components/figures.jsx";
 import Reveal from "../components/Reveal.jsx";
-import { FIGURES } from "../components/figures.jsx";
 
 export function SpecTable({ specs, caption }) {
   return (
@@ -32,204 +32,231 @@ export function SpecTable({ specs, caption }) {
   );
 }
 
-function DesignLead({ d }) {
+// Every project, from every source file, in one shape for the index.
+function fromWork(w, group) {
+  return {
+    key: w.slug,
+    code: w.index,
+    group,
+    title: w.title,
+    badge: w.badge,
+    context: w.lab,
+    period: w.period,
+    figure: w.figure,
+    caseStudy: w.caseStudy,
+    href: w.caseStudy ? `/work/${w.slug}` : null,
+    blurb: w.question ?? w.problem ?? w.summary,
+    status: w.status,
+    tools: w.tools,
+    details: w.caseStudy
+      ? null
+      : [
+          ["Problem", w.problem],
+          ["Method", w.method],
+          ["Contribution", w.contribution],
+        ].filter(([, v]) => v),
+  };
+}
+
+function fromProject(p, i) {
+  return {
+    key: p.id,
+    code: `C.${String(i + 1).padStart(2, "0")}`,
+    group: "code",
+    title: p.title,
+    badge: p.badge,
+    context: `${p.context} · ${p.domain}`,
+    period: null,
+    figure: null,
+    caseStudy: false,
+    href: null,
+    blurb: p.problem,
+    tools: p.tools,
+    link: p.link,
+    details: [
+      ["Problem", p.problem],
+      ["Method", p.method],
+      ["Outcome", p.outcome],
+    ],
+  };
+}
+
+const GROUPS = [
+  { id: "design", label: "Design", note: "Medical devices and CAD", items: DESIGN.map((w) => fromWork(w, "design")) },
+  { id: "wetlab", label: "Wet lab", note: "Cell culture and assays", items: WETLAB_FEATURES.map((w) => fromWork(w, "wetlab")) },
+  {
+    id: "modeling",
+    label: "Modeling",
+    note: "Classes, competitions, and teaching",
+    items: MODELING_FEATURES.map((w) => fromWork(w, "modeling")),
+  },
+  { id: "code", label: "Code & data", note: "Smaller things I built", items: PROJECTS.map(fromProject) },
+];
+
+const ALL = GROUPS.flatMap((g) => g.items);
+const GROUP_LABEL = Object.fromEntries(GROUPS.map((g) => [g.id, g.label]));
+
+function RowInner({ e, open }) {
   return (
-    <Reveal as="article" className="design-lead" id={`project-${d.slug}`} aria-labelledby={`t-${d.slug}`}>
-      <div className="design-lead__head">
-        <p className="label label--accent">{d.index} · {d.lab}</p>
-        <h4 id={`t-${d.slug}`} className="h3">{d.title}</h4>
-        <p className="meta">{d.period} · {d.role}</p>
-      </div>
-      <div className="design-lead__body">
-        <div className="pmct">
-          <div>
-            <h5 className="label">Problem</h5>
-            <p>{d.problem}</p>
-          </div>
-          <div>
-            <h5 className="label">Method</h5>
-            <p>{d.method}</p>
-          </div>
-          <div>
-            <h5 className="label">Contribution</h5>
-            <p>{d.contribution}</p>
-          </div>
-        </div>
-        <SpecTable specs={d.specs} caption="Selected target specifications (of 12 user needs)" />
-        <div className="design-lead__foot">
-          <Tags items={d.tools} />
-          <TextLink to={`/work/${d.slug}`}>
-            Read the case study<span className="visually-hidden">: {d.title}</span>
-          </TextLink>
-        </div>
-      </div>
-    </Reveal>
+    <>
+      <span className="work-row__code">{e.code}</span>
+      <span className="work-row__main">
+        <span className="work-row__title">
+          {e.title}
+          {e.badge && <Badge>{e.badge}</Badge>}
+        </span>
+        <span className="work-row__context">{e.context}</span>
+      </span>
+      <span className={`work-row__year ${isOngoing(e.period) ? "is-ongoing" : ""}`}>
+        {shortPeriod(e.period) ?? "—"}
+      </span>
+      {e.href ? (
+        <Arrow />
+      ) : (
+        <span className={`work-row__plus ${open ? "is-open" : ""}`} aria-hidden="true" />
+      )}
+    </>
   );
 }
 
-function DesignCard({ d, delay }) {
-  const img = d.figure && FIGURES[d.figure]?.img;
-  return (
-    <Reveal as="article" className="design-card" id={`project-${d.slug}`} delay={delay} aria-labelledby={`t-${d.slug}`}>
-      {img && (
-        <img className="design-card__img" src={img.src} width={img.width} height={img.height} alt="" loading="lazy" decoding="async" />
-      )}
-      <p className="label label--muted">
-        {d.index} · {d.period}
-      </p>
-      <h4 id={`t-${d.slug}`} className="h4">{d.title}</h4>
-      {d.lab && <p className="meta">{d.lab}</p>}
-      <dl className="pmct pmct--stacked">
-        <div>
-          <dt className="label">Problem</dt>
-          <dd>{d.problem}</dd>
-        </div>
-        <div>
-          <dt className="label">Method</dt>
-          <dd>{d.method}</dd>
-        </div>
-        <div>
-          <dt className="label">Contribution</dt>
-          <dd>{d.contribution}</dd>
-        </div>
-      </dl>
-      <Tags items={d.tools} />
-      {d.caseStudy && (
-        <div className="design-card__links">
-          <TextLink to={`/work/${d.slug}`}>
-            Read the case study<span className="visually-hidden">: {d.title}</span>
-          </TextLink>
-          {d.links?.map((l) => (
-            <a key={l.href} className="text-link" href={l.href} target="_blank" rel="noopener">
-              <span>{l.label}</span>
-              <Arrow dir="out" />
-            </a>
-          ))}
-        </div>
-      )}
-    </Reveal>
-  );
-}
-
-function IndexRow({ p, n, open, onToggle }) {
+function Row({ e, active, onActivate }) {
+  const [open, setOpen] = useState(false);
   const uid = useId();
-  const panelId = `${uid}-panel`;
+  const hover = { onMouseEnter: onActivate, onFocus: onActivate };
   return (
-    <li className={`index-row ${open ? "is-open" : ""}`}>
-      <h5 className="index-row__heading">
-        <button type="button" className="index-row__button" aria-expanded={open} aria-controls={panelId} onClick={onToggle}>
-          <span className="index-row__n">{String(n).padStart(2, "0")}</span>
-          <span className="index-row__title">
-            {p.title}
-            {p.badge && <span className="badge">{p.badge}</span>}
-          </span>
-          <span className="index-row__domain">{p.domain}</span>
-          <span className="index-row__icon" aria-hidden="true" />
-        </button>
-      </h5>
-      <div id={panelId} className="index-row__panel" role="region" aria-label={p.title} inert={open ? undefined : ""}>
-        <div className="index-row__inner">
-          <p className="meta">{p.context}</p>
-          <dl className="pmct">
-            <div>
-              <dt className="label">Problem</dt>
-              <dd>{p.problem}</dd>
-            </div>
-            <div>
-              <dt className="label">Method</dt>
-              <dd>{p.method}</dd>
-            </div>
-            <div>
-              <dt className="label">Outcome</dt>
-              <dd>{p.outcome}</dd>
-            </div>
-          </dl>
-          <div className="index-row__foot">
-            <Tags items={p.tools} />
-            {p.link &&
-              (p.link.internal ? (
-                <TextLink to={p.link.href}>{p.link.label}</TextLink>
+    <li id={`project-${e.key}`} className={`work-item ${active ? "is-active" : ""}`}>
+      {e.href ? (
+        <Link to={e.href} className="work-row" {...hover}>
+          <RowInner e={e} />
+          <span className="visually-hidden">, read the case study</span>
+        </Link>
+      ) : (
+        <>
+          <button
+            type="button"
+            className="work-row"
+            aria-expanded={open}
+            aria-controls={`${uid}-panel`}
+            onClick={() => setOpen((o) => !o)}
+            {...hover}
+          >
+            <RowInner e={e} open={open} />
+          </button>
+          <div id={`${uid}-panel`} className="work-detail" hidden={!open}>
+            <dl className="work-detail__list">
+              {e.details.map(([k, v]) => (
+                <div key={k}>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <Tags items={e.tools} />
+            {e.link &&
+              (e.link.internal ? (
+                <Link to={e.link.href} className="text-link">
+                  <span>{e.link.label}</span>
+                  <Arrow />
+                </Link>
               ) : (
-                <a className="text-link" href={p.link.href} target="_blank" rel="noopener">
-                  <span>{p.link.label}</span>
+                <a className="text-link" href={e.link.href} target="_blank" rel="noopener">
+                  <span>{e.link.label}</span>
                   <Arrow dir="out" />
                 </a>
               ))}
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </li>
   );
 }
 
+// A visual companion to the list: it follows hover and keyboard focus. Its
+// contents repeat what the rows and case studies already say, so it is hidden
+// from assistive technology.
+function Preview({ e }) {
+  return (
+    <div className="work__preview" aria-hidden="true">
+      <div className="preview" key={e.key}>
+        <div className={`preview__art ${e.figure ? "" : "preview__art--type"}`}>
+          {e.figure ? (
+            <FigureArt name={e.figure} />
+          ) : (
+            <span className="preview__code">{e.code}</span>
+          )}
+        </div>
+        <p className="preview__meta">
+          <span>{GROUP_LABEL[e.group]}</span>
+          <span>{e.code}</span>
+        </p>
+        <p className="preview__blurb">{e.blurb}</p>
+        {e.status && <p className="preview__status">{e.status}</p>}
+        <Tags items={e.tools.slice(0, 5)} />
+      </div>
+    </div>
+  );
+}
+
 export default function Projects() {
-  const [lead, ...cards] = DESIGN;
-  const [open, setOpen] = useState(() => new Set([PROJECTS[0].id]));
-  const toggle = (id) =>
-    setOpen((s) => {
-      const next = new Set(s);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  const allOpen = open.size === PROJECTS.length;
+  const [filter, setFilter] = useState("all");
+  const visible = useMemo(() => (filter === "all" ? GROUPS : GROUPS.filter((g) => g.id === filter)), [filter]);
+  const [activeKey, setActiveKey] = useState(ALL[0].key);
+  const active = ALL.find((e) => e.key === activeKey) ?? visible[0].items[0];
+
+  const choose = (id) => {
+    setFilter(id);
+    const first = (id === "all" ? GROUPS : GROUPS.filter((g) => g.id === id))[0].items[0];
+    setActiveKey(first.key);
+  };
+
+  const caseStudies = ALL.filter((e) => e.caseStudy).length;
 
   return (
-    <section id="projects" className="section section--wash" aria-labelledby="projects-title">
+    <section id="projects" className="section work" aria-labelledby="projects-title">
       <div className="wrap">
         <SectionHead
           id="projects-title"
-          number="02"
-          label="Projects"
-          title="Design, lab, and modeling projects"
-          dek="Senior design, class projects, wet lab work, modeling competitions, and a few things I built on my own. Each one covers the problem, what we did, and how it turned out."
+          number="02 — Projects"
+          aside={`${ALL.length} projects · ${caseStudies} case studies`}
+          title="Projects"
+          dek="Senior design, wet lab work, modeling competitions, a teaching demo, and a few things I built on my own. Open any row for the full write-up."
         />
 
-        <div className="subhead">
-          <h3 className="label">Engineering design</h3>
-          <p className="subhead__note">Medical devices and CAD.</p>
-        </div>
-        <DesignLead d={lead} />
-        <div className="design-grid">
-          {cards.map((d, i) => (
-            <DesignCard key={d.slug} d={d} delay={i * 80} />
-          ))}
-        </div>
-
-        <div className="subhead">
-          <h3 className="label">Wet lab</h3>
-          <p className="subhead__note">Cell culture and assays.</p>
-        </div>
-        <div className="studies">
-          {WETLAB_FEATURES.map((w, i) => (
-            <FeaturedStudy key={w.slug} w={w} figN={4 + i} idPrefix="project" heading="h4" />
-          ))}
+        <div className="work__filters" role="group" aria-label="Filter projects">
+          {[{ id: "all", label: "All", count: ALL.length }, ...GROUPS.map((g) => ({ ...g, count: g.items.length }))].map(
+            (f) => (
+              <button
+                key={f.id}
+                type="button"
+                className="filter"
+                aria-pressed={filter === f.id}
+                onClick={() => choose(f.id)}
+              >
+                {f.label}
+                <span className="filter__count">{f.count}</span>
+              </button>
+            )
+          )}
         </div>
 
-        <div className="subhead">
-          <h3 className="label">Modeling &amp; computation</h3>
-          <p className="subhead__note">Class projects, competitions, and independent work.</p>
+        <div className="work__layout">
+          <Reveal className="work__list">
+            {visible.map((g) => (
+              <div key={g.id} className="work-group">
+                <div className="work-group__head">
+                  <h3 className="label">{g.label}</h3>
+                  <p className="work-group__note">{g.note}</p>
+                </div>
+                <ol className="work-group__rows">
+                  {g.items.map((e) => (
+                    <Row key={e.key} e={e} active={e.key === active.key} onActivate={() => setActiveKey(e.key)} />
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </Reveal>
+          <Preview e={active} />
         </div>
-        <div className="studies">
-          {MODELING_FEATURES.map((w, i) => (
-            <FeaturedStudy key={w.slug} w={w} figN={4 + WETLAB_FEATURES.length + i} idPrefix="project" heading="h4" />
-          ))}
-        </div>
-
-        <div className="subhead subhead--minor">
-          <h4 className="label">More projects</h4>
-          <button
-            type="button"
-            className="subhead__action"
-            onClick={() => setOpen(allOpen ? new Set() : new Set(PROJECTS.map((p) => p.id)))}
-          >
-            {allOpen ? "Collapse all" : "Expand all"}
-          </button>
-        </div>
-        <Reveal as="ol" className="index">
-          {PROJECTS.map((p, i) => (
-            <IndexRow key={p.id} p={p} n={i + 1} open={open.has(p.id)} onToggle={() => toggle(p.id)} />
-          ))}
-        </Reveal>
       </div>
     </section>
   );

@@ -14,11 +14,11 @@
 }
 
 .blog__title {
-  font-family: var(--f-serif);
-  font-size: clamp(2.4rem, 1.8rem + 3vw, 3.8rem);
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  font-family: var(--f-display);
+  font-size: clamp(2.8rem, 1.6rem + 5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
 }
 
 .blog__empty {
@@ -57,9 +57,11 @@
 }
 
 .post-item__title {
-  font-family: var(--f-serif);
+  font-family: var(--f-display);
   font-size: var(--fs-h3);
-  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   text-wrap: balance;
 }
 
@@ -107,11 +109,11 @@
 }
 
 .post__title {
-  font-family: var(--f-serif);
-  font-size: clamp(2.1rem, 1.5rem + 2.8vw, 3.4rem);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  font-family: var(--f-display);
+  font-size: clamp(2.3rem, 1.4rem + 3.6vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 
@@ -139,7 +141,8 @@
 
 .post-body {
   padding-top: clamp(2rem, 1.5rem + 2vw, 3rem);
-  font-size: 1.09rem;
+  font-family: var(--f-text);
+  font-size: 1.15rem;
   line-height: 1.75;
   color: var(--ink);
 }
@@ -151,10 +154,10 @@
 .post-body h2,
 .post-body h3,
 .post-body h4 {
-  font-family: var(--f-serif);
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  font-family: var(--f-display);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
   margin-top: 2em;
 }
 
@@ -186,7 +189,7 @@
   margin-inline: 0;
   padding-left: 1.1rem;
   border-left: 2px solid var(--accent);
-  font-family: var(--f-serif);
+  font-family: var(--f-text);
   font-style: italic;
   font-size: 1.15rem;
   color: var(--ink-2);

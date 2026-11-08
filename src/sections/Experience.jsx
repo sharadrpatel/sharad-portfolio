@@ -1,105 +1,83 @@
 import { CLINICAL, TEACHING, LEADERSHIP } from "../data/experience.js";
-import { SectionHead } from "../components/ui.jsx";
+import { SectionHead, Badge } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
 
-function Clinical() {
-  const c = CLINICAL;
+// One grammar for every group: period on the left, role and place, then what
+// the work involves.
+function Entry({ period, role, org, note, highlight, children }) {
   return (
-    <Reveal as="article" className="clinical" aria-labelledby="clinical-title">
-      <div className="clinical__head">
-        <h3 className="label">Clinical</h3>
-        <ul className="credentials" aria-label="Certifications">
-          {c.credentials.map((x) => (
-            <li key={x}>{x}</li>
-          ))}
-        </ul>
+    <li className="cv-entry">
+      <p className="cv-entry__period">{period}</p>
+      <div className="cv-entry__body">
+        <h4 className="cv-entry__role">
+          {role}
+          {highlight && <Badge>{highlight}</Badge>}
+        </h4>
+        <p className="cv-entry__org">
+          {org}
+          {note && <span> · {note}</span>}
+        </p>
+        {children}
       </div>
-      <h4 id="clinical-title" className="h3">{c.role}</h4>
-      <dl className="clinical__facts">
-        <div>
-          <dt className="label label--muted">Setting</dt>
-          <dd>{c.place}</dd>
-        </div>
-        <div>
-          <dt className="label label--muted">Unit</dt>
-          <dd>{c.unit}</dd>
-        </div>
-        <div>
-          <dt className="label label--muted">Since</dt>
-          <dd>{c.period.replace(" – Present", "")}</dd>
-        </div>
-      </dl>
-      <dl className="method-list method-list--tight">
-        {c.duties.map((d) => (
-          <div key={d.label}>
-            <dt>{d.label}</dt>
-            <dd>{d.text}</dd>
-          </div>
-        ))}
-      </dl>
-    </Reveal>
+    </li>
   );
 }
 
-function Teaching() {
+function Group({ id, label, count, children }) {
   return (
-    <Reveal as="article" className="teaching" aria-labelledby="teaching-title">
-      <h3 id="teaching-title" className="label">Teaching</h3>
-      <ul className="courses">
-        {TEACHING.map((t) => (
-          <li key={t.course} className="course">
-            <div className="course__head">
-              <h4 className="course__name">{t.course}</h4>
-              {t.highlight && <span className="badge">{t.highlight}</span>}
-            </div>
-            <p className="meta">
-              {t.role} · {t.period} · {t.format}
-            </p>
-            <p className="course__text">{t.text}</p>
-          </li>
-        ))}
-      </ul>
-    </Reveal>
-  );
-}
-
-function Leadership() {
-  return (
-    <Reveal as="article" className="leadership" aria-labelledby="leadership-title">
-      <h3 id="leadership-title" className="label">Leadership &amp; service</h3>
-      <ol className="timeline">
-        {LEADERSHIP.map((l) => (
-          <li key={l.role + l.org}>
-            <span className="timeline__period">{l.period}</span>
-            <div>
-              <h4 className="timeline__role">
-                {l.role} <span>· {l.org}</span>
-              </h4>
-              <p>{l.text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+    <Reveal className="cv__group" aria-labelledby={id}>
+      <div className="cv__label">
+        <h3 id={id} className="label">{label}</h3>
+        {count && <p className="cv__count">{count}</p>}
+      </div>
+      <ol className="cv__entries">{children}</ol>
     </Reveal>
   );
 }
 
 export default function Experience() {
+  const c = CLINICAL;
   return (
-    <section id="experience" className="section section--wash" aria-labelledby="experience-title">
+    <section id="experience" className="section" aria-labelledby="experience-title">
       <div className="wrap">
         <SectionHead
           id="experience-title"
-          number="04"
-          label="Experience"
-          title="Clinical work, teaching, and leadership"
-          dek="What I do outside of research."
+          number="04 — Experience"
+          aside="Clinical · Teaching · Leadership"
+          title="Experience"
+          dek="What I do outside of research: patient care on a hospital unit, teaching four courses, and community work."
         />
-        <div className="experience-grid">
-          <Clinical />
-          <Teaching />
+
+        <div className="cv">
+          <Group id="cv-clinical" label="Clinical" count={c.credentials.join(" · ")}>
+            <Entry period={c.period} role={c.role} org={c.place} note={c.unit}>
+              <dl className="duties">
+                {c.duties.map((d) => (
+                  <div key={d.label}>
+                    <dt>{d.label}</dt>
+                    <dd>{d.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Entry>
+          </Group>
+
+          <Group id="cv-teaching" label="Teaching" count={`${TEACHING.length} roles`}>
+            {TEACHING.map((t) => (
+              <Entry key={t.course} period={t.period} role={t.course} org={t.role} note={t.format} highlight={t.highlight}>
+                <p className="cv-entry__text">{t.text}</p>
+              </Entry>
+            ))}
+          </Group>
+
+          <Group id="cv-leadership" label="Leadership & service" count={`${LEADERSHIP.length} roles`}>
+            {LEADERSHIP.map((l) => (
+              <Entry key={l.role + l.org} period={l.period} role={l.role} org={l.org}>
+                <p className="cv-entry__text">{l.text}</p>
+              </Entry>
+            ))}
+          </Group>
         </div>
-        <Leadership />
       </div>
     </section>
   );

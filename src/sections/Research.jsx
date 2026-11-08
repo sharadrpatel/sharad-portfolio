@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { RESEARCH } from "../data/work.js";
-import { SectionHead, Tags, TextLink, Arrow } from "../components/ui.jsx";
+import { SectionHead, Tags, TextLink, Arrow, Badge, shortPeriod } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
 import Reveal from "../components/Reveal.jsx";
 
@@ -18,159 +19,190 @@ export function ExternalLinks({ links }) {
   );
 }
 
-function StudyMeta({ w }) {
+function PlateMeta({ w }) {
   return (
-    <div className="study__meta">
-      <span className="study__index">{w.index}</span>
-      <dl className="meta-list">
-        <div>
-          <dt>Where</dt>
-          <dd>{w.lab}</dd>
-        </div>
-        {w.period && (
-          <div>
-            <dt>Period</dt>
-            <dd>{w.period}</dd>
-          </div>
-        )}
-        <div>
-          <dt>Field</dt>
-          <dd>{w.area.join(" · ")}</dd>
-        </div>
-      </dl>
-    </div>
+    <p className="plate__meta">
+      <span className="plate__index">{w.index}</span>
+      <span>{w.lab}</span>
+      {w.period && <span className="plate__period">{w.period}</span>}
+    </p>
   );
 }
 
+// One study, set as a plate: meta rule, title, question, text beside its figure.
 export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading = "h3" }) {
-  const outcomes = w.outcomes?.filter((o) => o.value);
+  const stats = w.outcomes?.filter((o) => o.value);
   return (
-    <Reveal as="article" className="study study--featured" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
-      <StudyMeta w={w} />
-      <div className="study__main">
-        <Heading id={`t-${w.slug}`} className="h3 study__title">
-          {w.title}
-          {w.badge && <span className="badge">{w.badge}</span>}
-        </Heading>
-        {w.question && (
-          <p className="study__question">
-            <span className="label label--accent">Question</span>
-            {w.question}
-          </p>
-        )}
-        <div className="study__cols">
-          <div className="study__text">
-            <p>{w.summary}</p>
-            {w.subprojects ? (
-              <ol className="subprojects">
-                {w.subprojects.map((sp, n) => (
-                  <li key={sp.id}>
-                    <span className="subprojects__n">{String(n + 1).padStart(2, "0")}</span>
-                    <div>
-                      <p className="subprojects__title">{sp.title}</p>
-                      <p>{sp.short}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <dl className="method-list">
-                {w.approach.slice(0, 4).map((a) => (
-                  <div key={a.label}>
-                    <dt>{a.label}</dt>
-                    <dd>{a.text}</dd>
+    <Reveal as="article" className="plate" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+      <PlateMeta w={w} />
+      <Heading id={`t-${w.slug}`} className="h3 plate__title">
+        {w.title}
+        {w.badge && <Badge>{w.badge}</Badge>}
+      </Heading>
+      {w.question && <p className="plate__question">{w.question}</p>}
+
+      <div className={`plate__body ${w.figure ? "" : "plate__body--solo"}`}>
+        <div className="plate__text">
+          <p className="read">{w.summary}</p>
+
+          {w.subprojects && (
+            <ol className="subprojects">
+              {w.subprojects.map((sp, n) => (
+                <li key={sp.id}>
+                  <span className="subprojects__n">{String(n + 1).padStart(2, "0")}</span>
+                  <div>
+                    <p className="subprojects__title">{sp.title}</p>
+                    <p className="subprojects__text">{sp.short}</p>
                   </div>
-                ))}
-              </dl>
-            )}
-            {outcomes?.length > 0 && (
-              <dl className="stat-row">
-                {outcomes.map((o) => (
-                  <div key={o.label}>
-                    <dt className="label label--muted">{o.label}</dt>
-                    <dd>
-                      <span className="stat-row__value">{o.value}</span>
-                      <span className="stat-row__note">{o.text}</span>
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            {w.status && (
-              <p className="status">
-                <span className="status__dot" aria-hidden="true" />
-                {w.status}
-              </p>
-            )}
-            <Tags items={w.tools} />
-            {w.links && <ExternalLinks links={w.links} />}
-            {w.caseStudy && (
-              <TextLink to={`/work/${w.slug}`}>
-                Read the case study
-                <span className="visually-hidden">: {w.title}</span>
-              </TextLink>
-            )}
-          </div>
-          {w.figure && (
-            <div className="study__figure">
-              <WorkFigure name={w.figure} n={figN} />
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {/* Studies without their own page carry their methods here. */}
+          {!w.caseStudy && w.approach && (
+            <dl className="method-list">
+              {w.approach.map((a) => (
+                <div key={a.label}>
+                  <dt>{a.label}</dt>
+                  <dd>{a.text}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          {stats?.length > 0 && (
+            <dl className="stats">
+              {stats.map((o) => (
+                <div key={o.label}>
+                  <dt>{o.label}</dt>
+                  <dd>
+                    <span className="stats__value">{o.value}</span>
+                    <span className="stats__note">{o.text}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          {w.status && (
+            <p className="status">
+              <span className="status__dot" aria-hidden="true" />
+              {w.status}
+            </p>
+          )}
+
+          <Tags items={w.tools} />
+
+          {(w.links || w.caseStudy) && (
+            <div className="plate__links">
+              {w.caseStudy && (
+                <TextLink to={`/work/${w.slug}`}>
+                  Read the case study
+                  <span className="visually-hidden">: {w.title}</span>
+                </TextLink>
+              )}
+              {w.links && <ExternalLinks links={w.links} />}
             </div>
           )}
         </div>
+
+        {w.figure && (
+          <div className="plate__figure">
+            <WorkFigure name={w.figure} n={figN} />
+          </div>
+        )}
       </div>
     </Reveal>
   );
 }
 
-function SecondaryStudy({ w }) {
+function CompactStudy({ w }) {
   return (
-    <Reveal as="article" className="study study--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
-      <StudyMeta w={w} />
-      <div className="study__main">
-        <h4 id={`t-${w.slug}`} className="h4 study__title">
-          {w.title}
-        </h4>
-        <p className="study__role">{w.role}</p>
-        <p>{w.summary}</p>
-        <Tags items={w.tools} />
-        {w.caseStudy && (
-          <TextLink to={`/work/${w.slug}`}>
-            Read the case study
-            <span className="visually-hidden">: {w.title}</span>
-          </TextLink>
-        )}
-      </div>
+    <Reveal as="article" className="plate plate--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+      <PlateMeta w={w} />
+      <h4 id={`t-${w.slug}`} className="h4 plate__title">
+        {w.title}
+      </h4>
+      <p className="plate__role">{w.role}</p>
+      <p className="read">{w.summary}</p>
+      <Tags items={w.tools} />
+      {w.caseStudy && (
+        <TextLink to={`/work/${w.slug}`}>
+          Read the case study
+          <span className="visually-hidden">: {w.title}</span>
+        </TextLink>
+      )}
     </Reveal>
   );
+}
+
+// Highlights the plate currently under the reading line.
+function useActivePlate(ids) {
+  const [active, setActive] = useState(ids[0]);
+  useEffect(() => {
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!els.length || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [ids.join()]);
+  return active;
 }
 
 export default function Research() {
   const featured = RESEARCH.filter((w) => w.tier === "featured");
   const secondary = RESEARCH.filter((w) => w.tier === "secondary");
+  const labs = new Set(RESEARCH.map((w) => w.lab)).size;
+  const active = useActivePlate(RESEARCH.map((w) => `research-${w.slug}`));
+
   return (
-    <section id="research" className="section" aria-labelledby="research-title">
+    <section id="research" className="section research" aria-labelledby="research-title">
       <div className="wrap">
         <SectionHead
           id="research-title"
-          number="01"
-          label="Research"
-          title="What I'm working on in the lab"
-          dek="Most of my research is computational: modeling muscles in the thumb, the evolution of plasticity and dispersal, and lung injury after transplant. For each project, here's the question, what I did, and where it stands."
+          number="01 — Research"
+          aside={`${RESEARCH.length} projects · ${labs} groups`}
+          title="Research"
+          dek="Most of it is computational: muscles in the arthritic thumb, how plasticity and dispersal evolve, and lung injury after transplant. Each entry gives the question, what I did, and where it stands."
         />
-        <div className="studies">
-          {featured.map((w, i) => (
-            <FeaturedStudy key={w.slug} w={w} figN={i + 1} />
-          ))}
-        </div>
 
-        <div className="subhead">
-          <h3 className="label">Other research</h3>
-          <p className="subhead__note">Parkinson's disease and surgical simulation.</p>
-        </div>
-        <div className="studies studies--compact">
-          {secondary.map((w) => (
-            <SecondaryStudy key={w.slug} w={w} />
-          ))}
+        <div className="research__layout">
+          <nav className="research__index" aria-label="Research projects">
+            <ol>
+              {RESEARCH.map((w) => (
+                <li key={w.slug}>
+                  <a
+                    href={`#research-${w.slug}`}
+                    aria-current={active === `research-${w.slug}` ? "true" : undefined}
+                  >
+                    <span className="research__index-n">{w.index}</span>
+                    <span className="research__index-title">{w.lab}</span>
+                    <span className="research__index-year">{shortPeriod(w.period)}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          <div className="research__plates">
+            {featured.map((w, i) => (
+              <FeaturedStudy key={w.slug} w={w} figN={i + 1} />
+            ))}
+
+            <div className="subhead">
+              <h3 className="label">Also</h3>
+              <p className="subhead__note">Parkinson's disease and surgical simulation.</p>
+            </div>
+            <div className="research__compact">
+              {secondary.map((w) => (
+                <CompactStudy key={w.slug} w={w} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

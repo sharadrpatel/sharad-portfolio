@@ -9,26 +9,31 @@ const CHANNELS = [
 ];
 
 export default function Contact() {
+  const [user, domain] = PROFILE.email.split("@");
   return (
-    <section id="contact" className="section contact" aria-labelledby="contact-title">
+    <section id="contact" className="section section--night contact" aria-labelledby="contact-title">
       <div className="wrap">
-        <SectionHead id="contact-title" number="06" label="Contact" title="Get in touch" />
+        <SectionHead
+          id="contact-title"
+          number="06 — Contact"
+          aside={PROFILE.location}
+          title="Contact"
+          dek="Email is the best way to reach me, about research, projects, or anything on this page."
+          night
+        />
         <Reveal className="contact__grid">
-          <div>
-            <p className="contact__lede">
-              Email is the best way to reach me.
-            </p>
-            <a className="contact__email" href={`mailto:${PROFILE.email}`}>
-              {PROFILE.email}
-              <Arrow />
-            </a>
-            <p className="meta">{PROFILE.location}</p>
-          </div>
+          <a className="contact__email" href={`mailto:${PROFILE.email}`}>
+            <span className="contact__email-text">
+              {user}
+              <wbr />@{domain}
+            </span>
+            <Arrow />
+          </a>
           <ul className="contact__channels">
             {CHANNELS.map((c) => (
               <li key={c.label}>
                 <a href={c.href} target="_blank" rel="noopener">
-                  <span className="label label--muted">{c.label}</span>
+                  <span className="contact__label">{c.label}</span>
                   <span className="contact__value">{c.value}</span>
                   <Arrow dir="out" />
                 </a>

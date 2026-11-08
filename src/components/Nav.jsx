@@ -86,8 +86,9 @@ export default function Nav({ path, section }) {
       <header className={`site-nav ${scrolled || !isHome ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
         <div className="site-nav__inner wrap">
           <Link to="/" className="wordmark" aria-label={`${PROFILE.name}, home`}>
+            <span className="wordmark__mark" aria-hidden="true">SP</span>
             <span className="wordmark__name">{PROFILE.name}</span>
-            <span className="wordmark__role">Biomedical Engineering</span>
+            <span className="wordmark__role">BME · University of Florida</span>
           </Link>
 
           <nav className="site-nav__links" aria-label="Primary">
@@ -120,12 +121,17 @@ export default function Nav({ path, section }) {
         </div>
       </header>
 
-        <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>
+      <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>
           <nav aria-label="Primary mobile" className="wrap">
             <ol>
               {NAV.map((n, i) => (
                 <li key={n.id}>
-                  <Link to={n.to ?? `/#${n.id}`} onClick={() => setOpen(false)} aria-current={current === n.id ? "true" : undefined}>
+                  <Link
+                    to={n.to ?? `/#${n.id}`}
+                    onClick={() => setOpen(false)}
+                    aria-current={current === n.id ? "true" : undefined}
+                    style={{ "--i": i }}
+                  >
                     <span className="mobile-menu__num">{String(i + 1).padStart(2, "0")}</span>
                     {n.label}
                   </Link>

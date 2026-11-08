@@ -1,4 +1,5 @@
 import Hero from "../sections/Hero.jsx";
+import Now from "../sections/Now.jsx";
 import Research from "../sections/Research.jsx";
 import Projects from "../sections/Projects.jsx";
 import Publications from "../sections/Publications.jsx";
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Now />
       <Research />
       <Projects />
       <Publications />

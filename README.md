@@ -15,16 +15,21 @@ npm run dev
 ```
 src/
   data/        Content — edit these to update the site (profile, research, projects, publications, experience)
-  sections/    Homepage sections (Hero, Research, Projects, Publications, Experience, About, Contact)
+  sections/    Homepage sections (Hero, Now, Research, Projects, Publications, Experience, About, Contact)
   pages/       Home, case-study page (/work/:slug), 404
   components/  Nav, Footer, Reveal, figures, small UI primitives
   lib/         Minimal History-API router
   styles/      Design tokens and styles (tokens → base → components → sections → figures → case)
 ```
 
-- Research entries live in `src/data/work.js`. `tier: "featured"` gives a large row with a figure;
+- Research entries live in `src/data/work.js`. `tier: "featured"` gives a full plate with a figure;
   `caseStudy: true` generates a page at `/work/<slug>`.
-- Colors, type, and spacing are defined once in `src/styles/tokens.css`.
+- Design, wet lab, and modeling entries (also in `work.js`) and the smaller projects in
+  `src/data/projects.js` all feed the one filterable Projects index. Entries with a case study link to
+  it; the rest expand in place.
+- "Now" on the homepage lists `CURRENTLY` from `src/data/profile.js`.
+- Colors, type, and spacing are defined once in `src/styles/tokens.css`: bone paper, near-black ink, one
+  cobalt accent; Schibsted Grotesk for structure, Source Serif 4 for reading, DM Mono for annotation.
 - `public/CV.pdf` is the downloadable CV and the factual source for site content.
 
 ## Writing a blog post

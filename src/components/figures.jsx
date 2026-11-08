@@ -410,3 +410,15 @@ export function WorkFigure({ name, n, wide }) {
     </Figure>
   );
 }
+
+// The drawing or image alone, without the numbered caption (used in previews).
+export function FigureArt({ name }) {
+  const f = FIGURES[name];
+  if (!f) return null;
+  const { Svg, img } = f;
+  return img ? (
+    <img src={img.src} width={img.width} height={img.height} alt={f.alt ?? ""} loading="lazy" decoding="async" />
+  ) : (
+    <Svg />
+  );
+}

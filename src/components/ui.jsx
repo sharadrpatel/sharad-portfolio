@@ -1,23 +1,26 @@
 // Small presentational primitives shared across sections.
 import { Link } from "../lib/router.jsx";
 
-export function SectionHead({ id, number, label, title, dek }) {
+// Section opener: a ruled line with the section number and a note, then a
+// large one-word title with its dek set beside it.
+export function SectionHead({ id, number, title, dek, aside, night = false }) {
   return (
-    <header className="section-head">
-      <p className="section-head__label">
+    <header className={`section-head ${night ? "section-head--night" : ""}`}>
+      <div className="section-head__rule">
         <span className="section-head__num">{number}</span>
-        <span>{label}</span>
-      </p>
+        {aside && <span className="section-head__aside">{aside}</span>}
+      </div>
       <div className="section-head__body">
-        <h2 id={id} className="h2">
+        <h2 id={id} className="h2 section-head__title">
           {title}
         </h2>
-        {dek && <p className="dek">{dek}</p>}
+        {dek && <p className="dek section-head__dek">{dek}</p>}
       </div>
     </header>
   );
 }
 
+// Tools and methods, set as an inline run of mono text rather than chips.
 export function Tags({ items, label = "Tools and methods" }) {
   return (
     <ul className="tags" aria-label={label}>
@@ -30,6 +33,10 @@ export function Tags({ items, label = "Tools and methods" }) {
   );
 }
 
+export function Badge({ children, soft = false }) {
+  return <span className={`badge ${soft ? "badge--soft" : ""}`}>{children}</span>;
+}
+
 export function Arrow({ dir = "right" }) {
   const d = {
     right: "M1 6h10M7 2l4 4-4 4",
@@ -40,7 +47,7 @@ export function Arrow({ dir = "right" }) {
   }[dir];
   return (
     <svg className={`arrow arrow--${dir}`} width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="square" strokeLinejoin="miter" />
     </svg>
   );
 }
@@ -71,4 +78,19 @@ export function Rich({ text }) {
 
 export function Meta({ children }) {
   return <p className="meta">{children}</p>;
+}
+
+// "Aug 2024 – Present" → "2024–now"; "Oct 2025" → "2025"; "Aug 2023 – May 2024" → "2023–24".
+export function shortPeriod(period) {
+  if (!period) return null;
+  const years = period.match(/\d{4}/g) ?? [];
+  const ongoing = /present/i.test(period);
+  if (!years.length) return period;
+  if (ongoing) return `${years[0]}–now`;
+  if (years.length > 1 && years[0] !== years[1]) return `${years[0]}–${years[1].slice(2)}`;
+  return years[0];
+}
+
+export function isOngoing(period) {
+  return /present/i.test(period ?? "");
 }

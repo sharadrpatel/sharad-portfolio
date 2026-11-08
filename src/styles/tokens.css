@@ -1,52 +1,66 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    Design tokens
-   Paper-and-ink neutrals, one oxide-red accent for emphasis and state, one
-   slate blue reserved for data. Serif for voice, sans for reading, mono for
-   metadata — the three roles never swap.
+
+   A lab-notebook palette: warm bone paper, near-black ink, and one cobalt
+   accent (the color of a drafting pen) for links, state, and the model line
+   in figures. Oxide is kept for reference data in figures only.
+
+   Three type roles, never swapped:
+   - Schibsted Grotesk  structure: names, headings, navigation, interface
+   - Source Serif 4     reading: summaries, questions, long-form prose
+   - DM Mono            annotation: indices, dates, labels, captions
    ───────────────────────────────────────────────────────────────────────── */
 :root {
   /* Surfaces */
-  --paper: #f7f6f2;
-  --surface: #ffffff;
-  --wash: #efede7;
-  --rule: #dedbd2;
-  --rule-strong: #c7c3b8;
+  --paper: #f3f2ee;
+  --surface: #fbfaf7;
+  --wash: #e9e7e1;
+  --rule: #d9d6ce;
+  --rule-strong: #b9b6ac;
 
   /* Ink */
-  --ink: #1a1a18;
-  --ink-2: #45443f;
-  --ink-3: #686760;
+  --ink: #121211;
+  --ink-2: #3d3c38;
+  --ink-3: #64635d;
 
-  /* Accent: oxide red — annotations, active states, key numbers */
-  --accent: #b23c1f;
-  --accent-ink: #8e2f17;
-  --accent-soft: #f3e1d8;
-  --accent-wash: #faf1ec;
+  /* Accent: cobalt */
+  --accent: #2b39c4;
+  --accent-ink: #1f2a99;
+  --accent-soft: #d9dcf5;
+  --accent-wash: #eceefa;
 
-  /* Data: slate blue — reference values in figures */
-  --data: #2f5577;
-  --data-soft: #e2e9f0;
+  /* Data: oxide (reference values in figures) */
+  --data: #b4441c;
+  --data-soft: #f2dfd6;
 
-  /* Type families */
-  --f-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --f-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* Inverted (dark) bands */
+  --night: #121211;
+  --night-2: #1c1c1a;
+  --night-rule: rgb(243 242 238 / 0.16);
+  --night-ink: #f3f2ee;
+  --night-ink-2: #a3a29b;
+  --night-accent: #a9b1ff;
 
-  /* Type scale (fluid where it matters) */
-  --fs-label: 0.72rem;
+  /* Families */
+  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-text: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --f-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale */
+  --fs-label: 0.6875rem;
   --fs-xs: 0.8125rem;
-  --fs-sm: 0.9rem;
+  --fs-sm: 0.9063rem;
   --fs-base: 1.0625rem;
-  --fs-md: 1.1875rem;
-  --fs-lead: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem);
-  --fs-h4: clamp(1.2rem, 1.12rem + 0.35vw, 1.375rem);
-  --fs-h3: clamp(1.5rem, 1.25rem + 1vw, 2.05rem);
-  --fs-h2: clamp(1.95rem, 1.45rem + 2.1vw, 3rem);
-  --fs-h1: clamp(2.75rem, 1.9rem + 3.8vw, 4.6rem);
+  --fs-read: 1.125rem;
+  --fs-lead: clamp(1.25rem, 1.05rem + 0.8vw, 1.7rem);
+  --fs-h4: clamp(1.15rem, 1.05rem + 0.4vw, 1.375rem);
+  --fs-h3: clamp(1.55rem, 1.2rem + 1.4vw, 2.4rem);
+  --fs-h2: clamp(2.6rem, 1.6rem + 4.4vw, 6rem);
+  --fs-display: clamp(3.4rem, 0.6rem + 11.6vw, 11.5rem);
 
-  --lh-tight: 1.08;
-  --lh-snug: 1.28;
-  --lh-body: 1.62;
+  --lh-tight: 1.02;
+  --lh-snug: 1.22;
+  --lh-body: 1.6;
 
   /* Spacing (4px base) */
   --s-1: 0.25rem;
@@ -58,22 +72,22 @@
   --s-7: 3rem;
   --s-8: 4rem;
   --s-9: 6rem;
-  --section-y: clamp(4rem, 3rem + 5vw, 7.5rem);
+  --section-y: clamp(4.5rem, 2.5rem + 7vw, 10rem);
 
   /* Layout */
-  --max: 1240px;
-  --prose: 40rem;
-  --gutter: clamp(1rem, 0.4rem + 3vw, 2.5rem);
-  --col-gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
+  --max: 1320px;
+  --prose: 38rem;
+  --gutter: clamp(1rem, 0.3rem + 3.2vw, 3rem);
+  --col-gap: clamp(1rem, 0.4rem + 1.8vw, 2.25rem);
   --nav-h: 64px;
 
   /* Form */
-  --radius: 2px;
-  --shadow: 0 1px 0 rgb(26 26 24 / 0.04), 0 12px 28px -18px rgb(26 26 24 / 0.22);
+  --radius: 0;
 
   /* Motion */
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease: cubic-bezier(0.22, 0.61, 0.24, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 160ms;
-  --dur: 240ms;
-  --dur-slow: 600ms;
+  --dur: 280ms;
+  --dur-slow: 700ms;
 }

@@ -1,12 +1,11 @@
 import { PUBLICATIONS, SELF } from "../data/publications.js";
-import { SectionHead } from "../components/ui.jsx";
+import { SectionHead, Badge } from "../components/ui.jsx";
 import Reveal from "../components/Reveal.jsx";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-function formatDate(ym) {
-  const [y, m] = ym.split("-").map(Number);
-  return `${MONTHS[m - 1]} ${y}`;
+function formatMonth(ym) {
+  return MONTHS[Number(ym.split("-")[1]) - 1];
 }
 
 function isUpcoming(ym) {
@@ -30,32 +29,42 @@ function Authors({ list }) {
 
 export default function Publications() {
   const firstAuthor = PUBLICATIONS.filter((p) => p.authors[0] === SELF).length;
+  const years = [...new Set(PUBLICATIONS.map((p) => p.date.slice(0, 4)))];
   return (
     <section id="publications" className="section" aria-labelledby="publications-title">
       <div className="wrap">
         <SectionHead
           id="publications-title"
-          number="03"
-          label="Publications & presentations"
-          title="Publications and presentations"
-          dek={`${PUBLICATIONS.length} so far, ${firstAuthor} as first author. Half come from surgical simulation research. The rest cover pediatric MRI, anesthesia monitoring, and a math modeling talk.`}
+          number="03 — Publications"
+          aside={`${PUBLICATIONS.length} total · ${firstAuthor} first-author`}
+          title="Publications"
+          dek="Posters and talks. Half come from surgical simulation research; the rest cover pediatric MRI, anesthesia monitoring, and a math modeling talk."
         />
-        <Reveal as="ol" className="pubs">
-          {PUBLICATIONS.map((p) => (
-            <li key={p.title} className="pub">
-              <div className="pub__date">
-                <time dateTime={p.date}>{formatDate(p.date)}</time>
-                {isUpcoming(p.date) && <span className="badge badge--soft">Upcoming</span>}
-              </div>
-              <div className="pub__body">
-                <h3 className="pub__title">{p.title}</h3>
-                <Authors list={p.authors} />
-                <p className="pub__venue">{p.venue}</p>
-              </div>
-              <p className="pub__type label label--muted">{p.type}</p>
-            </li>
+        <div className="pubs">
+          {years.map((y) => (
+            <Reveal key={y} className="pubs__year">
+              <h3 className="pubs__y">{y}</h3>
+              <ol className="pubs__list">
+                {PUBLICATIONS.filter((p) => p.date.startsWith(y)).map((p) => (
+                  <li key={p.title} className="pub">
+                    <p className="pub__when">
+                      <time dateTime={p.date}>{formatMonth(p.date)}</time>
+                      <span>{p.type}</span>
+                    </p>
+                    <div className="pub__body">
+                      <h4 className="pub__title">
+                        {p.title}
+                        {isUpcoming(p.date) && <Badge>Upcoming</Badge>}
+                      </h4>
+                      <Authors list={p.authors} />
+                      <p className="pub__venue">{p.venue}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   );
