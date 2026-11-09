@@ -1,19 +1,16 @@
 // A deliberately tiny History-API router: the site only has a home page and
 // case-study pages, so a routing library would be dead weight.
 import { useEffect, useState } from "react";
+import { glideTo } from "./smooth.js";
 
 const listeners = new Set();
 const emit = (restoreY) => listeners.forEach((fn) => fn(restoreY));
-
-const reducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export function scrollToHash(hash) {
   const id = decodeURIComponent(hash.replace(/^#/, ""));
   const el = id && document.getElementById(id);
   if (!el) return false;
-  el.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
+  glideTo(el);
   // Move focus for keyboard and screen-reader users without a second jump.
   if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
   el.focus({ preventScroll: true });
@@ -25,7 +22,7 @@ export function navigate(to) {
   if (url.pathname === window.location.pathname) {
     history.pushState({}, "", url.pathname + url.hash);
     if (url.hash) scrollToHash(url.hash);
-    else window.scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" });
+    else glideTo(0);
     return;
   }
   // Remember where we were so the back button returns to the same spot.

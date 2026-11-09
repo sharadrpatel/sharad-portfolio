@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { INTRO, markIntroSeen } from "../lib/intro.js";
+import { holdScroll, releaseScroll } from "../lib/smooth.js";
 
 // First-visit intro: model meets data, then the name.
 //   1. Sixty-four noisy measurements are recorded across a plot.
@@ -373,6 +374,20 @@ export default function Loader() {
   useEffect(() => {
     if (phase === "settle" || phase === "lift") markIntroSeen();
   }, [phase]);
+
+  // No scrolling under the intro; let go as soon as it hands over the page.
+  const holding = useRef(false);
+  useEffect(() => {
+    const busy = phase === "run" || phase === "form";
+    if (busy && !holding.current) {
+      holding.current = true;
+      holdScroll();
+    } else if (!busy && holding.current) {
+      holding.current = false;
+      releaseScroll();
+    }
+  }, [phase]);
+  useEffect(() => () => holding.current && releaseScroll(), []);
 
   if (phase === "done") return null;
   return (

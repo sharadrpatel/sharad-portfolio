@@ -1,5 +1,6 @@
 import { useLayoutEffect, useEffect, lazy, Suspense } from "react";
 import { useLocation, scrollToHash } from "./lib/router.jsx";
+import { startSmoothScroll, jumpTo } from "./lib/smooth.js";
 import { findCaseStudy, RESEARCH } from "./data/work.js";
 import { PROFILE } from "./data/profile.js";
 import Nav from "./components/Nav.jsx";
@@ -37,6 +38,7 @@ export default function App() {
 
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    startSmoothScroll();
   }, []);
 
   // Title per route.
@@ -54,11 +56,11 @@ export default function App() {
   // Scroll after each route renders: hash target, restored position, or top.
   useLayoutEffect(() => {
     if (loc.hash) {
-      requestAnimationFrame(() => scrollToHash(loc.hash) || window.scrollTo(0, 0));
+      requestAnimationFrame(() => scrollToHash(loc.hash) || jumpTo(0));
     } else if (loc.restoreY != null) {
-      window.scrollTo(0, loc.restoreY);
+      jumpTo(loc.restoreY);
     } else {
-      window.scrollTo(0, 0);
+      jumpTo(0);
       if (route.page !== "home") document.getElementById("main")?.focus({ preventScroll: true });
     }
   }, [loc]);

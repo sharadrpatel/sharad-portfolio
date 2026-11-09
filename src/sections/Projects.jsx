@@ -8,7 +8,7 @@ import Reveal from "../components/Reveal.jsx";
 
 export function SpecTable({ specs, caption }) {
   return (
-    <div className="spec-table-wrap" tabIndex={0} role="region" aria-label={caption}>
+    <div className="spec-table-wrap" tabIndex={0} role="region" aria-label={caption} data-lenis-prevent-wheel>
       <table className="spec-table">
         <caption className="label label--muted">{caption}</caption>
         <thead>

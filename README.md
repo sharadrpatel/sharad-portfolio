@@ -36,6 +36,9 @@ src/
   (`src/components/Loader.jsx`) runs once per session: a model fit whose R² is the countdown, then
   the measurements burst into points that assemble into the hero name. The footer signature (`Signature.jsx`) reverses the idea on scroll.
   Everything rests in its finished state under `prefers-reduced-motion`.
+- Smooth scrolling: `src/lib/smooth.js` runs Lenis for wheel and trackpad scrolling (touch stays
+  native; off under reduced motion). The router's in-page links glide through it, and route changes
+  jump through it so its measurements stay in sync.
 - Themes: white (default) and black. Dark values live under `:root[data-theme="dark"]` in
   `tokens.css`; `index.html` sets the theme before first paint (saved choice, else system setting),
   and `ThemeToggle.jsx` switches it with a circular view transition.

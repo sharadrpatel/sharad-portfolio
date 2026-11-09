@@ -3,6 +3,7 @@ import { Link } from "../lib/router.jsx";
 import { PROFILE } from "../data/profile.js";
 import { Arrow } from "./ui.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
+import { holdScroll, releaseScroll } from "../lib/smooth.js";
 
 export const NAV = [
   { id: "research", label: "Research" },
@@ -88,6 +89,7 @@ export default function Nav({ path, section }) {
   useEffect(() => {
     if (!open) return;
     document.body.classList.add("menu-open");
+    holdScroll();
     menuRef.current?.querySelector("a")?.focus();
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -100,6 +102,7 @@ export default function Nav({ path, section }) {
     window.addEventListener("resize", onResize);
     return () => {
       document.body.classList.remove("menu-open");
+      releaseScroll();
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
     };
@@ -153,7 +156,7 @@ export default function Nav({ path, section }) {
         <span className="site-nav__progress" ref={progressRef} aria-hidden="true" />
       </header>
 
-      <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>
+      <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open} data-lenis-prevent>
           <nav aria-label="Primary mobile" className="wrap">
             <ol>
               {NAV.map((n, i) => (
