@@ -235,39 +235,45 @@ export const MODELING_FEATURE = {
   index: "M.01",
   tier: "featured",
   caseStudy: true,
-  title: "Modeling restenosis in femoral artery stents",
+  title: "How oversized can a leg stent be? Modeling restenosis in nitinol stents",
   area: ["Mechanobiology", "PDE modeling"],
   lab: "Quantitative Physiology class project, team of 5",
   org: "University of Florida",
   period: "Aug 2026 – Present",
   role: "Led problem definition and built the outward-force module",
-  question: "Can a restenosis model built for coronary stents be adapted to self-expanding nitinol stents in the leg?",
+  question:
+    "How far can a self-expanding nitinol stent be oversized before its constant outward push makes the artery narrow again, and how does the stent's design change that limit?",
   summary:
-    "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. For this class project, our team took a published restenosis model (Escuer et al., 2019) built for balloon-expandable coronary stents and adapted it to self-expanding nitinol stents in the femoral artery.",
+    "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. Our team adapted a published model built for balloon-expandable coronary stents (Escuer et al., 2019) to self-expanding nitinol stents in the femoral artery, which keep pushing on the wall long after they're placed. Without retuning, the adapted model predicted the regrowth seen in oversized pig stents: 69% area stenosis against 64% measured. It puts the start of the risk at about 1.3 times the vessel diameter, and earlier with high blood pressure.",
   problem:
-    "Nitinol stents keep pushing outward on the artery wall for as long as they're in place. The original model doesn't include that force, and the extra stress it puts on the wall can drive more tissue growth.",
+    "Within 6–12 months, restenosis shows up in 35–65% of long femoral lesions treated with nitinol stents. In pigs, stents 1.31 times the vessel diameter led to 39% area stenosis at 4 weeks, and stents 1.63 times the diameter led to 64%. In patients the artery tapers, so a long straight stent sized for the top of the vessel ends up about 1.5 times too big at its lower end. Nitinol stents keep pushing outward for as long as they're in place, but the original model only covers the one-time injury from a balloon-expanded stent.",
   approach: [
     {
       label: "Base model",
-      text: "We re-implemented the reaction–diffusion model, which tracks growth factors, MMP-2, extracellular matrix, and two types of smooth muscle cells (contractile and synthetic).",
+      text: "We re-implemented the Escuer model, which tracks growth factors, MMP-2, extracellular matrix, and two types of smooth muscle cells (contractile and synthetic), and left its healing kinetics unchanged. We set the starting injury from the injury scores measured in the pig study and fit a single growth gain to the normally sized control pigs only.",
     },
     {
       label: "Physiology",
-      text: "I led the problem definition and worked out how the stent's outward force should connect to smooth muscle cell migration and growth, matrix buildup, and neointimal hyperplasia.",
+      text: "I led the problem definition and worked out how the stent's outward force should connect to smooth muscle cell switching and growth, matrix buildup, and neointimal hyperplasia.",
     },
     {
       label: "Outward force",
-      text: "I added a module that relates how much the stent is oversized to the hoop stress in the artery wall.",
+      text: "I added a module that treats the stent's push as a spring: the more oversized the stent, the more pressure on the wall. Together with blood pressure, that sets the hoop stress in the artery. Above three times normal stress, a push signal starts switching smooth muscle cells to the type that multiplies. We also tested treating the push as extra injury and rejected it.",
+    },
+    {
+      label: "Refinements",
+      text: "In the final milestone, blood pressure pulses at 120/80 instead of holding steady, and the stent keeps opening slowly after it's placed (a 240-day time constant, fit to stent diameters measured in patients), so its push fades over months.",
     },
     {
       label: "Checking",
-      text: "We compared our version of the base model to the published results, then ran a blind prediction against porcine data.",
+      text: "We compared our version of the base model to the published results, made a blind prediction for the oversized pigs, repeated it in a 2D model of a single stent strut, and ran 999 Monte Carlo simulations over 13 uncertain inputs to see how far the answer could move.",
     },
   ],
   contributions: [
     "Problem definition and the physiological reasoning",
     "The chronic outward force module",
     "Checking the base model against published results",
+    "Presented the background and the stakeholder recommendations at our design review",
   ],
   outcomes: [
     {
@@ -276,14 +282,36 @@ export const MODELING_FEATURE = {
       text: "Our re-implementation predicted 24.8% restenosis at 300 days. The published model reports about 25%.",
     },
     {
-      value: "73%",
+      value: "69%",
       label: "Blind prediction",
-      text: "The phenotype-switch pathway predicted 73% area stenosis. The porcine data showed 64 ± 17%.",
+      text: "Fit only to the normally sized pigs, the model predicted 69% area stenosis for the oversized ones. The pigs measured 64%, and the prediction falls inside its 95% confidence interval. Across the Monte Carlo runs, the 90% range was 39–81%.",
+    },
+    {
+      value: "1.3×",
+      label: "Where risk begins",
+      text: "Extra growth starts once the stent is about 1.3 times the vessel diameter, below the usual 1.4× guideline (90% range 1.16–1.52×). The stent's force stiffness was by far the biggest source of that uncertainty.",
+    },
+    {
+      value: "1.5×",
+      label: "With a softer stent",
+      text: "Halving the stent's outward-force stiffness moves the safe limit out to about 1.5×. Doubling it pulls the limit in to 1.2×.",
+    },
+    {
+      label: "High blood pressure",
+      text: "At 160/100 the limit drops from 1.30× to 1.22×, because the systolic peaks cross the stress threshold first. Heart rate doesn't matter, since the tissue only responds to the average over each beat.",
+    },
+    {
+      label: "Growth levels off",
+      text: "Once the stent finishes opening, extra tissue levels off at about 10 mm² by around 3 months, instead of rising all year as it did in our earlier version. The more oversized lower end of patients' stents still ends up worse at 10 months, as observed.",
+    },
+    {
+      label: "What we recommended",
+      text: "Surgeons should measure the artery at both ends, size to the narrower lower end, and stay at or below 1.3× (about 1.2× with high blood pressure). Stent designers should measure outward force across vessel sizes and test tapered stents. The limit still needs clinical validation before it can guide real sizing.",
     },
   ],
-  tools: ["PDE modeling", "Numerical simulation", "Parameter calibration", "Sensitivity analysis"],
-  figure: "restenosis",
-  secondaryFigure: "artery",
+  tools: ["PDE modeling", "Numerical simulation", "Parameter calibration", "Monte Carlo simulation", "Sensitivity analysis"],
+  figure: "isr-sizing-map",
+  secondaryFigure: ["artery", "isr-blind-test", "isr-neointima", "isr-blood-pressure"],
 };
 
 // Teaching demo built for the MAP 4314 instructor, in the planning stage. Source: the team's design and

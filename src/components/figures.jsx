@@ -64,55 +64,6 @@ function HillModel() {
   );
 }
 
-/* Restenosis validation --------------------------------------------------- */
-function RestenosisPlot() {
-  const y = (pct) => 180 - pct * 1.5;
-  const ticks = [0, 25, 50, 75, 100];
-  return (
-    <svg viewBox="0 0 360 232" role="img" aria-labelledby="fig-rest-t">
-      <title id="fig-rest-t">
-        Dot plot comparing model predictions with reference values. Base model: 24.8 percent restenosis at 300
-        days versus about 25 percent published. Blind test: 73 percent predicted area stenosis versus 64 plus or
-        minus 17 percent observed in porcine data.
-      </title>
-      {ticks.map((t) => (
-        <g key={t}>
-          <line className="fig-grid" x1="52" x2="344" y1={y(t)} y2={y(t)} />
-          <text className="fig-label" x="44" y={y(t) + 3.5} textAnchor="end">{t}</text>
-        </g>
-      ))}
-      <text className="fig-label" transform="translate(14 105) rotate(-90)" textAnchor="middle">stenosis (%)</text>
-      <line className="fig-ink" x1="198" x2="198" y1="26" y2="180" strokeDasharray="2 4" />
-
-      {/* group 1: benchmark */}
-      <circle className="fig-ref" cx="108" cy={y(25)} r="5.5" />
-      <circle className="fig-model" cx="142" cy={y(24.8)} r="5.5" />
-      <text className="fig-label" x="108" y={y(25) - 12} textAnchor="middle">~25</text>
-      <text className="fig-label fig-label--accent" x="142" y={y(24.8) - 12} textAnchor="middle">24.8</text>
-
-      {/* group 2: blind test */}
-      <line className="fig-ink" x1="254" x2="254" y1={y(81)} y2={y(47)} />
-      <line className="fig-ink" x1="248" x2="260" y1={y(81)} y2={y(81)} />
-      <line className="fig-ink" x1="248" x2="260" y1={y(47)} y2={y(47)} />
-      <circle className="fig-ref" cx="254" cy={y(64)} r="5.5" />
-      <circle className="fig-model" cx="292" cy={y(73)} r="5.5" />
-      <text className="fig-label" x="254" y={y(47) + 14} textAnchor="middle">64 ± 17</text>
-      <text className="fig-label fig-label--accent" x="304" y={y(73) + 3.5}>73</text>
-
-      <text className="fig-label fig-label--ink" x="125" y="200" textAnchor="middle">Base model</text>
-      <text className="fig-label" x="125" y="213" textAnchor="middle">vs. published · 300 d</text>
-      <text className="fig-label fig-label--ink" x="273" y="200" textAnchor="middle">Blind test</text>
-      <text className="fig-label" x="273" y="213" textAnchor="middle">vs. porcine data</text>
-
-      {/* legend */}
-      <circle className="fig-model" cx="60" cy="12" r="4" />
-      <text className="fig-label fig-label--ink" x="70" y="15.5">model</text>
-      <circle className="fig-ref" cx="122" cy="12" r="4" />
-      <text className="fig-label fig-label--ink" x="132" y="15.5">reference</text>
-    </svg>
-  );
-}
-
 /* Stented artery cross-section ------------------------------------------- */
 function ArterySection() {
   const c = 118;
@@ -305,10 +256,29 @@ export const FIGURES = {
     caption:
       "A Hill-type muscle–tendon unit. The three highlighted parameters come from ultrasound, and they're the ones I tested in the sensitivity analysis.",
   },
-  restenosis: {
-    Svg: RestenosisPlot,
+  "isr-sizing-map": {
+    img: { src: "/images/isr-sizing-map.png", width: 1107, height: 704 },
+    alt: "Heatmap of extra neointimal area at 6 months against oversizing ratio from 1.0 to 1.9 and stent outward-force stiffness from 40 to 320 kPa. A white safe zone at the lower left has no stimulus. A solid curve marks where the stimulus starts at 120/80 mmHg and a dashed curve, further left, where it starts at 160/100. The Li control pigs sit near the solid curve and the oversized pigs well inside the blue region. A dotted line marks the 1.4 guideline.",
     caption:
-      "Model vs. reference values. Left: our version of the base model compared with the published result. Right: our blind prediction compared with porcine data.",
+      "Where oversizing becomes risky: extra neointimal area at 6 months compared with a well-sized stent, across oversizing and stent force stiffness. The solid line is where the push signal switches on at 120/80 mmHg; the dashed line is 160/100. Model output, healthy pig artery. From our design review.",
+  },
+  "isr-blind-test": {
+    img: { src: "/images/isr-blind-test.png", width: 1165, height: 451 },
+    alt: "Dot plot of area stenosis in oversized pig stents at 4 weeks. Measured: 64%, with a gray 95% confidence band from 53 to 76%. Final 1D model: 69%, with a wide Monte Carlo interval. Final 2D strut-level model: 87%. Milestone 2 model: 73%. Unchanged Escuer model: 40%.",
+    caption:
+      "The blind test: area stenosis of stents oversized 1.63× in pigs at 4 weeks. The gray band is the 95% confidence interval of the measured mean (n = 11). The growth gain was fit to the control pigs only, so the oversized group was never used for fitting. From our design review.",
+  },
+  "isr-neointima": {
+    img: { src: "/images/isr-neointima.png", width: 1086, height: 557 },
+    alt: "Line plot of neointimal area over 365 days. The earlier model with a push that never fades rises to about 15 square millimetres. The final model, where the stent finishes opening, levels off near 10 by about 3 months. Normally sized stents level off near 6. Pig data at 4 weeks sit near the early part of each curve.",
+    caption:
+      "Neointimal area after implantation in pig-sized arteries. Once the stent finishes opening and its push fades, growth levels off at about 10 mm² instead of climbing all year. Points are the pig histology at 4 weeks. Model output, from our design review.",
+  },
+  "isr-blood-pressure": {
+    img: { src: "/images/isr-blood-pressure.png", width: 949, height: 669 },
+    alt: "Line plot of the chronic stimulus against oversizing ratio for three blood pressure settings. The stimulus stays at zero until an onset point, then rises. Onset is 1.34 for steady 100 mmHg, 1.30 for pulsatile 120/80, and 1.22 for 160/100.",
+    caption:
+      "The push signal against oversizing at three blood pressures. Higher pressure moves the point where the signal switches on from 1.30× to 1.22×. Model output, from our design review.",
   },
   artery: {
     Svg: ArterySection,

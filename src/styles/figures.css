@@ -51,7 +51,6 @@
 .fig-accent-box { fill: var(--accent-wash); stroke: var(--accent); }
 .fig-dashed { stroke-dasharray: 4 3; fill: var(--paper); }
 .fig-model { fill: var(--accent); }
-.fig-ref { fill: var(--surface); stroke: var(--data); stroke-width: 1.75; }
 .fig-dot { fill: var(--ink); }
 .fig-wall { fill: var(--wash); stroke: var(--ink); stroke-width: 1.25; }
 .fig-paper { fill: var(--surface); }
