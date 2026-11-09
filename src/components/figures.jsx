@@ -384,6 +384,30 @@ export const FIGURES = {
     caption:
       "External check: model biomass, scaled once, against the assessment's spawning stock biomass, which the model was not fit to. Typical relative error was about 10%. From our presentation.",
   },
+  "canopy-forest": {
+    img: { src: "/images/canopy-forest.png", width: 1100, height: 1095 },
+    alt: "Map of an 800 by 800 metre simulated forest. Gray and orange dots mark trees, with orange ones ripe. Blue and red outlines show the two monkeys' core ranges, which overlap heavily around a central star. Thin blue and red lines trace each monkey's path for one day.",
+    caption:
+      "One simulated dry-season day. Outlines are each monkey's 60% core range, lines are that day's paths, orange dots are ripe trees, and the star is the shared sleeping site. The ranges overlap far more than the paper's optimum of 1/3. Simulated, from our slides.",
+  },
+  "canopy-talking": {
+    img: { src: "/images/canopy-talking.png", width: 1400, height: 751 },
+    alt: "Bar chart of pair intake compared with a silent pair. Talking adds 3.1% in the dry season and 3.6% in the wet; rich talk adds 3.2% and 4.4%; an oracle that knows every tree adds 39.6% and 21.2%.",
+    caption:
+      "What talking is worth, as the change in pair intake against a silent pair in the same forest. Calls help a little; knowing every tree would help far more. Bars are means over 20 simulated forests with 95% intervals. From our slides.",
+  },
+  "canopy-spacing-noise": {
+    img: { src: "/images/canopy-spacing-noise.png", width: 1400, height: 907 },
+    alt: "Heatmap of pair intake with preferred spacing on the x-axis from 0.25 to 2.5 hearing ranges and honest noise on the y-axis from 0 to 0.5. Colour darkens from left to right but barely changes from bottom to top. A line marking the best spacing in each row stays at 2 to 2.5.",
+    caption:
+      "Distance against accuracy. Intake changes across the map (spacing), not up it (noise), and the best spacing in every row stays at 2–2.5 hearing ranges, so there's no trade-off to balance. Dry season, simulated. From our slides.",
+  },
+  "canopy-meanfield": {
+    img: { src: "/images/canopy-meanfield.png", width: 1100, height: 954 },
+    alt: "Scatter plot of the simulated feeding share against the three-ODE prediction for 320 runs with different detail and noise settings. The points fall tightly along the diagonal from 0.34 to 0.51.",
+    caption:
+      "The check: the feeding share predicted by the three mean-field ODEs against the share in the full simulation, for 320 runs. Points on the dashed line mean the two agree; the mean error was 0.004. From our slides.",
+  },
   "crutch-assembly": {
     img: { src: "/images/crutch-assembly.png", width: 1200, height: 1424 },
     alt: "Two Onshape renders of the crutch side by side: on the left collapsed, with the leg tucked into the lower frame; on the right fully extended, with the gray leg reaching well below the frame. Both have a padded shoulder rest, a hand grip between two blue aluminum frame rails, and rows of pin holes.",

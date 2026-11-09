@@ -125,7 +125,9 @@ export default function CaseStudy({ work: w }) {
               <h2 id="problem" className="case__h">
                 Problem
               </h2>
-              <p>{w.problem}</p>
+              <p>
+                <Rich text={w.problem} />
+              </p>
             </Reveal>
           )}
 

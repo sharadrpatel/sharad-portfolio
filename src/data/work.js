@@ -429,6 +429,93 @@ export const SCUDEM_FEATURE = {
   secondaryFigure: ["scudem-kl", "scudem-task-space"],
 };
 
+// SCUDEM XI 2026, Problem B. Sources: the team's slides (public/papers/) and
+// our written guide to the model. Every result below comes from simulation.
+export const CANOPY_FEATURE = {
+  slug: "canopy-foraging",
+  index: "M.07",
+  tier: "featured",
+  caseStudy: true,
+  title: "CANOPY: what matters when two foragers can talk",
+  area: ["Agent-based modeling", "Differential equations"],
+  lab: "SCUDEM XI 2026, Problem B",
+  org: "University of Florida team",
+  period: "2026",
+  role: "Team member, with Yansheng Luo and Pranav Kulkarni",
+  question:
+    "When two animals forage together and can call to each other, what matters most: how far apart they are, whether they talk, how much they say, or whether it's true?",
+  summary:
+    "For Problem B of SCUDEM XI, our team built CANOPY, a simulation of two spider monkeys foraging in a forest of fruiting trees. Each monkey runs on differential equations for its gut, energy, memory, and movement. It calls to its partner with a set level of detail and honesty, and it checks every tip it follows. We ran ten experiments on the model and then reduced it to three ODEs to check that it behaves the way we think it does. The short answer: where the two animals are matters far more than what they say to each other.",
+  problem:
+    "The prompt asked us to model two animals that search for food together and can communicate. We had to vary how much they talk, how much detail a call carries, and how accurate it is, including deliberate lies, then rank those factors and say how they trade off, for example distance against accuracy. Talking isn't free. A call can bring your partner to a tree you'd rather keep, which gives the caller a reason to lie or stay quiet, and spreading out covers more forest but makes calls harder to hear. We tied the model to a 2026 study of spider monkeys at Punta Laguna, Mexico (Ramos-Fernandez et al., *npj Complexity*), which found that a pair shares information best when their core ranges overlap by about a third.",
+  approach: [
+    {
+      label: "The forest",
+      text: "An 800 m square of fruit trees placed in clumps, with lognormal crop sizes so a few trees are huge and worth sharing. Fruit on each tree follows an ODE: it ripens over a window of days, rots at 0.3 per day, and drops as the monkeys eat it. Dry and wet seasons follow the paper. The dry season has fewer, patchier trees with shorter ripening windows.",
+    },
+    {
+      label: "The monkeys",
+      text: "Each monkey has ODEs for gut fullness, energy, and a running average of how well it's eating. Eating follows a Holling type II curve, and it leaves a tree when the intake there drops below 80% of its average (the marginal value theorem). Its memory of each tree fades over about a week. It always heads for whatever promises the most fruit per minute.",
+    },
+    {
+      label: "Movement",
+      text: "Position follows a stochastic differential equation: a push toward where the monkey wants to go, a spring that pulls the pair together when they drift too far apart and pushes them apart when they get too close, and a little random noise. While searching, the monkey takes Lévy-walk steps. We stepped it every minute with Euler–Maruyama.",
+    },
+    {
+      label: "Calls and trust",
+      text: "The chance a call is heard falls off logistically with distance, to 50% at 200 m. Calls range from silence to \"food here\" and up to tree size, other trees, and when each tree will run out. Messages can be garbled by honest noise or by four kinds of lies. The listener can't tell the two apart, so it checks each tip when it arrives and keeps a Beta belief about how trustworthy its partner is.",
+    },
+    {
+      label: "Experiments",
+      text: "Ten experiments, each comparing conditions forest by forest across 20 random forests and 60-day seasons, with 95% confidence intervals. A genetic algorithm let strategies evolve over 30 generations, and a sensitivity analysis ran 400 Latin hypercube parameter sets through a random forest, SHAP values, and Friedman's H² to rank the factors and find which ones interact.",
+    },
+    {
+      label: "Checking it with ODEs",
+      text: "We collapsed the simulation to three ODEs for the share of time spent searching, travelling, and feeding, using rates measured from each run. That gives an R₀-style threshold for whether calls alone could keep a pair fed.",
+    },
+  ],
+  contributions: [
+    "Co-developed CANOPY and its Python code with Yansheng Luo and Pranav Kulkarni",
+    "Wrote the team's guide to the model, which walks through every equation and result so any of us could explain any part of it",
+    "Co-authored the presentation",
+  ],
+  outcomes: [
+    {
+      value: "+3%",
+      label: "What talking adds",
+      text: "A pair that calls eats about 3% more fruit a day than a silent pair, in both seasons. If both knew every tree, they'd eat 21–40% more, so calls capture only 8–20% of what perfect information is worth.",
+    },
+    {
+      value: "+15%",
+      label: "What spacing adds",
+      text: "Spreading out to about two hearing ranges apart raised intake by about 15%, whether or not the pair talked. Spacing and hearing range act as one ratio.",
+    },
+    {
+      label: "No distance–accuracy trade-off",
+      text: "The best spacing stayed at 2–2.5 hearing ranges whether calls were perfect, half garbled, or dishonest. A plain \"food here\" plus the tree's size got most of the benefit, and even with half of every message garbled, talking still beat silence.",
+    },
+    {
+      label: "Lies move food, they don't destroy it",
+      text: "A liar gained 4–5% and its victim lost 3–10%, but the pair as a whole lost at most 3%. Monkeys that could choose when to cheat almost always went quiet instead of lying, and close kin stayed honest.",
+    },
+    {
+      label: "The ODEs agree",
+      text: "Across 320 runs the three ODEs predicted the simulated feeding share with a mean error of 0.004. The threshold stayed between 0 and 0.09, far below 1: finding food alone does the heavy lifting, which is why talking adds so little.",
+    },
+    {
+      label: "Where it misses",
+      text: "The simulated monkeys walk 2.1–2.9 km a day, inside the paper's range, and use bigger ranges in the dry season, as real ones do. But their core ranges overlap about twice as much as the paper's optimum, because both start and end every day at one sleeping site. Separate sleeping sites and bigger groups would be the next step.",
+    },
+  ],
+  links: [
+    { label: "View our slides (PDF)", href: "/papers/scudem-2026-canopy-slides.pdf" },
+    { label: "The spider monkey study", href: "https://doi.org/10.1038/s44260-025-00060-0" },
+  ],
+  tools: ["Python", "Agent-based modeling", "ODEs and SDEs", "Genetic algorithm", "Random forest", "SHAP"],
+  figure: "canopy-forest",
+  secondaryFigure: ["canopy-talking", "canopy-spacing-noise", "canopy-meanfield"],
+};
+
 // Engineering design, shown in the Projects section.
 export const DESIGN = [
   {
@@ -844,7 +931,7 @@ export const COLLAGEN_FEATURE = {
 
 export const WETLAB_FEATURES = [COLLAGEN_FEATURE];
 
-export const MODELING_FEATURES = [MODELING_FEATURE, DUFFING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SEATROUT_FEATURE, SHOT_DNA_FEATURE];
+export const MODELING_FEATURES = [MODELING_FEATURE, DUFFING_FEATURE, SCUDEM_FEATURE, MCM_FEATURE, SEATROUT_FEATURE, SHOT_DNA_FEATURE, CANOPY_FEATURE];
 
 export const CASE_STUDIES = [...RESEARCH, ...WETLAB_FEATURES, ...MODELING_FEATURES, ...DESIGN].filter((w) => w.caseStudy);
 
