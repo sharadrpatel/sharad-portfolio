@@ -413,11 +413,6 @@ export default function Loader() {
             </span>
           </div>
           <div className="loader__words">
-            <p className="loader__line-1">
-              Models of how the body works,
-              <br />
-              checked against real data.
-            </p>
             <span className="loader__note">Synthetic signal · model fit · residuals shown</span>
             <span className="loader__skip loader__skip--pointer">Click or press any key to skip ahead</span>
             <span className="loader__skip loader__skip--touch">Tap to skip ahead</span>

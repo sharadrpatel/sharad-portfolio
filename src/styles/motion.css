@@ -144,13 +144,6 @@
   animation: rise 700ms var(--ease-out) 220ms both;
 }
 
-.loader__line-1 {
-  font-family: var(--f-text);
-  font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.5rem);
-  font-style: italic;
-  line-height: 1.35;
-}
-
 .loader__skip {
   font-family: var(--f-mono);
   font-size: 0.68rem;
@@ -205,8 +198,7 @@ html.is-intro .hero__name {
 }
 
 @media (max-width: 600px) {
-  .loader__status,
-  .loader__line-1 {
+  .loader__status {
     display: none;
   }
 }
