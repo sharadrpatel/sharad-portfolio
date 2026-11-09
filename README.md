@@ -33,8 +33,8 @@ src/
 - Motion: `src/lib/scroll.js` gives registered elements a `--p` custom property (0 → 1) that follows
   the scroll both ways, and the scroll scenes in `src/styles/motion.css` are written against it.
   `Reveal` entrances replay when content drops back below the fold. The intro screen
-  (`src/components/Loader.jsx`) runs once per session: a data cloud and model fit whose points
-  assemble into the hero name. The footer signature (`Signature.jsx`) reverses the idea on scroll.
+  (`src/components/Loader.jsx`) runs once per session: a model fit whose R² is the countdown, then
+  the measurements burst into points that assemble into the hero name. The footer signature (`Signature.jsx`) reverses the idea on scroll.
   Everything rests in its finished state under `prefers-reduced-motion`.
 - Themes: white (default) and black. Dark values live under `:root[data-theme="dark"]` in
   `tokens.css`; `index.html` sets the theme before first paint (saved choice, else system setting),

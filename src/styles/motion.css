@@ -119,8 +119,21 @@
   font-variant-numeric: tabular-nums;
 }
 
-.loader__meta span {
-  color: #a9b1ff;
+.loader__r2-label {
+  font-family: var(--f-text);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #a3a29b;
+}
+
+.loader__r2-label sup {
+  font-size: 0.65em;
+}
+
+.loader__note {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  color: #a3a29b;
 }
 
 .loader__words {
