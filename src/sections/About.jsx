@@ -1,23 +1,16 @@
 import { EDUCATION, INTERESTS, TOOLKIT } from "../data/profile.js";
 import { SectionHead } from "../components/ui.jsx";
-import Reveal from "../components/Reveal.jsx";
-import { useParallax } from "../lib/motion.js";
-import { useScrub } from "../lib/scroll.js";
 
 export default function About() {
-  const drift = useParallax(0.05);
-  // The portrait warms from black and white to color as you arrive.
-  const develop = useScrub("enter", { end: 0.25 });
   return (
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
-        <SectionHead id="about-title" number="05 — About" aside="Gainesville, Florida" title="About" />
+        <SectionHead id="about-title" title="About" />
 
         <div className="about">
-          <Reveal className="about__portrait">
-            <div className="about__frame" ref={develop}>
+          <div className="about__portrait">
+            <div className="about__frame">
               <img
-                ref={drift}
                 src="/headshot.jpg"
                 alt="Portrait of Sharad Patel in a suit, in front of the University of Florida College of Medicine."
                 width="676"
@@ -26,9 +19,10 @@ export default function About() {
                 decoding="async"
               />
             </div>
-          </Reveal>
+            <p className="about__place">Gainesville, Florida</p>
+          </div>
 
-          <Reveal className="about__text" delay={80}>
+          <div className="about__text">
             <p className="about__lede">
               I'm a biomedical engineering student at the University of Florida. Most of my research is computational. I
               like taking a question about how the body works, turning it into a model, and seeing how well it holds up
@@ -64,21 +58,18 @@ export default function About() {
                 </dd>
               </div>
             </dl>
-          </Reveal>
+          </div>
         </div>
 
-        <Reveal className="toolkit has-st" aria-labelledby="toolkit-title">
+        <section className="toolkit" aria-labelledby="toolkit-title">
           <div className="toolkit__head">
             <h3 id="toolkit-title" className="h3">Toolkit</h3>
             <p className="toolkit__note">Software, methods, and certifications I use in the work above.</p>
           </div>
           <dl className="toolkit__grid">
-            {TOOLKIT.map((g, i) => (
-              <div key={g.group} className="st" style={{ "--si": i }}>
-                <dt>
-                  <span className="toolkit__n">{String(i + 1).padStart(2, "0")}</span>
-                  {g.group}
-                </dt>
+            {TOOLKIT.map((g) => (
+              <div key={g.group}>
+                <dt>{g.group}</dt>
                 <dd>
                   <ul>
                     {g.items.map((item) => (
@@ -89,7 +80,7 @@ export default function About() {
               </div>
             ))}
           </dl>
-        </Reveal>
+        </section>
       </div>
     </section>
   );

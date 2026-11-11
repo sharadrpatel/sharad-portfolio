@@ -8,6 +8,8 @@
       name="description"
       content="Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics."
     />
+    <meta name="author" content="Sharad Patel" />
+    <link rel="canonical" href="https://www.sharadrpatel.com/" />
     <meta name="theme-color" content="#f3f2ee" />
     <meta name="color-scheme" content="light dark" />
     <script>
@@ -21,29 +23,75 @@
         } catch (e) {}
       })();
     </script>
+
+    <!-- Link previews. scripts/prerender.mjs rewrites the title, description,
+         URL and canonical for each case-study and blog page at build time. -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sharad Patel" />
     <meta property="og:title" content="Sharad Patel — Biomedical Engineering" />
     <meta
       property="og:description"
-      content="Research and projects in computational modeling, biomechanics, and biomedical engineering."
+      content="Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics."
     />
-    <meta property="og:url" content="https://sharadrpatel.com" />
-    <meta property="og:image" content="https://sharadrpatel.com/headshot.jpg" />
+    <meta property="og:url" content="https://www.sharadrpatel.com/" />
+    <meta property="og:image" content="https://www.sharadrpatel.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Sharad Patel, biomedical engineering at the University of Florida, beside the phase portrait of a forced Duffing oscillator."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sharad Patel",
+        "url": "https://www.sharadrpatel.com/",
+        "image": "https://www.sharadrpatel.com/headshot.jpg",
+        "email": "mailto:sharadrpatel1933@gmail.com",
+        "description": "Biomedical engineering student at the University of Florida doing research in computational modeling and biomechanics.",
+        "affiliation": { "@type": "CollegeOrUniversity", "name": "University of Florida" },
+        "knowsAbout": ["Biomedical engineering", "Computational modeling", "Biomechanics", "Musculoskeletal modeling"],
+        "sameAs": ["https://www.linkedin.com/in/patel108", "https://github.com/sharadrpatel"]
+      }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- The two faces that set the first screen; the rest load on demand. -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&display=swap"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2"
     />
   </head>
   <body>
     <div id="root"></div>
     <noscript>
-      <p style="padding: 2rem; font-family: Georgia, serif">
-        Sharad Patel — Biomedical Engineering, University of Florida.
-        <a href="/CV.pdf">Download CV</a> · <a href="mailto:sharadrpatel1933@gmail.com">Email</a>
-      </p>
+      <div style="max-width: 40rem; padding: 2rem; font-family: Georgia, serif; line-height: 1.5">
+        <h1 style="font-family: Helvetica, Arial, sans-serif">Sharad Patel</h1>
+        <p>
+          Biomedical engineering student at the University of Florida. I build computational models of how the body
+          works, mostly in biomechanics and physiology, and compare them against experimental data.
+        </p>
+        <p>
+          This site needs JavaScript to show research and project pages. Without it:
+          <a href="/CV.pdf">download my CV (PDF)</a>, email
+          <a href="mailto:sharadrpatel1933@gmail.com">sharadrpatel1933@gmail.com</a>, or find me on
+          <a href="https://www.linkedin.com/in/patel108">LinkedIn</a> and
+          <a href="https://github.com/sharadrpatel">GitHub</a>.
+        </p>
+      </div>
     </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>

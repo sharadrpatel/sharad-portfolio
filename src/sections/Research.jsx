@@ -2,10 +2,6 @@ import { useEffect, useState } from "react";
 import { RESEARCH } from "../data/work.js";
 import { SectionHead, Tags, TextLink, Arrow, Badge, shortPeriod } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
-import Reveal from "../components/Reveal.jsx";
-import CountUp from "../components/CountUp.jsx";
-import DrawOnScroll from "../components/DrawOnScroll.jsx";
-import { useScrub } from "../lib/scroll.js";
 
 export function ExternalLinks({ links }) {
   return (
@@ -36,7 +32,7 @@ function PlateMeta({ w }) {
 export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading = "h3" }) {
   const stats = w.outcomes?.filter((o) => o.value);
   return (
-    <Reveal as="article" className="plate" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+    <article className="plate" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <PlateMeta w={w} />
       <Heading id={`t-${w.slug}`} className="h3 plate__title">
         {w.title}
@@ -52,7 +48,7 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
             <ol className="subprojects">
               {w.subprojects.map((sp, n) => (
                 <li key={sp.id}>
-                  <span className="subprojects__n">{String(n + 1).padStart(2, "0")}</span>
+                  <span className="subprojects__n">{n + 1}</span>
                   <div>
                     <p className="subprojects__title">{sp.title}</p>
                     <p className="subprojects__text">{sp.short}</p>
@@ -80,9 +76,7 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
                 <div key={o.label}>
                   <dt>{o.label}</dt>
                   <dd>
-                    <span className="stats__value">
-                      <CountUp value={o.value} />
-                    </span>
+                    <span className="stats__value">{o.value}</span>
                     <span className="stats__note">{o.text}</span>
                   </dd>
                 </div>
@@ -113,18 +107,18 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
         </div>
 
         {w.figure && (
-          <DrawOnScroll className="plate__figure">
+          <div className="plate__figure">
             <WorkFigure name={w.figure} n={figN} />
-          </DrawOnScroll>
+          </div>
         )}
       </div>
-    </Reveal>
+    </article>
   );
 }
 
 function CompactStudy({ w }) {
   return (
-    <Reveal as="article" className="plate plate--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+    <article className="plate plate--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <PlateMeta w={w} />
       <h4 id={`t-${w.slug}`} className="h4 plate__title">
         {w.title}
@@ -138,7 +132,7 @@ function CompactStudy({ w }) {
           <span className="visually-hidden">: {w.title}</span>
         </TextLink>
       )}
-    </Reveal>
+    </article>
   );
 }
 
@@ -169,8 +163,7 @@ export default function Research() {
       <div className="wrap">
         <SectionHead
           id="research-title"
-          number="01 — Research"
-          aside={`${RESEARCH.length} projects · ${labs} groups`}
+          aside={`${RESEARCH.length} projects in ${labs} groups`}
           title="Research"
           dek="Most of it is computational: muscles in the arthritic thumb, how plasticity and dispersal evolve, and lung injury after transplant. Each entry gives the question, what I did, and where it stands."
         />
@@ -199,7 +192,7 @@ export default function Research() {
             ))}
 
             <div className="subhead">
-              <h3 className="label">Also</h3>
+              <h3 className="label">Also in progress</h3>
               <p className="subhead__note">Parkinson's disease and surgical simulation.</p>
             </div>
             <div className="research__compact">

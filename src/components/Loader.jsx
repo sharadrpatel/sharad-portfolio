@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { INTRO, markIntroSeen } from "../lib/intro.js";
-import { holdScroll, releaseScroll } from "../lib/smooth.js";
+import { holdScroll, releaseScroll } from "../lib/scrolling.js";
 
 // First-visit intro: model meets data, then the name.
 //   1. Sixty-four noisy measurements are recorded across a plot.
@@ -15,12 +15,14 @@ import { holdScroll, releaseScroll } from "../lib/smooth.js";
 // fast-forward. Once per session; never under reduced motion. Purely visual,
 // so it is hidden from assistive technology. Deep links get a simple lift.
 
-const RECORD_MS = 550; // measurements arrive
-const FIT_MS = 1700; // the countdown
-const HOLD_MS = 250; // "Model fits data"
-const FORM_MS = 1400; // points travel into the name (incl. stagger)
-const FADE_MS = 520; // dotted name dissolves into the real one
-const MAX_WAIT = 2600; // never wait longer than this for fonts
+// About 3.2 s end to end: long enough to read, short enough not to stand
+// between a visitor and the page.
+const RECORD_MS = 400; // measurements arrive
+const FIT_MS = 1150; // the countdown
+const HOLD_MS = 180; // "Model fits data"
+const FORM_MS = 1150; // points travel into the name (incl. stagger)
+const FADE_MS = 400; // dotted name dissolves into the real one
+const MAX_WAIT = 1800; // never wait longer than this for fonts
 const N_DATA = 64;
 
 const BG = "#121211";
@@ -229,7 +231,7 @@ export default function Loader() {
         const [tx, ty] = T[i % T.length];
         p.tx = tx;
         p.ty = ty;
-        p.delay = 120 + ((tx - minX) / spanX) * 420 + rand() * 240;
+        p.delay = 90 + ((tx - minX) / spanX) * 320 + rand() * 180;
         const bow = (rand() - 0.5) * 220;
         p.cx = (p.sx + tx) / 2 + bow;
         p.cy = (p.sy + ty) / 2 - Math.abs(bow) * 0.6;
@@ -315,11 +317,11 @@ export default function Loader() {
           r2.current.textContent = Math.max(0, rSquared(data, p)).toFixed(2);
           if (u < 1) {
             status.current.textContent = "Fitting model";
-            meta.current.textContent = `fitting… · n = ${N_DATA} · iteration ${Math.round(u * 120)}`;
+            meta.current.textContent = `fitting, n = ${N_DATA}, iteration ${Math.round(u * 120)}`;
           } else {
             if (!fitDone) fitDone = clock;
             status.current.textContent = "Model fits data";
-            meta.current.textContent = `converged · n = ${N_DATA} · iteration 120`;
+            meta.current.textContent = `converged, n = ${N_DATA}, iteration 120`;
             const ready = clock - fitDone >= HOLD_MS && (fontsReady || speed.current > 1);
             if (ready && !startForm()) return;
           }
@@ -344,7 +346,7 @@ export default function Loader() {
         let arrived = 0;
         for (const p of P) {
           const appear = clamp01(t / 180);
-          const k = easeInOut(clamp01((t - p.delay) / (FORM_MS - 700)));
+          const k = easeInOut(clamp01((t - p.delay) / (FORM_MS - 590)));
           if (k >= 1) arrived++;
           const a = 1 - k;
           const x = a * a * p.sx + 2 * a * k * p.cx + k * k * p.tx;
@@ -413,7 +415,7 @@ export default function Loader() {
             </span>
           </div>
           <div className="loader__words">
-            <span className="loader__note">Synthetic signal · model fit · residuals shown</span>
+            <span className="loader__note">A synthetic signal, a model fit to it, and the residuals</span>
             <span className="loader__skip loader__skip--pointer">Click or press any key to skip ahead</span>
             <span className="loader__skip loader__skip--touch">Tap to skip ahead</span>
           </div>

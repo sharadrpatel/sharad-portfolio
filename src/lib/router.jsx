@@ -1,7 +1,7 @@
 // A deliberately tiny History-API router: the site only has a home page and
 // case-study pages, so a routing library would be dead weight.
 import { useEffect, useState } from "react";
-import { glideTo } from "./smooth.js";
+import { glideTo } from "./scrolling.js";
 
 const listeners = new Set();
 const emit = (restoreY) => listeners.forEach((fn) => fn(restoreY));

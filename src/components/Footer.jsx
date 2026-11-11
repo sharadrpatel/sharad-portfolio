@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="wrap site-footer__inner">
         <p className="site-footer__name">
           {PROFILE.name}
-          <span> · {PROFILE.degree}, {PROFILE.school}</span>
+          <span>{PROFILE.degree}, {PROFILE.school}</span>
         </p>
         <ul className="site-footer__links">
           <li><a href={`mailto:${PROFILE.email}`}>Email</a></li>

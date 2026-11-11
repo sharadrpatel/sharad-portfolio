@@ -6,9 +6,9 @@
    in figures. Oxide is kept for reference data in figures only.
 
    Three type roles, never swapped:
-   - Schibsted Grotesk  structure: names, headings, navigation, interface
+   - Schibsted Grotesk  structure: names, headings, labels, navigation, interface
    - Source Serif 4     reading: summaries, questions, long-form prose
-   - DM Mono            annotation: indices, dates, labels, captions
+   - DM Mono            data: dates, catalog codes, tool names, figure readouts
    ───────────────────────────────────────────────────────────────────────── */
 :root {
   /* Surfaces */
@@ -50,7 +50,7 @@
   --f-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Type scale */
-  --fs-label: 0.6875rem;
+  --fs-label: 0.8125rem;
   --fs-xs: 0.8125rem;
   --fs-sm: 0.9063rem;
   --fs-base: 1.0625rem;
@@ -75,7 +75,7 @@
   --s-7: 3rem;
   --s-8: 4rem;
   --s-9: 6rem;
-  --section-y: clamp(4.5rem, 2.5rem + 7vw, 10rem);
+  --section-y: clamp(4rem, 2.25rem + 6vw, 8rem);
 
   /* Layout */
   --max: 1320px;

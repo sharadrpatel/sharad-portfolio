@@ -161,15 +161,14 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  vertical-align: 0.2em;
+  gap: 0.4rem;
+  vertical-align: 0.14em;
   margin-left: 0.75rem;
-  font-family: var(--f-mono);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.07em;
+  font-family: var(--f-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0;
   line-height: 1.2;
-  text-transform: uppercase;
   color: var(--accent);
   white-space: nowrap;
 }
@@ -222,58 +221,43 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 
 /* ── Section heads ──────────────────────────────────────────────────────── */
 
+/* A rule, the title on the left, and the dek with a short note on the right */
 .section-head {
-  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
-}
-
-.section-head__rule {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-top: 0.85rem;
+  display: grid;
+  gap: 1.1rem var(--col-gap);
+  padding-top: clamp(1rem, 0.75rem + 1vw, 1.6rem);
   border-top: 1px solid var(--ink);
-  font-family: var(--f-mono);
-  font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  margin-bottom: clamp(2.5rem, 1.75rem + 3vw, 4.75rem);
 }
 
-.section-head__num {
-  color: var(--accent);
+.section-head__title {
+  margin-left: -0.04em;
 }
 
 .section-head__aside {
+  margin-top: 0.9rem;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  line-height: 1.4;
   color: var(--ink-3);
-  text-align: right;
-}
-
-.section-head__body {
-  display: grid;
-  gap: 1.5rem var(--col-gap);
-  margin-top: clamp(1.75rem, 1rem + 2.5vw, 3.5rem);
-  align-items: end;
 }
 
 @media (min-width: 900px) {
-  .section-head__body {
+  .section-head {
     grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
   }
   .section-head__title {
     grid-column: 1 / span 7;
   }
-  .section-head__dek {
+  .section-head__side {
     grid-column: 8 / -1;
-    padding-bottom: 0.35rem;
+    padding-top: 0.55rem;
   }
 }
 
-.section-head--night .section-head__rule {
+.section-head--night {
   border-top-color: var(--night-ink);
-}
-
-.section-head--night .section-head__num {
-  color: var(--night-accent);
 }
 
 .section-head--night .section-head__aside,
@@ -283,6 +267,70 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 
 .section-head--night .h2 {
   color: var(--night-ink);
+}
+
+/* ── Filters (Projects, Experience) ─────────────────────────────────────── */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  font-family: var(--f-display);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.filter:hover {
+  border-color: var(--ink);
+}
+
+.filter:active {
+  transform: translateY(1px);
+}
+
+.filter__count {
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  transition: color var(--dur) var(--ease);
+}
+
+.filter[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.filter[aria-pressed="true"] .filter__count {
+  color: var(--paper);
+  opacity: 0.7;
+}
+
+/* A group the filter has just brought back fades in */
+.work-group:not([hidden]),
+.cv__group:not([hidden]) {
+  animation: group-in 360ms var(--ease-out) both;
+}
+
+@keyframes group-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
 }
 
 .subhead {
@@ -310,7 +358,15 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
   z-index: 100;
   height: var(--nav-h);
   border-bottom: 1px solid transparent;
-  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform 380ms var(--ease-out);
+}
+
+/* Slides away while reading down; any scroll up brings it back */
+.site-nav.is-tucked {
+  transform: translateY(-100%);
 }
 
 .site-nav.is-scrolled,
@@ -431,10 +487,11 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
   padding: 0 0.25rem 0 0.75rem;
   border: 0;
   background: none;
-  font-family: var(--f-mono);
+  font-family: var(--f-display);
   font-size: var(--fs-label);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
   cursor: pointer;
 }
 
@@ -483,8 +540,8 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
   display: none;
 }
 
-.mobile-menu ol {
-  padding-top: var(--s-4);
+.mobile-menu ul {
+  padding-top: var(--s-3);
 }
 
 .mobile-menu li {
@@ -493,30 +550,21 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 
 .mobile-menu li a {
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 0.9rem 0;
+  align-items: center;
+  min-height: 60px;
+  padding: 0.7rem 0;
   font-family: var(--f-display);
-  font-size: clamp(1.9rem, 1.4rem + 3vw, 2.6rem);
+  font-size: clamp(1.7rem, 1.3rem + 2.4vw, 2.4rem);
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.1;
   text-decoration: none;
-  animation: rise 600ms var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 45ms);
+  animation: rise 500ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 35ms);
 }
 
 .mobile-menu li a[aria-current="true"] {
   color: var(--accent);
-}
-
-.mobile-menu__num {
-  font-family: var(--f-mono);
-  font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--ink-3);
-  min-width: 1.75rem;
 }
 
 .mobile-menu__foot {
@@ -569,6 +617,8 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 }
 
 .site-footer__name span {
+  display: block;
+  margin-top: 0.15rem;
   font-weight: 400;
   color: var(--night-ink-2);
 }
@@ -593,8 +643,7 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 }
 
 .site-footer__note {
-  font-family: var(--f-mono);
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   color: var(--night-ink-2);
 }
 

@@ -3,7 +3,7 @@ import { Link } from "../lib/router.jsx";
 import { PROFILE } from "../data/profile.js";
 import { Arrow } from "./ui.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
-import { holdScroll, releaseScroll } from "../lib/smooth.js";
+import { holdScroll, releaseScroll } from "../lib/scrolling.js";
 
 export const NAV = [
   { id: "research", label: "Research" },
@@ -56,7 +56,6 @@ export default function Nav({ path, section }) {
   const menuRef = useRef(null);
   const toggleRef = useRef(null);
 
-  const progressRef = useRef(null);
   useEffect(() => {
     let frame = 0;
     let lastY = window.scrollY;
@@ -68,19 +67,15 @@ export default function Nav({ path, section }) {
         setTucked(y > 320 && y > lastY);
         lastY = y;
       }
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, [path]);
 
@@ -88,8 +83,11 @@ export default function Nav({ path, section }) {
 
   useEffect(() => {
     if (!open) return;
-    document.body.classList.add("menu-open");
     holdScroll();
+    // Everything behind the open menu is out of reach of the keyboard and
+    // screen readers until it closes.
+    const behind = [document.getElementById("main"), document.querySelector(".site-footer")].filter(Boolean);
+    behind.forEach((el) => el.setAttribute("inert", ""));
     menuRef.current?.querySelector("a")?.focus();
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -101,7 +99,7 @@ export default function Nav({ path, section }) {
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     return () => {
-      document.body.classList.remove("menu-open");
+      behind.forEach((el) => el.removeAttribute("inert"));
       releaseScroll();
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
@@ -117,10 +115,13 @@ export default function Nav({ path, section }) {
         onFocus={() => setTucked(false)}
       >
         <div className="site-nav__inner wrap">
-          <Link to="/" className="wordmark" aria-label={`${PROFILE.name}, home`}>
+          <Link to="/" className="wordmark">
             <span className="wordmark__mark" aria-hidden="true">SP</span>
-            <span className="wordmark__name">{PROFILE.name}</span>
-            <span className="wordmark__role">BME · University of Florida</span>
+            <span className="wordmark__name">
+              {PROFILE.name}
+              <span className="visually-hidden">, home</span>
+            </span>
+            <span className="wordmark__role" aria-hidden="true">BME · University of Florida</span>
           </Link>
 
           <nav className="site-nav__links" aria-label="Primary">
@@ -134,7 +135,9 @@ export default function Nav({ path, section }) {
               ))}
             </ul>
             <a className="btn btn--small btn--outline" href={PROFILE.cv} target="_blank" rel="noopener">
-              <span>CV</span>
+              <span>
+                CV<span className="visually-hidden"> (PDF, opens in a new tab)</span>
+              </span>
               <Arrow dir="out" />
             </a>
           </nav>
@@ -153,37 +156,35 @@ export default function Nav({ path, section }) {
             <span className="site-nav__toggle-icon" aria-hidden="true" />
           </button>
         </div>
-        <span className="site-nav__progress" ref={progressRef} aria-hidden="true" />
       </header>
 
-      <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open} data-lenis-prevent>
-          <nav aria-label="Primary mobile" className="wrap">
-            <ol>
-              {NAV.map((n, i) => (
-                <li key={n.id}>
-                  <Link
-                    to={n.to ?? `/#${n.id}`}
-                    onClick={() => setOpen(false)}
-                    aria-current={current === n.id ? "true" : undefined}
-                    style={{ "--i": i }}
-                  >
-                    <span className="mobile-menu__num">{String(i + 1).padStart(2, "0")}</span>
-                    {n.label}
-                  </Link>
-                </li>
-              ))}
-            </ol>
-            <div className="mobile-menu__foot">
-              <a className="btn btn--primary" href={PROFILE.cv} target="_blank" rel="noopener">
-                <span>Download CV</span>
-                <Arrow dir="out" />
-              </a>
-              <a className="text-link" href={`mailto:${PROFILE.email}`}>
-                {PROFILE.email}
-              </a>
-            </div>
-          </nav>
-        </div>
+      <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>
+        <nav aria-label="Primary mobile" className="wrap">
+          <ul>
+            {NAV.map((n, i) => (
+              <li key={n.id}>
+                <Link
+                  to={n.to ?? `/#${n.id}`}
+                  onClick={() => setOpen(false)}
+                  aria-current={current === n.id ? "true" : undefined}
+                  style={{ "--i": i }}
+                >
+                  {n.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mobile-menu__foot">
+            <a className="btn btn--primary" href={PROFILE.cv} target="_blank" rel="noopener">
+              <span>Download CV</span>
+              <Arrow dir="out" />
+            </a>
+            <a className="text-link" href={`mailto:${PROFILE.email}`}>
+              <span>{PROFILE.email}</span>
+            </a>
+          </div>
+        </nav>
+      </div>
     </>
   );
 }

@@ -50,7 +50,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5rem 1rem;
   font-family: var(--f-mono);
   font-size: 0.75rem;
   color: var(--ink-3);
@@ -122,6 +122,9 @@
 }
 
 .post__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
   font-family: var(--f-mono);
   font-size: 0.78rem;
   color: var(--ink-3);

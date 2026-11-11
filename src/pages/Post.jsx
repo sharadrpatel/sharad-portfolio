@@ -22,8 +22,7 @@ export default function Post({ post }) {
           </h1>
           <p className="post__meta">
             <time dateTime={post.date}>{formatPostDate(post.date)}</time>
-            <span aria-hidden="true"> · </span>
-            {post.minutes} min read
+            <span>{post.minutes} min read</span>
           </p>
         </div>
       </header>

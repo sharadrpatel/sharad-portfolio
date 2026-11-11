@@ -8,11 +8,11 @@
   padding: 0 0.35rem;
   border: 0;
   background: none;
-  font-family: var(--f-mono);
+  font-family: var(--f-display);
   font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
   color: var(--ink-2);
   cursor: pointer;
 }
@@ -76,7 +76,7 @@
   z-index: 2;
 }
 
-/* Hold scroll-driven effects still while the page is being swapped */
+/* Hold transitions still while the page is being swapped */
 html.is-theming *,
 html.is-theming *::before,
 html.is-theming *::after {
@@ -85,7 +85,8 @@ html.is-theming *::after {
 
 /* Raster figures are white plots; keep them on a light plate in either theme */
 [data-theme="dark"] .fig__plot:has(> img),
-[data-theme="dark"] .preview__art:has(> img) {
+[data-theme="dark"] .preview__art:has(> img),
+[data-theme="dark"] .brief__figure:has(> img) {
   background: #fbfaf7;
   border-color: var(--rule);
 }
@@ -99,61 +100,6 @@ html.is-theming *::after {
   opacity: 0.94;
 }
 
-/* Nav: slide away while reading down */
-.site-nav {
-  transition:
-    background-color var(--dur) var(--ease),
-    border-color var(--dur) var(--ease),
-    transform 420ms var(--ease-out);
-}
-
-.site-nav.is-tucked {
-  transform: translateY(-100%);
-}
-
-/* ── Tools ticker (between Projects and Publications) ──────────────────── */
-
-.ticker {
-  overflow: hidden;
-  padding-block: clamp(1.25rem, 1rem + 1vw, 2rem);
-  border-block: 1px solid var(--ink);
-}
-
-.ticker__row {
-  overflow: hidden;
-}
-
-.ticker__track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.ticker__item {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(1rem, 0.6rem + 1.4vw, 2rem);
-  padding-right: clamp(1rem, 0.6rem + 1.4vw, 2rem);
-  font-family: var(--f-display);
-  font-size: clamp(2rem, 1.2rem + 3.6vw, 4.75rem);
-  font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.045em;
-  white-space: nowrap;
-  color: var(--ink);
-}
-
-.ticker__row--alt .ticker__item {
-  color: var(--ink-3);
-  font-weight: 500;
-}
-
-.ticker__mark {
-  width: 0.22em;
-  height: 0.22em;
-  background: var(--accent);
-}
-
 /* ── Footer signature ───────────────────────────────────────────────────── */
 
 .signature {
@@ -165,11 +111,4 @@ html.is-theming *::after {
   width: 100%;
   font-family: var(--f-display);
   color: var(--night-ink);
-}
-
-/* ── Magnetic hero buttons ──────────────────────────────────────────────── */
-
-.magnetic {
-  display: inline-block;
-  transition: transform 420ms var(--ease-out);
 }

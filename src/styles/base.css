@@ -6,29 +6,17 @@
   box-sizing: border-box;
 }
 
-/* Smooth scrolling: Lenis drives wheel scrolling (src/lib/smooth.js); without
-   it (touch, or before it starts), anchor jumps still glide natively. */
+/* In-page links glide; the router asks for the same behavior in script. */
 @media (prefers-reduced-motion: no-preference) {
-  html:not(.lenis) {
+  html {
     scroll-behavior: smooth;
   }
 }
 
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: clip;
+/* While the intro or the mobile menu owns the screen (src/lib/scrolling.js) */
+html.is-scroll-locked,
+html.is-scroll-locked body {
+  overflow: hidden;
 }
 
 html {
@@ -49,10 +37,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
-}
-
-body.menu-open {
-  overflow: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, figure, blockquote {
@@ -169,12 +153,11 @@ p {
 }
 
 .label {
-  font-family: var(--f-mono);
+  font-family: var(--f-display);
   font-size: var(--fs-label);
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
   color: var(--ink);
 }
 
@@ -184,6 +167,12 @@ p {
 
 .label--accent {
   color: var(--accent);
+}
+
+/* Digits keep one width while a counter runs. Schibsted's tabular figures
+   also widen the decimal point, so this is on only for the moment it matters. */
+.count.is-counting {
+  font-variant-numeric: tabular-nums;
 }
 
 .meta {
@@ -250,10 +239,6 @@ p {
   padding-block: var(--section-y);
 }
 
-.section + .section:not(.section--night) {
-  border-top: 1px solid var(--rule);
-}
-
 .section--night {
   background: var(--night);
   color: var(--night-ink);
@@ -294,19 +279,6 @@ main:focus {
   to { opacity: 1; transform: none; }
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 900ms var(--ease-out) var(--reveal-delay, 0ms),
-    transform 900ms var(--ease-out) var(--reveal-delay, 0ms);
-}
-
-.reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -317,14 +289,12 @@ main:focus {
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 @media print {
-  .site-nav, .skip-link, .hero__actions, .case__toc, .work__filters, .work__preview { display: none !important; }
-  .reveal { opacity: 1; transform: none; }
+  .site-nav, .skip-link, .hero__actions, .case__toc, .filters, .work__preview, .copy, .loader, .phase__controls { display: none !important; }
   .section--night { background: none; color: var(--ink); }
+  /* Print every project brief, open or not */
+  .work-detail { grid-template-rows: 1fr !important; visibility: visible !important; }
+  .brief { opacity: 1 !important; transform: none !important; }
 }

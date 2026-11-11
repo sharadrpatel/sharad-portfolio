@@ -1,8 +1,9 @@
 import { useLayoutEffect, useEffect, lazy, Suspense } from "react";
 import { useLocation, scrollToHash } from "./lib/router.jsx";
-import { startSmoothScroll, jumpTo } from "./lib/smooth.js";
+import { jumpTo } from "./lib/scrolling.js";
 import { findCaseStudy, RESEARCH } from "./data/work.js";
-import { PROFILE } from "./data/profile.js";
+import { applyMeta, homeMeta, caseMeta, blogMeta, postMeta, notFoundMeta } from "./lib/meta.js";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Nav from "./components/Nav.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
@@ -38,19 +39,18 @@ export default function App() {
 
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    startSmoothScroll();
   }, []);
 
-  // Title per route.
+  // Title, description, and canonical URL per route.
   useEffect(() => {
-    const base = `${PROFILE.name} — Biomedical Engineering`;
-    const titles = {
-      case: () => `${route.work.title} · ${PROFILE.name}`,
-      blog: () => `Blog · ${PROFILE.name}`,
-      post: () => `${route.post.title} · ${PROFILE.name}`,
-      404: () => `Not found · ${PROFILE.name}`,
-    };
-    document.title = titles[route.page]?.() ?? base;
+    const meta = {
+      home: homeMeta,
+      case: () => caseMeta(route.work),
+      blog: blogMeta,
+      post: () => postMeta(route.post),
+      404: notFoundMeta,
+    }[route.page]();
+    applyMeta(meta);
   }, [route.page, route.work, route.post]);
 
   // Scroll after each route renders: hash target, restored position, or top.
@@ -80,15 +80,17 @@ export default function App() {
       <a className="skip-link" href="#main">Skip to content</a>
       <Nav path={route.page === "home" ? "/" : loc.path} section={section} />
       <main id="main" tabIndex={-1} key={loc.path} className="page">
-        {route.page === "home" && <Home />}
-        {route.page === "case" && <CaseStudy work={route.work} />}
-        {route.page === "blog" && <Blog />}
-        {route.page === "post" && (
-          <Suspense fallback={null}>
-            <Post post={route.post} />
-          </Suspense>
-        )}
-        {route.page === "404" && <NotFound />}
+        <ErrorBoundary>
+          {route.page === "home" && <Home />}
+          {route.page === "case" && <CaseStudy work={route.work} />}
+          {route.page === "blog" && <Blog />}
+          {route.page === "post" && (
+            <Suspense fallback={null}>
+              <Post post={route.post} />
+            </Suspense>
+          )}
+          {route.page === "404" && <NotFound />}
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

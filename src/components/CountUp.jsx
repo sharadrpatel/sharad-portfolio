@@ -1,47 +1,48 @@
 import { useEffect, useState } from "react";
-import { useInView, prefersReducedMotion } from "../lib/motion.js";
+import { useSeen, prefersReducedMotion } from "../lib/motion.js";
 
-// Counts the first number in a string up from zero each time it scrolls into view:
-// "3.94", "≈ 45%", "0.119/yr". Strings without a number render as they are.
-// Screen readers get the final value only.
-export default function CountUp({ value, duration = 1400 }) {
-  const match = String(value).match(/\d+(?:\.\d+)?/);
-  const [ref, inView] = useInView();
-  const [shown, setShown] = useState(() => (match ? null : value));
+// Counts the first number in a string up to its value, once, as it scrolls
+// into view: "3.94", "≈ 45%", "0.119/yr". Strings without a number render as
+// they are.
+//
+// The real value is what gets rendered: on first paint, without JavaScript,
+// in print, under reduced motion, and for anything already on screen when the
+// page loads. The count only ever plays on a figure that is arriving from
+// below the fold, so a reader never finds a wrong number sitting on the page.
+// Screen readers get the final value throughout.
+export default function CountUp({ value, duration = 900 }) {
+  const text = String(value);
+  const match = text.match(/\d+(?:\.\d+)?/);
+  const [ref, { seen, wasVisibleAtMount }] = useSeen();
+  const [shown, setShown] = useState(text);
 
   useEffect(() => {
-    if (!match) return;
-    if (!inView) {
-      // Back below the fold: rewind so the count replays next time.
-      setShown(prefersReducedMotion() ? value : null);
-      return;
-    }
+    if (!match || !seen || wasVisibleAtMount || prefersReducedMotion()) return;
     const target = parseFloat(match[0]);
     const decimals = (match[0].split(".")[1] ?? "").length;
-    const before = value.slice(0, match.index);
-    const after = value.slice(match.index + match[0].length);
-    if (prefersReducedMotion()) {
-      setShown(value);
-      return;
-    }
+    const before = text.slice(0, match.index);
+    const after = text.slice(match.index + match[0].length);
     let frame;
     const start = performance.now();
     const tick = (now) => {
       const t = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - t, 4);
-      setShown(`${before}${(target * eased).toFixed(decimals)}${after}`);
+      // Land on the exact source string, not a re-formatted number.
+      setShown(t < 1 ? `${before}${(target * eased).toFixed(decimals)}${after}` : text);
       if (t < 1) frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [inView]);
+    return () => {
+      cancelAnimationFrame(frame);
+      setShown(text);
+    };
+  }, [seen]);
 
   if (!match) return value;
-  const placeholder = value.replace(match[0], (0).toFixed((match[0].split(".")[1] ?? "").length));
   return (
-    <span ref={ref} className="count">
-      <span aria-hidden="true">{shown ?? placeholder}</span>
-      <span className="visually-hidden">{value}</span>
+    <span ref={ref} className={shown === text ? "count" : "count is-counting"}>
+      <span aria-hidden="true">{shown}</span>
+      <span className="visually-hidden">{text}</span>
     </span>
   );
 }

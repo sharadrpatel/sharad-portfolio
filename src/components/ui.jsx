@@ -1,40 +1,42 @@
 // Small presentational primitives shared across sections.
 import { Link } from "../lib/router.jsx";
-import Scramble from "./Scramble.jsx";
-import { useInView } from "../lib/motion.js";
-import { useScrub } from "../lib/scroll.js";
 
-// Section opener: a ruled line with the section number and a note, then a
-// large one-word title with its dek set beside it. On scroll the rule draws
-// across and the title rises out of a mask.
-export function SectionHead({ id, number, title, dek, aside, night = false }) {
-  // The title drifts sideways as the head passes through the viewport.
-  const drift = useScrub("through");
-  const [ref, inView] = useInView();
+// Section opener: a full-width rule, the one-word title, and beside it the
+// dek with a short factual note (counts, place) underneath.
+export function SectionHead({ id, title, dek, aside, night = false }) {
   return (
-    <header ref={ref} className={`reveal section-head ${inView ? "is-in" : ""} ${night ? "section-head--night" : ""}`}>
-      <div className="section-head__rule">
-        <Scramble className="section-head__num" text={number} active={inView} />
-        {aside && <span className="section-head__aside">{aside}</span>}
-      </div>
-      <div className="section-head__body" ref={drift}>
-        <h2 id={id} className="h2 section-head__title">
-          <Mask>{title}</Mask>
-        </h2>
-        {dek && <p className="dek section-head__dek">{dek}</p>}
-      </div>
+    <header className={`section-head ${night ? "section-head--night" : ""}`}>
+      <h2 id={id} className="h2 section-head__title">
+        {title}
+      </h2>
+      {(dek || aside) && (
+        <div className="section-head__side">
+          {dek && <p className="dek section-head__dek">{dek}</p>}
+          {aside && <p className="section-head__aside">{aside}</p>}
+        </div>
+      )}
     </header>
   );
 }
 
-// Text that slides up out of its own line box when a parent .reveal comes in.
-export function Mask({ children, delay = 0 }) {
+// A row of toggle buttons that narrows a list. Each shows how many entries it
+// holds, so the bar doubles as a summary of what the section contains.
+export function FilterBar({ label, options, value, onChange }) {
   return (
-    <span className="mask">
-      <span className="mask__in" style={delay ? { "--mask-delay": `${delay}ms` } : undefined}>
-        {children}
-      </span>
-    </span>
+    <div className="filters" role="group" aria-label={label}>
+      {options.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          className="filter"
+          aria-pressed={value === o.id}
+          onClick={() => onChange(o.id)}
+        >
+          {o.label}
+          <span className="filter__count">{o.count}</span>
+        </button>
+      ))}
+    </div>
   );
 }
 

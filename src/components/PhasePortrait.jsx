@@ -117,10 +117,12 @@ export default function PhasePortrait() {
         </button>
       </div>
       <p className="phase__readout" aria-hidden="true">
-        <span>
-          <span ref={clock} className="phase__clock">t = 0.0</span> · δ = {DELTA} · ω = {OMEGA}
+        <span className="phase__params">
+          <span ref={clock} className="phase__clock">t = 0.0</span>
+          <span>δ = {DELTA}</span>
+          <span>ω = {OMEGA}</span>
         </span>
-        <span>{regime}</span>
+        <span className="phase__regime">{regime}</span>
       </p>
     </div>
   );

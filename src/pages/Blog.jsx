@@ -7,7 +7,6 @@ export default function Blog() {
     <section className="section blog" aria-labelledby="blog-title">
       <div className="wrap">
         <header className="blog__head">
-          <p className="label label--accent">Blog</p>
           <h1 id="blog-title" className="blog__title">Writing</h1>
           <p className="dek">Notes on my research, projects, and things I'm learning along the way.</p>
         </header>
@@ -27,8 +26,7 @@ export default function Blog() {
                 <Link to={`/blog/${p.slug}`} className="post-item">
                   <span className="post-item__meta">
                     <time dateTime={p.date}>{formatPostDate(p.date)}</time>
-                    <span aria-hidden="true">·</span>
-                    {p.minutes} min read
+                    <span>{p.minutes} min read</span>
                     {p.draft && <span className="badge badge--soft">Draft</span>}
                   </span>
                   <span className="post-item__title">{p.title}</span>

@@ -3,11 +3,8 @@ import { CASE_STUDIES, RESEARCH } from "../data/work.js";
 import { Link } from "../lib/router.jsx";
 import { Tags, TextLink, Arrow, Rich } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
-import { SpecTable } from "../sections/Projects.jsx";
+import SpecTable from "../components/SpecTable.jsx";
 import { ExternalLinks } from "../sections/Research.jsx";
-import CountUp from "../components/CountUp.jsx";
-import Reveal from "../components/Reveal.jsx";
-import DrawOnScroll from "../components/DrawOnScroll.jsx";
 
 function useActiveHeading(ids) {
   const [active, setActive] = useState(ids[0]);
@@ -61,8 +58,8 @@ export default function CaseStudy({ work: w }) {
             <span aria-hidden="true">/</span>
             <span aria-current="page">{w.index}</span>
           </nav>
-          <p className="label label--accent">
-            {w.area.join(" · ")}
+          <p className="case__area">
+            {w.area.join(", ")}
             {w.badge && <span className="badge">{w.badge}</span>}
           </p>
           <h1 id="case-title" className="case__title">
@@ -115,33 +112,33 @@ export default function CaseStudy({ work: w }) {
           <p className="case__summary">{w.summary}</p>
 
           {w.figure && (
-            <DrawOnScroll className="case__figure">
+            <div className="case__figure">
               <WorkFigure name={w.figure} n={++fig} wide />
-            </DrawOnScroll>
+            </div>
           )}
 
           {w.problem && (
-            <Reveal as="section" className="case__section" aria-labelledby="problem">
+            <section className="case__section" aria-labelledby="problem">
               <h2 id="problem" className="case__h">
                 Problem
               </h2>
               <p>
                 <Rich text={w.problem} />
               </p>
-            </Reveal>
+            </section>
           )}
 
           {w.subprojects?.map((sp, n) => (
-            <Reveal as="section" key={sp.id} className="case__section subproject" aria-labelledby={sp.id}>
+            <section key={sp.id} className="case__section subproject" aria-labelledby={sp.id}>
               <h2 id={sp.id} className="case__h">
-                Project {n + 1} · {sp.title}
+                <span className="case__h-n">Project {n + 1}</span> {sp.title}
               </h2>
               <p className="subproject__question">{sp.question}</p>
               <p>{sp.background}</p>
               <ol className="steps">
                 {sp.approach.map((a, k) => (
                   <li key={a.label}>
-                    <span className="steps__n">{String(k + 1).padStart(2, "0")}</span>
+                    <span className="steps__n">{k + 1}</span>
                     <div>
                       <h3 className="steps__label">{a.label}</h3>
                       <p>
@@ -162,18 +159,18 @@ export default function CaseStudy({ work: w }) {
                 {sp.status}
               </p>
               <Tags items={sp.tools} />
-            </Reveal>
+            </section>
           ))}
 
           {w.approach && (
-            <Reveal as="section" className="case__section" aria-labelledby="approach">
+            <section className="case__section" aria-labelledby="approach">
               <h2 id="approach" className="case__h">
                 Approach &amp; methods
               </h2>
               <ol className="steps">
                 {w.approach.map((a, n) => (
                   <li key={a.label}>
-                    <span className="steps__n">{String(n + 1).padStart(2, "0")}</span>
+                    <span className="steps__n">{n + 1}</span>
                     <div>
                       <h3 className="steps__label">{a.label}</h3>
                       <p>
@@ -184,15 +181,15 @@ export default function CaseStudy({ work: w }) {
                 ))}
               </ol>
               {[].concat(w.secondaryFigure ?? []).map((name) => (
-                <DrawOnScroll key={name} className="case__figure">
+                <div key={name} className="case__figure">
                   <WorkFigure name={name} n={++fig} wide />
-                </DrawOnScroll>
+                </div>
               ))}
-            </Reveal>
+            </section>
           )}
 
           {w.specs && (
-            <Reveal as="section" className="case__section" aria-labelledby="specifications">
+            <section className="case__section" aria-labelledby="specifications">
               <h2 id="specifications" className="case__h">
                 Specifications
               </h2>
@@ -201,11 +198,11 @@ export default function CaseStudy({ work: w }) {
                 target.
               </p>
               <SpecTable specs={w.specs} caption="Selected target specifications" />
-            </Reveal>
+            </section>
           )}
 
           {w.contributions && (
-            <Reveal as="section" className="case__section" aria-labelledby="contribution">
+            <section className="case__section" aria-labelledby="contribution">
               <h2 id="contribution" className="case__h">
                 My contribution
               </h2>
@@ -214,11 +211,11 @@ export default function CaseStudy({ work: w }) {
                   <li key={c}>{c}</li>
                 ))}
               </ul>
-            </Reveal>
+            </section>
           )}
 
           {w.outcomes && (
-            <Reveal as="section" className="case__section" aria-labelledby="outcomes">
+            <section className="case__section" aria-labelledby="outcomes">
               <h2 id="outcomes" className="case__h">
                 Outcomes
               </h2>
@@ -227,9 +224,7 @@ export default function CaseStudy({ work: w }) {
                   <div key={o.label} className={o.value ? "has-value" : ""}>
                     <dt>
                       {o.value && (
-                        <span className="outcomes__value">
-                          <CountUp value={o.value} />
-                        </span>
+                        <span className="outcomes__value">{o.value}</span>
                       )}
                       <span className="label label--muted">{o.label}</span>
                     </dt>
@@ -243,16 +238,16 @@ export default function CaseStudy({ work: w }) {
                   This project is still going, so these are what the work is set up to answer rather than final results.
                 </p>
               )}
-            </Reveal>
+            </section>
           )}
 
           {!w.subprojects && (
-            <Reveal as="section" className="case__section" aria-labelledby="tools">
+            <section className="case__section" aria-labelledby="tools">
               <h2 id="tools" className="case__h">
                 Tools
               </h2>
               <Tags items={w.tools} />
-            </Reveal>
+            </section>
           )}
 
           <nav className="case__next" aria-label="More work">
@@ -260,7 +255,7 @@ export default function CaseStudy({ work: w }) {
               Back to {isResearch ? "research" : "projects"}
             </TextLink>
             <Link to={`/work/${next.slug}`} className="next-card">
-              <span className="label label--muted">Next case study · {next.index}</span>
+              <span className="label label--muted">Next case study</span>
               <span className="next-card__title">{next.title}</span>
               <Arrow />
             </Link>

@@ -1,5 +1,13 @@
-/* Motion and interaction layer: intro, scroll reveals, and the hero figure's
-   controls. Every effect here has a still fallback under reduced motion. */
+/* Motion layer.
+
+   The site moves in three situations only:
+   1. Once, on a first visit: the intro (a model fit that becomes the name).
+   2. In the hero figure, which is a running simulation.
+   3. In answer to something the visitor did: hover, press, open, filter,
+      switch theme.
+   Nothing animates just because it scrolled into view, so the page reads the
+   same at any scroll speed and nothing is ever waiting to appear.
+   Everything here rests in its finished state under reduced motion. */
 
 /* ── Intro (first visit): the name, assembled from data ─────────────────────
    Fixed colors: the intro looks the same in both themes. */
@@ -8,6 +16,8 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
+  /* Its readouts change every frame; keep that layout work inside the overlay */
+  contain: layout paint style;
   color: #f3f2ee;
   cursor: pointer;
 }
@@ -68,11 +78,11 @@
 
 .loader__status {
   margin-left: auto;
-  font-family: var(--f-mono);
+  font-family: var(--f-display);
   font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0;
   color: #a3a29b;
 }
 
@@ -204,19 +214,15 @@ html.is-intro .hero__name {
 }
 
 /* Hold the hero entrance until the intro starts to lift */
-html.is-loading body {
-  overflow: hidden;
-}
-
 html.is-loading .load-in,
 html.is-loading .mask-in,
 html.is-loading .phase__line {
   animation-play-state: paused;
 }
 
-/* ── Masked text ────────────────────────────────────────────────────────── */
+/* ── Hero name ──────────────────────────────────────────────────────────── */
 
-/* Hero name: each line rises out of its own box on load */
+/* Without the intro (return visits), each word rises out of its own line box */
 .hero__name-line {
   overflow: hidden;
   padding-bottom: 0.06em;
@@ -226,154 +232,13 @@ html.is-loading .phase__line {
 
 .mask-in {
   display: inline-block;
-  animation: mask-up 1100ms var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+  animation: mask-up 900ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 60ms);
 }
 
 @keyframes mask-up {
   from { transform: translateY(105%); }
   to { transform: none; }
-}
-
-/* Section titles: the same rise, triggered on scroll */
-.mask {
-  display: inline-block;
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-  vertical-align: top;
-}
-
-.mask__in {
-  display: inline-block;
-  transform: translateY(105%);
-  transition: transform 1100ms var(--ease-out) calc(var(--mask-delay, 0ms) + 120ms);
-}
-
-.reveal.is-in .mask__in {
-  transform: none;
-}
-
-/* Section heads and masked titles keep their box still; the parts move */
-.section-head.reveal,
-.now__title.reveal {
-  opacity: 1;
-  transform: none;
-}
-
-.section-head__rule {
-  position: relative;
-  border-top-color: transparent;
-}
-
-.section-head__rule::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--ink);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 1200ms var(--ease-out);
-}
-
-.section-head--night .section-head__rule::before {
-  background: var(--night-ink);
-}
-
-.section-head.is-in .section-head__rule::before {
-  transform: none;
-}
-
-.section-head__rule > *,
-.section-head__dek {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 800ms var(--ease-out) 300ms, transform 800ms var(--ease-out) 300ms;
-}
-
-.section-head__dek {
-  transition-delay: 380ms;
-}
-
-.section-head.is-in .section-head__rule > *,
-.section-head.is-in .section-head__dek {
-  opacity: 1;
-  transform: none;
-}
-
-/* ── Staggered lists ────────────────────────────────────────────────────── */
-
-.reveal.has-st {
-  opacity: 1;
-  transform: none;
-}
-
-.reveal .st {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 800ms var(--ease-out) calc(min(var(--si, 0), 10) * 60ms + 100ms),
-    transform 800ms var(--ease-out) calc(min(var(--si, 0), 10) * 60ms + 100ms);
-}
-
-.reveal.is-in .st {
-  opacity: 1;
-  transform: none;
-}
-
-/* Plate questions: the accent rule grows down beside the text */
-.plate__question {
-  border-left-color: transparent;
-  position: relative;
-}
-
-.plate__question::before {
-  content: "";
-  position: absolute;
-  left: -2px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 900ms var(--ease-out) 350ms;
-}
-
-.reveal.is-in .plate__question::before {
-  transform: none;
-}
-
-/* Portrait: frame clips the slow drift */
-.about__portrait {
-  overflow: hidden;
-}
-
-.about__portrait img {
-  height: 112%;
-  margin-block: -6%;
-  will-change: transform;
-}
-
-.count {
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── Nav reading progress ───────────────────────────────────────────────── */
-
-.site-nav__progress {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  pointer-events: none;
 }
 
 /* ── Hero figure controls ───────────────────────────────────────────────── */
@@ -484,14 +349,13 @@ html.is-loading .phase__line {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  min-height: 36px;
-  padding: 0 0.75rem;
+  min-height: 44px;
+  padding: 0 0.85rem;
   border: 1px solid var(--rule-strong);
   background: transparent;
-  font-family: var(--f-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-family: var(--f-display);
+  font-size: var(--fs-label);
+  font-weight: 600;
   cursor: pointer;
   transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
@@ -518,31 +382,18 @@ html.is-loading .phase__line {
   color: var(--ink-3);
 }
 
-.phase__readout span:last-child {
+.phase__params {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.9rem;
+}
+
+.phase__regime {
   color: var(--accent);
+  text-align: right;
 }
 
-/* ── Scroll scenes ──────────────────────────────────────────────────────────
-   Driven by --p (0 → 1) from src/lib/scroll.js, so they follow the scroll
-   both ways. A missing --p is the finished state (reduced motion). */
-
-/* Scenes slide things sideways; clip at the section edge so the page never
-   scrolls horizontally (clip, unlike hidden, keeps sticky children working). */
-.hero,
-.section {
-  overflow-x: clip;
-}
-
-/* Hero: the name parts as the hero scrolls away */
-.hero__name-line:first-child {
-  transform: translateX(calc(var(--p, 0) * -9vw));
-}
-
-.hero__name-line:last-child {
-  transform: translateX(calc(var(--p, 0) * 9vw));
-}
-
-/* Hero figure: scrolling runs the simulation clock */
+/* Scrolling runs the simulation clock: a comet moves along the trajectory */
 .phase__tail {
   fill: none;
   stroke: var(--ink);
@@ -562,123 +413,14 @@ html.is-loading .phase__line {
   font-variant-numeric: tabular-nums;
 }
 
-/* Now: the band opens from a framed panel to full width */
-.now {
-  clip-path: inset(0 calc((1 - var(--p, 1)) * 5vw));
-}
-
-.now__grid {
-  transform: translateY(calc((1 - var(--p, 1)) * 70px));
-}
-
-/* Section titles glide in from the right and settle on the grid line */
-.section-head__title {
-  transform: translateX(calc(max(0, 0.55 - var(--p, 0.55)) * 12vw));
-}
-
-/* Figures draw themselves as they come up */
-.draw .draw-stroke {
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--p, 1));
-  fill-opacity: clamp(0, calc(var(--p, 1) * 2 - 0.9), 1);
-}
-
-.draw .draw-fade {
-  opacity: clamp(0, calc(var(--p, 1) * 2.4 - 1.2), 1);
-}
-
-.draw .fig__plot img {
-  clip-path: inset(calc((1 - var(--p, 1)) * 100%) 0 0 0);
-}
-
-.draw .fig__caption {
-  opacity: clamp(0, calc(var(--p, 1) * 2 - 1), 1);
-}
-
-/* Timelines: a rail fills down to the reading line */
-.has-rail {
-  position: relative;
-  padding-left: 1.1rem;
-}
-
-.has-rail::before,
-.has-rail::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1px;
-  background: var(--rule);
-}
-
-.has-rail::after {
-  left: -0.5px;
-  width: 2px;
-  background: var(--accent);
-  transform: scaleY(var(--p, 1));
-  transform-origin: top;
-}
-
-@media (min-width: 900px) {
-  .has-rail {
-    padding-left: 0;
-  }
-  .has-rail::before {
-    left: calc(var(--col-gap) * -0.5);
-  }
-  .has-rail::after {
-    left: calc(var(--col-gap) * -0.5 - 0.5px);
-  }
-}
-
-/* Portrait: black and white warms to color on arrival */
-.about__frame {
-  overflow: hidden;
-}
-
-.about__frame img {
-  filter: grayscale(calc(1 - var(--p, 1)));
-}
-
-/* Contact: the address slides in from the right */
-.contact__email {
-  transform: translateX(calc((1 - var(--p, 1)) * 16vw));
-  opacity: calc(0.2 + var(--p, 1) * 0.8);
-}
-
 /* ── Reduced motion: everything lands in place ─────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .mask__in,
-  .mask-in,
-  .reveal .st,
-  .section-head__rule > *,
-  .section-head__dek {
-    transform: none;
-    opacity: 1;
-  }
-  .section-head__rule::before,
-  .plate__question::before {
+  .mask-in {
     transform: none;
   }
   .phase__line.is-drawing {
     stroke-dashoffset: 0;
     animation: none;
-  }
-}
-
-@media print {
-  .loader,
-  .site-nav__progress,
-  .phase__controls {
-    display: none !important;
-  }
-  .reveal .st,
-  .mask__in,
-  .section-head__rule > *,
-  .section-head__dek {
-    opacity: 1;
-    transform: none;
   }
 }

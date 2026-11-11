@@ -1,7 +1,5 @@
 import { PUBLICATIONS, SELF } from "../data/publications.js";
 import { SectionHead, Badge } from "../components/ui.jsx";
-import Reveal from "../components/Reveal.jsx";
-import { useScrub } from "../lib/scroll.js";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -28,16 +26,6 @@ function Authors({ list }) {
   );
 }
 
-// A rail beside the list fills down to the reading line.
-function Rail({ className, children }) {
-  const ref = useScrub("read", { line: 0.55 });
-  return (
-    <ol ref={ref} className={`${className} has-rail`}>
-      {children}
-    </ol>
-  );
-}
-
 export default function Publications() {
   const firstAuthor = PUBLICATIONS.filter((p) => p.authors[0] === SELF).length;
   const years = [...new Set(PUBLICATIONS.map((p) => p.date.slice(0, 4)))];
@@ -46,21 +34,20 @@ export default function Publications() {
       <div className="wrap">
         <SectionHead
           id="publications-title"
-          number="03 — Publications"
-          aside={`${PUBLICATIONS.length} total · ${firstAuthor} first-author`}
+          aside={`${PUBLICATIONS.length} in total, ${firstAuthor} as first author`}
           title="Publications"
           dek="Posters and talks. Half come from surgical simulation research; the rest cover pediatric MRI, anesthesia monitoring, and a math modeling talk."
         />
         <div className="pubs">
           {years.map((y) => (
-            <Reveal key={y} className="pubs__year has-st">
-              <h3 className="pubs__y">{y}</h3>
-              <Rail className="pubs__list">
-                {PUBLICATIONS.filter((p) => p.date.startsWith(y)).map((p, i) => (
-                  <li key={p.title} className="pub st" style={{ "--si": i }}>
+            <section key={y} className="pubs__year" aria-labelledby={`pubs-${y}`}>
+              <h3 id={`pubs-${y}`} className="pubs__y">{y}</h3>
+              <ol className="pubs__list">
+                {PUBLICATIONS.filter((p) => p.date.startsWith(y)).map((p) => (
+                  <li key={p.title} className="pub">
                     <p className="pub__when">
                       <time dateTime={p.date}>{formatMonth(p.date)}</time>
-                      <span>{p.type}</span>
+                      <span className="pub__type">{p.type}</span>
                     </p>
                     <div className="pub__body">
                       <h4 className="pub__title">
@@ -72,8 +59,8 @@ export default function Publications() {
                     </div>
                   </li>
                 ))}
-              </Rail>
-            </Reveal>
+              </ol>
+            </section>
           ))}
         </div>
       </div>

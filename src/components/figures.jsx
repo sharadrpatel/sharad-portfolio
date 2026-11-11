@@ -1,6 +1,8 @@
 // Explanatory figures for research entries. Each one draws the actual
 // mechanism or data behind a project — no decorative graphics.
 // Colors come from CSS classes (see styles/figures.css).
+// Plots exported from reports are stored as lossless WebP: pixel-for-pixel the
+// original PNGs at about half the size.
 
 function zigzag(x1, x2, y, peaks = 6, amp = 7) {
   const step = (x2 - x1) / (peaks * 2);
@@ -257,25 +259,25 @@ export const FIGURES = {
       "A Hill-type muscle–tendon unit. The three highlighted parameters come from ultrasound, and they're the ones I tested in the sensitivity analysis.",
   },
   "isr-sizing-map": {
-    img: { src: "/images/isr-sizing-map.png", width: 1107, height: 704 },
+    img: { src: "/images/isr-sizing-map.webp", width: 1107, height: 704 },
     alt: "Heatmap of extra neointimal area at 6 months against oversizing ratio from 1.0 to 1.9 and stent outward-force stiffness from 40 to 320 kPa. A white safe zone at the lower left has no stimulus. A solid curve marks where the stimulus starts at 120/80 mmHg and a dashed curve, further left, where it starts at 160/100. The Li control pigs sit near the solid curve and the oversized pigs well inside the blue region. A dotted line marks the 1.4 guideline.",
     caption:
       "Where oversizing becomes risky: extra neointimal area at 6 months compared with a well-sized stent, across oversizing and stent force stiffness. The solid line is where the push signal switches on at 120/80 mmHg; the dashed line is 160/100. Model output, healthy pig artery. From our design review.",
   },
   "isr-blind-test": {
-    img: { src: "/images/isr-blind-test.png", width: 1165, height: 451 },
+    img: { src: "/images/isr-blind-test.webp", width: 1165, height: 451 },
     alt: "Dot plot of area stenosis in oversized pig stents at 4 weeks. Measured: 64%, with a gray 95% confidence band from 53 to 76%. Final 1D model: 69%, with a wide Monte Carlo interval. Final 2D strut-level model: 87%. Milestone 2 model: 73%. Unchanged Escuer model: 40%.",
     caption:
       "The blind test: area stenosis of stents oversized 1.63× in pigs at 4 weeks. The gray band is the 95% confidence interval of the measured mean (n = 11). The growth gain was fit to the control pigs only, so the oversized group was never used for fitting. From our design review.",
   },
   "isr-neointima": {
-    img: { src: "/images/isr-neointima.png", width: 1086, height: 557 },
+    img: { src: "/images/isr-neointima.webp", width: 1086, height: 557 },
     alt: "Line plot of neointimal area over 365 days. The earlier model with a push that never fades rises to about 15 square millimetres. The final model, where the stent finishes opening, levels off near 10 by about 3 months. Normally sized stents level off near 6. Pig data at 4 weeks sit near the early part of each curve.",
     caption:
       "Neointimal area after implantation in pig-sized arteries. Once the stent finishes opening and its push fades, growth levels off at about 10 mm² instead of climbing all year. Points are the pig histology at 4 weeks. Model output, from our design review.",
   },
   "isr-blood-pressure": {
-    img: { src: "/images/isr-blood-pressure.png", width: 949, height: 669 },
+    img: { src: "/images/isr-blood-pressure.webp", width: 949, height: 669 },
     alt: "Line plot of the chronic stimulus against oversizing ratio for three blood pressure settings. The stimulus stays at zero until an onset point, then rises. Onset is 1.34 for steady 100 mmHg, 1.30 for pulsatile 120/80, and 1.22 for 160/100.",
     caption:
       "The push signal against oversizing at three blood pressures. Higher pressure moves the point where the signal switches on from 1.30× to 1.22×. Model output, from our design review.",
@@ -319,72 +321,72 @@ export const FIGURES = {
       "Scratch wound-healing assay over 48 hours, with red lines marking the wound edges. Lab B is our group's collagen-coated replicate (2.51%/hr); Lab A is a parallel collagen replicate (0.49%/hr); the uncoated control closed at 1.25%/hr.",
   },
   "scudem-kl": {
-    img: { src: "/images/scudem-kl-drift.png", width: 1000, height: 749 },
+    img: { src: "/images/scudem-kl-drift.webp", width: 1000, height: 749 },
     alt: "Line plot of KL divergence from the human data over 40 generations for one, three, and five models. One model levels off near 0.28, three near 0.17, and five near 0.15.",
     caption:
       "Model 1: drift from the human data (KL divergence) over 40 generations with 90% AI-generated training data, for one, three, and five models. More models, less drift. From our report.",
   },
   "scudem-task-space": {
-    img: { src: "/images/scudem-task-space.png", width: 1400, height: 678 },
+    img: { src: "/images/scudem-task-space.webp", width: 1400, height: 678 },
     alt: "Two plots of task probability. At generation 0 the distribution is a smooth bell curve centered at task 30. At generation 100 it has three sharp spikes at tasks 20, 35, and 41.",
     caption:
       "Model 2: the task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. The distribution collapses into spikes at those tasks. From our report.",
   },
   "mcm-sensitivity": {
-    img: { src: "/images/mcm-sensitivity.png", width: 1261, height: 1070 },
+    img: { src: "/images/mcm-sensitivity.webp", width: 1261, height: 1070 },
     alt: "Bar chart of linear and rank correlation between each of 22 model parameters and the final state of charge. The largest bars are negative for network and processor draw terms and positive for battery capacity; thermal parameters are near zero.",
     caption:
       "Global sensitivity analysis: linear and rank correlation of each parameter with the state of charge after 16 hours, from 10⁴ Monte Carlo samples. Negative bars mean faster drain. From our paper.",
   },
   "mcm-soc": {
-    img: { src: "/images/mcm-soc.png", width: 1261, height: 1360 },
+    img: { src: "/images/mcm-soc.webp", width: 1261, height: 1360 },
     alt: "Line plot of battery percentage over 16 hours. It falls slowly for the first five hours, then in steep steps, reaching zero at about 11 hours.",
     caption:
       "State of charge (percent) over one simulated day of heavy use. It drops in steep steps during use and reaches empty at about 11 hours. (The y-axis label in the original plot reads \"cumulative charge drawn,\" but the curve is the battery percentage.) From our paper.",
   },
   "seatrout-forecast": {
-    img: { src: "/images/seatrout-forecast.png", width: 893, height: 490 },
+    img: { src: "/images/seatrout-forecast.webp", width: 893, height: 490 },
     alt: "Line chart of Gulf seatrout biomass from 2000 to 2023, declining from about 74,000 to 52,000 model units, then four 10-year forecasts. Status quo and plus or minus 20% effort keep declining; only the F_MSY scenario rises toward the B_MSY line.",
     caption:
       "Historical biomass (2000–2023) and 10-year forecasts under constant fishing rates. Only fishing at F_MSY (0.12/yr) moves the stock back toward B_MSY, the dashed line. From our presentation.",
   },
   "seatrout-validation": {
-    img: { src: "/images/seatrout-validation.png", width: 889, height: 470 },
+    img: { src: "/images/seatrout-validation.webp", width: 889, height: 470 },
     alt: "Line chart comparing the assessment's spawning stock biomass, in metric tons, with the scaled model biomass from 2000 to 2023. Both trend down from about 5,000 tons with similar ups and downs.",
     caption:
       "External check: model biomass, scaled once, against the assessment's spawning stock biomass, which the model was not fit to. Typical relative error was about 10%. From our presentation.",
   },
   "canopy-forest": {
-    img: { src: "/images/canopy-forest.png", width: 1100, height: 1095 },
+    img: { src: "/images/canopy-forest.webp", width: 1100, height: 1095 },
     alt: "Map of an 800 by 800 metre simulated forest. Gray and orange dots mark trees, with orange ones ripe. Blue and red outlines show the two monkeys' core ranges, which overlap heavily around a central star. Thin blue and red lines trace each monkey's path for one day.",
     caption:
       "One simulated dry-season day. Outlines are each monkey's 60% core range, lines are that day's paths, orange dots are ripe trees, and the star is the shared sleeping site. The ranges overlap far more than the paper's optimum of 1/3. Simulated, from our slides.",
   },
   "canopy-talking": {
-    img: { src: "/images/canopy-talking.png", width: 1400, height: 751 },
+    img: { src: "/images/canopy-talking.webp", width: 1400, height: 751 },
     alt: "Bar chart of pair intake compared with a silent pair. Talking adds 3.1% in the dry season and 3.6% in the wet; rich talk adds 3.2% and 4.4%; an oracle that knows every tree adds 39.6% and 21.2%.",
     caption:
       "What talking is worth, as the change in pair intake against a silent pair in the same forest. Calls help a little; knowing every tree would help far more. Bars are means over 20 simulated forests with 95% intervals. From our slides.",
   },
   "canopy-spacing-noise": {
-    img: { src: "/images/canopy-spacing-noise.png", width: 1400, height: 907 },
+    img: { src: "/images/canopy-spacing-noise.webp", width: 1400, height: 907 },
     alt: "Heatmap of pair intake with preferred spacing on the x-axis from 0.25 to 2.5 hearing ranges and honest noise on the y-axis from 0 to 0.5. Colour darkens from left to right but barely changes from bottom to top. A line marking the best spacing in each row stays at 2 to 2.5.",
     caption:
       "Distance against accuracy. Intake changes across the map (spacing), not up it (noise), and the best spacing in every row stays at 2–2.5 hearing ranges, so there's no trade-off to balance. Dry season, simulated. From our slides.",
   },
   "canopy-meanfield": {
-    img: { src: "/images/canopy-meanfield.png", width: 1100, height: 954 },
+    img: { src: "/images/canopy-meanfield.webp", width: 1100, height: 954 },
     alt: "Scatter plot of the simulated feeding share against the three-ODE prediction for 320 runs with different detail and noise settings. The points fall tightly along the diagonal from 0.34 to 0.51.",
     caption:
       "The check: the feeding share predicted by the three mean-field ODEs against the share in the full simulation, for 320 runs. Points on the dashed line mean the two agree; the mean error was 0.004. From our slides.",
   },
   "crutch-assembly": {
-    img: { src: "/images/crutch-assembly.png", width: 1200, height: 1424 },
+    img: { src: "/images/crutch-assembly.webp", width: 1200, height: 1424 },
     alt: "Two Onshape renders of the crutch side by side: on the left collapsed, with the leg tucked into the lower frame; on the right fully extended, with the gray leg reaching well below the frame. Both have a padded shoulder rest, a hand grip between two blue aluminum frame rails, and rows of pin holes.",
     caption: "The assembly in Onshape, collapsed (left) and fully extended (right). The leg slides on a slider mate and locks with a pin.",
   },
   "crutch-drawing": {
-    img: { src: "/images/crutch-drawing.png", width: 1600, height: 1234 },
+    img: { src: "/images/crutch-drawing.webp", width: 1600, height: 1234 },
     alt: "Multiview engineering drawing of the left upper frame with an overall height of 926.89 mm, 172.1 degree bends, a 19 mm tube diameter, and 10 mm pin holes toleranced at plus or minus 0.01 mm.",
     caption: "Multiview drawing of the left upper frame, one of the drawings in the report. Pin holes are held to ±0.01 mm.",
   },
