@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { RESEARCH } from "../data/work.js";
 import { SectionHead, Tags, TextLink, Arrow, Badge, shortPeriod } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
+import Reveal from "../components/Reveal.jsx";
+import DrawOnScroll from "../components/DrawOnScroll.jsx";
 
 export function ExternalLinks({ links }) {
   return (
@@ -32,7 +34,7 @@ function PlateMeta({ w }) {
 export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading = "h3" }) {
   const stats = w.outcomes?.filter((o) => o.value);
   return (
-    <article className="plate" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+    <Reveal as="article" className="plate" id={`${idPrefix}-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <PlateMeta w={w} />
       <Heading id={`t-${w.slug}`} className="h3 plate__title">
         {w.title}
@@ -107,18 +109,18 @@ export function FeaturedStudy({ w, figN, idPrefix = "research", heading: Heading
         </div>
 
         {w.figure && (
-          <div className="plate__figure">
+          <DrawOnScroll className="plate__figure">
             <WorkFigure name={w.figure} n={figN} />
-          </div>
+          </DrawOnScroll>
         )}
       </div>
-    </article>
+    </Reveal>
   );
 }
 
 function CompactStudy({ w }) {
   return (
-    <article className="plate plate--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
+    <Reveal as="article" className="plate plate--compact" id={`research-${w.slug}`} aria-labelledby={`t-${w.slug}`}>
       <PlateMeta w={w} />
       <h4 id={`t-${w.slug}`} className="h4 plate__title">
         {w.title}
@@ -132,7 +134,7 @@ function CompactStudy({ w }) {
           <span className="visually-hidden">: {w.title}</span>
         </TextLink>
       )}
-    </article>
+    </Reveal>
   );
 }
 

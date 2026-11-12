@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { CLINICAL, TEACHING, LEADERSHIP } from "../data/experience.js";
 import { SectionHead, FilterBar, Badge } from "../components/ui.jsx";
+import Reveal from "../components/Reveal.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 // One grammar for every group: period on the left, role and place, then what
 // the work involves.
-function Entry({ period, role, org, note, highlight, children }) {
+function Entry({ period, role, org, note, highlight, index = 0, children }) {
   return (
-    <li className="cv-entry">
+    <li className="cv-entry st" style={{ "--si": index }}>
       <p className="cv-entry__period">{period}</p>
       <div className="cv-entry__body">
         <h4 className="cv-entry__role">
@@ -24,14 +26,17 @@ function Entry({ period, role, org, note, highlight, children }) {
 }
 
 function Group({ id, label, note, hidden, children }) {
+  const rail = useScrub("read", { line: 0.55 });
   return (
-    <section className="cv__group" aria-labelledby={id} hidden={hidden}>
+    <Reveal as="section" className="cv__group has-st" aria-labelledby={id} hidden={hidden}>
       <div className="cv__label">
         <h3 id={id} className="label">{label}</h3>
         {note && <p className="cv__count">{note}</p>}
       </div>
-      <ol className="cv__entries">{children}</ol>
-    </section>
+      <ol className="cv__entries has-rail" ref={rail}>
+        {children}
+      </ol>
+    </Reveal>
   );
 }
 
@@ -73,16 +78,16 @@ export default function Experience() {
           </Group>
 
           <Group id="cv-teaching" label="Teaching" note={`${TEACHING.length} roles`} hidden={off("teaching")}>
-            {TEACHING.map((t) => (
-              <Entry key={t.course} period={t.period} role={t.course} org={t.role} note={t.format.replace(" · ", " and ")} highlight={t.highlight}>
+            {TEACHING.map((t, i) => (
+              <Entry key={t.course} index={i} period={t.period} role={t.course} org={t.role} note={t.format.replace(" · ", " and ")} highlight={t.highlight}>
                 <p className="cv-entry__text">{t.text}</p>
               </Entry>
             ))}
           </Group>
 
           <Group id="cv-leadership" label="Leadership & service" note={`${LEADERSHIP.length} roles`} hidden={off("leadership")}>
-            {LEADERSHIP.map((l) => (
-              <Entry key={l.role + l.org} period={l.period} role={l.role} org={l.org}>
+            {LEADERSHIP.map((l, i) => (
+              <Entry key={l.role + l.org} index={i} period={l.period} role={l.role} org={l.org}>
                 <p className="cv-entry__text">{l.text}</p>
               </Entry>
             ))}

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useEffect, lazy, Suspense } from "react";
 import { useLocation, scrollToHash } from "./lib/router.jsx";
-import { jumpTo } from "./lib/scrolling.js";
+import { startSmoothScroll, jumpTo } from "./lib/scrolling.js";
 import { findCaseStudy, RESEARCH } from "./data/work.js";
 import { applyMeta, homeMeta, caseMeta, blogMeta, postMeta, notFoundMeta } from "./lib/meta.js";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
@@ -39,6 +39,7 @@ export default function App() {
 
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    startSmoothScroll();
   }, []);
 
   // Title, description, and canonical URL per route.

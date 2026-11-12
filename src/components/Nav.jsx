@@ -56,6 +56,7 @@ export default function Nav({ path, section }) {
   const menuRef = useRef(null);
   const toggleRef = useRef(null);
 
+  const progressRef = useRef(null);
   useEffect(() => {
     let frame = 0;
     let lastY = window.scrollY;
@@ -67,6 +68,8 @@ export default function Nav({ path, section }) {
         setTucked(y > 320 && y > lastY);
         lastY = y;
       }
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -156,6 +159,7 @@ export default function Nav({ path, section }) {
             <span className="site-nav__toggle-icon" aria-hidden="true" />
           </button>
         </div>
+        <span className="site-nav__progress" ref={progressRef} aria-hidden="true" />
       </header>
 
       <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>

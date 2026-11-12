@@ -4,6 +4,7 @@ import { Link } from "../lib/router.jsx";
 import { Tags, TextLink, Arrow, Rich } from "../components/ui.jsx";
 import { WorkFigure } from "../components/figures.jsx";
 import SpecTable from "../components/SpecTable.jsx";
+import DrawOnScroll from "../components/DrawOnScroll.jsx";
 import { ExternalLinks } from "../sections/Research.jsx";
 
 function useActiveHeading(ids) {
@@ -112,9 +113,9 @@ export default function CaseStudy({ work: w }) {
           <p className="case__summary">{w.summary}</p>
 
           {w.figure && (
-            <div className="case__figure">
+            <DrawOnScroll className="case__figure">
               <WorkFigure name={w.figure} n={++fig} wide />
-            </div>
+            </DrawOnScroll>
           )}
 
           {w.problem && (
@@ -181,9 +182,9 @@ export default function CaseStudy({ work: w }) {
                 ))}
               </ol>
               {[].concat(w.secondaryFigure ?? []).map((name) => (
-                <div key={name} className="case__figure">
+                <DrawOnScroll key={name} className="case__figure">
                   <WorkFigure name={name} n={++fig} wide />
-                </div>
+                </DrawOnScroll>
               ))}
             </section>
           )}

@@ -3,6 +3,8 @@ import { DESIGN, MODELING_FEATURES, WETLAB_FEATURES } from "../data/work.js";
 import { PROJECTS } from "../data/projects.js";
 import { SectionHead, FilterBar, Tags, TextLink, Arrow, Badge, shortPeriod, isOngoing } from "../components/ui.jsx";
 import { FigureArt } from "../components/figures.jsx";
+import Reveal from "../components/Reveal.jsx";
+import Featured from "./Featured.jsx";
 
 // Every project, from every source file, in one shape for the index. Each
 // entry carries a short brief (question, what was built, the approach, my
@@ -176,7 +178,7 @@ function Brief({ e, showFigure }) {
   );
 }
 
-function Row({ e, open, active, onToggle, onActivate }) {
+function Row({ e, open, active, onToggle, onActivate, index }) {
   const uid = useId();
   // The figure is only mounted once a row has been opened, so closed rows
   // never fetch their images.
@@ -184,7 +186,11 @@ function Row({ e, open, active, onToggle, onActivate }) {
   if (open && !everOpen) setEverOpen(true);
 
   return (
-    <li id={`project-${e.key}`} className={`work-item ${open ? "is-open" : ""} ${active ? "is-active" : ""}`}>
+    <li
+      id={`project-${e.key}`}
+      className={`work-item st ${open ? "is-open" : ""} ${active ? "is-active" : ""}`}
+      style={{ "--si": index }}
+    >
       <h4 className="work-item__head">
         <button
           type="button"
@@ -280,7 +286,12 @@ export default function Projects() {
           title="Projects"
           dek="Senior design, wet lab work, modeling competitions, a teaching demo, and a few things I built on my own. Open a row for the short version; most link on to a full write-up."
         />
+      </div>
 
+      <Featured />
+
+      <div className="wrap work__index">
+        <h3 className="work__index-title">Every project</h3>
         <FilterBar label="Filter projects by type" options={FILTERS} value={filter} onChange={choose} />
 
         <div className="work__layout">
@@ -291,18 +302,19 @@ export default function Projects() {
                   <h3 className="label">{g.label}</h3>
                   <p className="work-group__note">{g.note}</p>
                 </div>
-                <ol className="work-group__rows">
-                  {g.items.map((e) => (
+                <Reveal as="ol" className="work-group__rows has-st">
+                  {g.items.map((e, i) => (
                     <Row
                       key={e.key}
                       e={e}
+                      index={i}
                       open={opened.has(e.key)}
                       active={e.key === active.key}
                       onToggle={() => toggle(e.key)}
                       onActivate={() => setActiveKey(e.key)}
                     />
                   ))}
-                </ol>
+                </Reveal>
               </div>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PROFILE } from "../data/profile.js";
 import { SectionHead, Arrow } from "../components/ui.jsx";
+import { useScrub } from "../lib/scroll.js";
 
 const CHANNELS = [
   { label: "LinkedIn", value: "in/patel108", href: PROFILE.linkedin },
@@ -50,6 +51,8 @@ function CopyEmail({ email, targetId }) {
 
 export default function Contact() {
   const [user, domain] = PROFILE.email.split("@");
+  // The address slides in from the right as the band arrives.
+  const slide = useScrub("enter", { end: 0.4 });
   return (
     <section id="contact" className="section section--night contact" aria-labelledby="contact-title">
       <div className="wrap">
@@ -62,7 +65,7 @@ export default function Contact() {
         />
         <div className="contact__grid">
           <div className="contact__lead">
-            <a className="contact__email" href={`mailto:${PROFILE.email}`}>
+            <a className="contact__email" href={`mailto:${PROFILE.email}`} ref={slide}>
               <span className="contact__email-text" id="contact-email">
                 {user}
                 <wbr />@{domain}

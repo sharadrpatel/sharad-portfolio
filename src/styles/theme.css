@@ -86,7 +86,8 @@ html.is-theming *::after {
 /* Raster figures are white plots; keep them on a light plate in either theme */
 [data-theme="dark"] .fig__plot:has(> img),
 [data-theme="dark"] .preview__art:has(> img),
-[data-theme="dark"] .brief__figure:has(> img) {
+[data-theme="dark"] .brief__figure:has(> img),
+[data-theme="dark"] .fcard__plate:has(> img) {
   background: #fbfaf7;
   border-color: var(--rule);
 }

@@ -3,6 +3,8 @@ import { Link } from "../lib/router.jsx";
 import { Button, Arrow } from "../components/ui.jsx";
 import PhasePortrait from "../components/PhasePortrait.jsx";
 import CountUp from "../components/CountUp.jsx";
+import Magnetic from "../components/Magnetic.jsx";
+import { useScrub } from "../lib/scroll.js";
 import { INTRO } from "../lib/intro.js";
 
 const [FIRST, ...REST] = PROFILE.name.split(" ");
@@ -15,8 +17,10 @@ const FACTS = [
 ];
 
 export default function Hero() {
+  // As the hero scrolls away, the two halves of the name part.
+  const scene = useScrub("exit", { span: 0.9 });
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section className="hero" aria-labelledby="hero-title" ref={scene}>
       <div className="wrap">
         <h1 id="hero-title" className="hero__name">
           {/* With the intro, the name is assembled from points instead of rising. */}
@@ -37,8 +41,12 @@ export default function Hero() {
               ))}
             </ul>
             <div className="hero__actions">
-              <Button to="/#research" icon="down">Research</Button>
-              <Button to="/#projects" variant="outline">Projects</Button>
+              <Magnetic>
+                <Button to="/#research" icon="down">Research</Button>
+              </Magnetic>
+              <Magnetic>
+                <Button to="/#projects" variant="outline">Projects</Button>
+              </Magnetic>
               <Button to={PROFILE.cv} variant="ghost" icon="out" target="_blank" rel="noopener">
                 CV<span className="visually-hidden"> (PDF, opens in a new tab)</span>
               </Button>

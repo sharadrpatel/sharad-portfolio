@@ -6,11 +6,25 @@
   box-sizing: border-box;
 }
 
-/* In-page links glide; the router asks for the same behavior in script. */
+/* Smooth scrolling: Lenis drives wheel scrolling (src/lib/scrolling.js);
+   without it (touch, or before it starts), anchor jumps still glide natively. */
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html:not(.lenis) {
     scroll-behavior: smooth;
   }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 /* While the intro or the mobile menu owns the screen (src/lib/scrolling.js) */

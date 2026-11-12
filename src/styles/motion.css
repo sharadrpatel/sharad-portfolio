@@ -1,13 +1,6 @@
-/* Motion layer.
-
-   The site moves in three situations only:
-   1. Once, on a first visit: the intro (a model fit that becomes the name).
-   2. In the hero figure, which is a running simulation.
-   3. In answer to something the visitor did: hover, press, open, filter,
-      switch theme.
-   Nothing animates just because it scrolled into view, so the page reads the
-   same at any scroll speed and nothing is ever waiting to appear.
-   Everything here rests in its finished state under reduced motion. */
+/* Motion layer, part one: the intro, the hero name, and the hero figure's
+   controls. Scroll scenes and entrances are in scenes.css. Everything rests
+   in its finished state under reduced motion. */
 
 /* ── Intro (first visit): the name, assembled from data ─────────────────────
    Fixed colors: the intro looks the same in both themes. */

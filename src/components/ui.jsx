@@ -1,13 +1,21 @@
 // Small presentational primitives shared across sections.
 import { Link } from "../lib/router.jsx";
+import { useInView } from "../lib/motion.js";
+import { useScrub } from "../lib/scroll.js";
 
 // Section opener: a full-width rule, the one-word title, and beside it the
-// dek with a short factual note (counts, place) underneath.
+// dek with a short factual note (counts, place) underneath. Arriving, the rule
+// draws across and the title rises out of its line; while the head crosses
+// the screen the title drifts in from the right and settles on the margin.
 export function SectionHead({ id, title, dek, aside, night = false }) {
+  const [ref, inView] = useInView();
+  const drift = useScrub("through");
   return (
-    <header className={`section-head ${night ? "section-head--night" : ""}`}>
-      <h2 id={id} className="h2 section-head__title">
-        {title}
+    <header ref={ref} className={`section-head ${inView ? "is-in" : ""} ${night ? "section-head--night" : ""}`}>
+      <h2 id={id} className="h2 section-head__title" ref={drift}>
+        <span className="mask">
+          <span className="mask__in">{title}</span>
+        </span>
       </h2>
       {(dek || aside) && (
         <div className="section-head__side">

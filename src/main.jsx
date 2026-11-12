@@ -10,6 +10,7 @@ import "./styles/figures.css";
 import "./styles/case.css";
 import "./styles/blog.css";
 import "./styles/motion.css";
+import "./styles/scenes.css";
 import "./styles/theme.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

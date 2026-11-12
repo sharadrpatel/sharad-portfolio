@@ -36,12 +36,21 @@ scripts/       Build step that writes per-route HTML and the sitemap
   cobalt accent. Schibsted Grotesk for structure (headings, labels, interface), Source Serif 4 for
   reading, DM Mono only for data (dates, catalog codes, tool names, figure readouts). The fonts are
   self-hosted from the `@fontsource` packages; `src/styles/fonts.css` declares just the subsets in use.
-- Motion (`src/styles/motion.css`) follows three rules: the intro plays once per session
-  (`src/components/Loader.jsx`: a model fit whose R² is the countdown, then the measurements become the
-  hero name); the hero figure is a running simulation whose clock follows the scroll
-  (`PhasePortrait.jsx`, with the footer `Signature.jsx` as its bookend); and everything else moves only
-  in answer to an action (hover, open, filter, theme). Nothing animates because it scrolled into view.
-  All of it rests in its finished state under `prefers-reduced-motion`.
+- Motion has two layers, both off under `prefers-reduced-motion`:
+  - Scrubbed scenes follow the scroll both ways. `src/lib/scroll.js` gives a registered element a
+    `--p` custom property (0 → 1) from one shared rAF loop, and `src/styles/scenes.css` is written
+    against it: the hero name parting, the Now band opening, section titles gliding in, figures
+    drawing themselves, timeline rails filling, the About passage inking in word by word
+    (`ScrollWords.jsx`), the portrait warming to color, and the Selected work strip.
+  - Entrances play once when something first comes into view (`Reveal.jsx`, `SectionHead`).
+  The intro (`Loader.jsx`) runs once per session: a model fit whose R² is the countdown, then the
+  measurements become the hero name; the footer `Signature.jsx` is its bookend. The tools marquee
+  (`Ticker.jsx`) speeds up and turns around with the scroll.
+- Selected work (`src/sections/Featured.jsx`) is a strip of picture-led cards at the top of Projects.
+  On wide screens it pins and vertical scrolling moves it sideways; on phones it is a swipeable row.
+  Edit the `FEATURED` list there to change which projects appear or which figure leads.
+- Smooth scrolling: `src/lib/scrolling.js` runs Lenis for wheel and trackpad scrolling (touch stays
+  native). The router's in-page links glide through it.
 - Numbers are rendered as their real values. `CountUp.jsx` only plays on a figure arriving from below
   the fold, and never leaves a placeholder on the page.
 - Themes: white (default) and black. Dark values live under `:root[data-theme="dark"]` in

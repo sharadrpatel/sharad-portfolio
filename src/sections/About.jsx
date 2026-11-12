@@ -1,7 +1,17 @@
 import { EDUCATION, INTERESTS, TOOLKIT } from "../data/profile.js";
 import { SectionHead } from "../components/ui.jsx";
+import Reveal from "../components/Reveal.jsx";
+import ScrollWords from "../components/ScrollWords.jsx";
+import { useParallax } from "../lib/motion.js";
+import { useScrub } from "../lib/scroll.js";
+
+const LEDE =
+  "I'm a biomedical engineering student at the University of Florida. Most of my research is computational. I like taking a question about how the body works, turning it into a model, and seeing how well it holds up against real data.";
 
 export default function About() {
+  const drift = useParallax(0.05);
+  // The portrait warms from black and white to color as you arrive.
+  const develop = useScrub("enter", { end: 0.3 });
   return (
     <section id="about" className="section about-section" aria-labelledby="about-title">
       <div className="wrap">
@@ -9,8 +19,9 @@ export default function About() {
 
         <div className="about">
           <div className="about__portrait">
-            <div className="about__frame">
+            <div className="about__frame" ref={develop}>
               <img
+                ref={drift}
                 src="/headshot.jpg"
                 alt="Portrait of Sharad Patel in a suit, in front of the University of Florida College of Medicine."
                 width="676"
@@ -23,11 +34,7 @@ export default function About() {
           </div>
 
           <div className="about__text">
-            <p className="about__lede">
-              I'm a biomedical engineering student at the University of Florida. Most of my research is computational. I
-              like taking a question about how the body works, turning it into a model, and seeing how well it holds up
-              against real data.
-            </p>
+            <ScrollWords className="about__lede" text={LEDE} />
             <div className="about__body read">
               <p>
                 Outside the lab, I work as a CNA on a medical–surgical unit, lead surgical simulation research with
@@ -61,14 +68,14 @@ export default function About() {
           </div>
         </div>
 
-        <section className="toolkit" aria-labelledby="toolkit-title">
+        <Reveal as="section" className="toolkit has-st" aria-labelledby="toolkit-title">
           <div className="toolkit__head">
             <h3 id="toolkit-title" className="h3">Toolkit</h3>
             <p className="toolkit__note">Software, methods, and certifications I use in the work above.</p>
           </div>
           <dl className="toolkit__grid">
-            {TOOLKIT.map((g) => (
-              <div key={g.group}>
+            {TOOLKIT.map((g, i) => (
+              <div key={g.group} className="st" style={{ "--si": i }}>
                 <dt>{g.group}</dt>
                 <dd>
                   <ul>
@@ -80,7 +87,7 @@ export default function About() {
               </div>
             ))}
           </dl>
-        </section>
+        </Reveal>
       </div>
     </section>
   );
