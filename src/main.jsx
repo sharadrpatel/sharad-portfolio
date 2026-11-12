@@ -12,6 +12,7 @@ import "./styles/blog.css";
 import "./styles/motion.css";
 import "./styles/scenes.css";
 import "./styles/theme.css";
+import "./styles/skin.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

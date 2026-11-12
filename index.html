@@ -10,7 +10,7 @@
     />
     <meta name="author" content="Sharad Patel" />
     <link rel="canonical" href="https://www.sharadrpatel.com/" />
-    <meta name="theme-color" content="#f3f2ee" />
+    <meta name="theme-color" content="#fbf5f8" />
     <meta name="color-scheme" content="light dark" />
     <script>
       // Pick the theme before first paint: a saved choice, else the system setting.
@@ -19,7 +19,7 @@
           var t = localStorage.getItem("sp-theme");
           if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
           document.documentElement.dataset.theme = t;
-          if (t === "dark") document.querySelector('meta[name="theme-color"]').content = "#0e0e0d";
+          if (t === "dark") document.querySelector('meta[name="theme-color"]').content = "#05060f";
         } catch (e) {}
       })();
     </script>
@@ -65,14 +65,14 @@
       as="font"
       type="font/woff2"
       crossorigin
-      href="/node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2"
+      href="/node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2"
     />
     <link
       rel="preload"
       as="font"
       type="font/woff2"
       crossorigin
-      href="/node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2"
+      href="/node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2"
     />
   </head>
   <body>

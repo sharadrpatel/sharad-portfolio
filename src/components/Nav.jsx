@@ -159,8 +159,8 @@ export default function Nav({ path, section }) {
             <span className="site-nav__toggle-icon" aria-hidden="true" />
           </button>
         </div>
-        <span className="site-nav__progress" ref={progressRef} aria-hidden="true" />
       </header>
+      <span className="site-nav__progress" ref={progressRef} aria-hidden="true" />
 
       <div id="mobile-menu" ref={menuRef} className="mobile-menu" hidden={!open}>
         <nav aria-label="Primary mobile" className="wrap">

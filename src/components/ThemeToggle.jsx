@@ -3,7 +3,7 @@ import { flushSync } from "react-dom";
 import { prefersReducedMotion } from "../lib/motion.js";
 
 const KEY = "sp-theme";
-const COLORS = { light: "#f3f2ee", dark: "#0e0e0d" };
+const COLORS = { light: "#fbf5f8", dark: "#05060f" };
 
 function current() {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
@@ -19,7 +19,8 @@ function apply(theme) {
   }
 }
 
-// Swaps between the white and black versions of the site. Where the browser
+// Swaps between the two ways of lighting the slide: brightfield (an H&E
+// stain on white) and fluorescence (three channels on black). Where the browser
 // supports view transitions, the new theme spreads out from the button as a
 // growing circle; otherwise (or under reduced motion) it switches at once.
 export default function ThemeToggle({ className = "" }) {
@@ -81,7 +82,7 @@ export default function ThemeToggle({ className = "" }) {
     >
       <span className="theme-toggle__icon" aria-hidden="true" />
       <span className="theme-toggle__text" aria-hidden="true">
-        {dark ? "Black" : "White"}
+        {dark ? "Fluoro" : "H&E"}
       </span>
     </button>
   );

@@ -1,0 +1,710 @@
+/* The identity layer: type voices and shape.
+
+   Loaded last. The earlier files lay out the page; this one decides what it
+   looks like: Fraunces for anything that speaks (the name, headings,
+   questions), rounded tiles and pill controls in place of ruled rows, and the
+   stain colors from tokens.css. Keeping it in one file means the look can be
+   changed again without touching layout or behavior. */
+
+/* ── Voices ─────────────────────────────────────────────────────────────── */
+
+.h2,
+.h3,
+.h4,
+.hero__name,
+.now__title,
+.pubs__y,
+.case__title,
+.featured__title,
+.work__index-title,
+.fcard__title,
+.ticker__item,
+.contact__email,
+.stats__value,
+.outcomes__value,
+.brief__value,
+.blog__title,
+.post__title,
+.post-item__title,
+.next-card__title,
+.loader__count,
+.signature__canvas,
+.mobile-menu li a,
+.wordmark__name {
+  font-family: var(--f-head);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 60, "WONK" 0;
+}
+
+/* Pull text: the same face at reading sizes */
+.dek,
+.hero__lead,
+.about__lede,
+.case__summary,
+.now__dek,
+.plate__question,
+.brief__question,
+.case__question,
+.subproject__question,
+.preview__blurb {
+  font-family: var(--f-head);
+  font-optical-sizing: auto;
+}
+
+.h2 {
+  font-weight: 480;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.h3 {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.h4 {
+  font-weight: 560;
+  letter-spacing: -0.015em;
+}
+
+.hero__name {
+  font-size: min(calc(21.9vw - 1.2rem), 18.6rem);
+  font-weight: 470;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+}
+
+@media (max-width: 699px) {
+  .hero__name {
+    font-size: clamp(5rem, 36vw, 11rem);
+    line-height: 0.84;
+  }
+}
+
+.now__title {
+  font-weight: 480;
+  letter-spacing: -0.04em;
+}
+
+.pubs__y {
+  font-weight: 420;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+}
+
+.case__title {
+  font-weight: 470;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.featured__title,
+.work__index-title {
+  font-weight: 500;
+}
+
+.fcard__title {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  font-weight: 520;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.contact__email {
+  font-weight: 460;
+  letter-spacing: -0.035em;
+}
+
+.stats__value,
+.outcomes__value,
+.brief__value {
+  font-weight: 520;
+  letter-spacing: -0.03em;
+}
+
+.wordmark__name {
+  font-size: 1.12rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.mobile-menu li a {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.hero__lead {
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+.about__lede {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.dek {
+  letter-spacing: -0.01em;
+}
+
+/* ── Controls: pills ────────────────────────────────────────────────────── */
+
+.btn {
+  font-weight: 600;
+}
+
+.btn--small {
+  min-height: 38px;
+}
+
+@media (max-width: 480px) {
+  .hero__actions {
+    gap: 0.5rem;
+  }
+  .hero__actions .btn {
+    padding-inline: 1.05rem;
+  }
+  .hero__actions .btn--ghost {
+    padding-inline: 0.5rem;
+  }
+}
+
+.filter,
+.copy,
+.phase__replay {
+  border-radius: var(--r-pill);
+}
+
+.filter[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.skip-link {
+  border-radius: var(--r-pill);
+}
+
+/* Tools and methods as chips */
+.tags {
+  gap: 0.4rem;
+  font-family: var(--f-display);
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.tag {
+  padding: 0.28rem 0.7rem;
+  border-radius: var(--r-pill);
+  background: var(--wash);
+  color: var(--ink-2);
+}
+
+.tag:not(:last-child)::after {
+  content: none;
+}
+
+.badge {
+  padding: 0.24rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--accent-wash);
+}
+
+.badge::before {
+  border-radius: 50%;
+}
+
+.section--night .badge {
+  background: none;
+}
+
+/* ── Navigation: a floating capsule ─────────────────────────────────────── */
+
+.site-nav {
+  height: auto;
+  padding: 0.7rem var(--gutter) 0;
+  border-bottom: 0;
+  pointer-events: none;
+}
+
+.site-nav.is-scrolled,
+.site-nav.is-open {
+  background: none;
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.site-nav__inner.wrap {
+  pointer-events: auto;
+  height: 54px;
+  max-width: calc(var(--max) + 1.6rem);
+  padding-inline: 0.8rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.site-nav.is-scrolled .site-nav__inner,
+.site-nav.is-open .site-nav__inner {
+  background: var(--nav-glass);
+  border-color: var(--rule);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  backdrop-filter: saturate(160%) blur(14px);
+}
+
+.site-nav.is-open {
+  background: var(--paper);
+}
+
+.site-nav.is-tucked {
+  transform: translateY(-130%);
+}
+
+.wordmark__mark {
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--surface);
+}
+
+.wordmark:hover .wordmark__mark {
+  background: var(--accent-2);
+}
+
+.site-nav__links ul a::before {
+  border-radius: 50%;
+}
+
+/* Reading progress: the three channels, across the top edge */
+.site-nav__progress {
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  bottom: auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent) 55%, var(--accent-3));
+}
+
+/* ── Hero: the name, then three tiles ───────────────────────────────────── */
+
+.hero__grid {
+  gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.1rem);
+  margin-top: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  padding-top: 0;
+  border-top: 0;
+}
+
+.hero__intro {
+  padding: clamp(1.5rem, 1rem + 2.4vw, 3rem);
+  background: var(--wash);
+  border-radius: var(--r-lg);
+}
+
+.hero__lead {
+  max-width: 19em;
+}
+
+.hero__disciplines .tag {
+  background: var(--surface);
+}
+
+/* The instrument: a deep tile with its own palette */
+.hero__figure {
+  --ink: var(--night-ink);
+  --ink-2: var(--night-ink-2);
+  --ink-3: var(--night-ink-2);
+  --paper: var(--night);
+  --accent: var(--night-accent);
+  --rule: var(--night-rule);
+  --rule-strong: var(--night-rule);
+  max-width: none;
+  padding: clamp(1.1rem, 0.75rem + 1.4vw, 1.75rem);
+  background: var(--night);
+  color: var(--night-ink);
+  border-radius: var(--r-lg);
+}
+
+.hero__figure :focus-visible {
+  outline-color: var(--night-accent);
+}
+
+.hero__figure .phase {
+  max-width: 24rem;
+  margin-inline: auto;
+}
+
+.phase__line {
+  stroke-width: 0.7;
+  stroke-opacity: 0.9;
+}
+
+.phase__slider input::-webkit-slider-thumb {
+  border-radius: 50%;
+}
+
+.phase__slider input::-moz-range-thumb {
+  border-radius: 50%;
+}
+
+.facts {
+  gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.1rem);
+  border-top: 0;
+}
+
+.facts > div,
+.facts > div:nth-child(n + 3) {
+  padding: 1rem 1.1rem 1.05rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+}
+
+.facts__value {
+  font-family: var(--f-head);
+  font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem);
+  font-weight: 540;
+  letter-spacing: -0.015em;
+}
+
+@media (min-width: 900px) {
+  .hero__intro {
+    grid-column: 1 / span 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .facts {
+    grid-column: 1 / span 8;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-self: stretch;
+  }
+  .hero__figure {
+    grid-column: 9 / -1;
+    justify-self: stretch;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1179px) {
+  .facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── Section heads ──────────────────────────────────────────────────────── */
+
+.section-head::before {
+  background: var(--rule-strong);
+}
+
+.section-head--night::before {
+  background: var(--night-rule);
+}
+
+/* ── Now: a deep panel that opens from a rounded card to full bleed ────── */
+
+.now {
+  clip-path: inset(0 calc((1 - var(--p, 1)) * 5vw) round calc((1 - var(--p, 1)) * 56px));
+}
+
+.now__list {
+  border-top-color: var(--night-rule);
+}
+
+/* ── Research: each study on its own plate ──────────────────────────────── */
+
+.plate {
+  padding: clamp(1.25rem, 0.75rem + 2.4vw, 2.75rem);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+  margin-bottom: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+}
+
+.plate__meta {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.plate__index {
+  padding: 0.1rem 0.55rem;
+  border-radius: var(--r-pill);
+  background: var(--accent-wash);
+}
+
+/* Questions are set upright: Fraunces' italic swashes read as decoration,
+   and these are the sentences that most need to be read plainly. */
+.plate__question,
+.brief__question,
+.case__question,
+.subproject__question {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.plate--compact {
+  margin-bottom: 0;
+}
+
+.research__compact {
+  gap: clamp(1rem, 0.75rem + 1vw, 1.5rem) var(--col-gap);
+}
+
+@media (max-width: 759px) {
+  .research__compact {
+    display: grid;
+  }
+}
+
+.research__plates > .subhead {
+  margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  border-top-color: var(--rule-strong);
+}
+
+.research__index ol {
+  border-top-color: var(--rule-strong);
+}
+
+.fig__plot {
+  background: var(--paper);
+  border-radius: var(--r-md);
+}
+
+.fig--photo .fig__plot {
+  overflow: hidden;
+}
+
+.stats > div {
+  border-top-color: var(--rule-strong);
+}
+
+.subproject__finding {
+  border-left: 0;
+  border-radius: var(--r-md);
+}
+
+/* ── Selected work ──────────────────────────────────────────────────────── */
+
+.fcard__plate {
+  border: 0;
+  border-radius: var(--r-lg);
+  background: var(--accent-wash);
+}
+
+.fcard:nth-child(3n + 2) .fcard__plate {
+  background: var(--accent-2-wash);
+}
+
+.fcard:nth-child(3n) .fcard__plate {
+  background: var(--accent-3-wash);
+}
+
+.fcard__plate img {
+  border-radius: var(--r-sm);
+}
+
+.featured__bar {
+  height: 3px;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.featured__bar span {
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+}
+
+/* ── Projects index ─────────────────────────────────────────────────────── */
+
+.work-group__head {
+  border-bottom-color: var(--rule-strong);
+}
+
+.work-row::before {
+  inset: 0.2rem -0.75rem;
+  border-radius: var(--r-md);
+}
+
+.work-row__title {
+  letter-spacing: -0.015em;
+}
+
+.brief__figure {
+  border-radius: var(--r-md);
+}
+
+.preview__art {
+  border: 0;
+  border-radius: var(--r-lg);
+  background: var(--wash);
+}
+
+.preview__meta {
+  border-top-color: var(--rule-strong);
+}
+
+/* ── Marquee ────────────────────────────────────────────────────────────── */
+
+.ticker {
+  border-block: 0;
+}
+
+.ticker__item {
+  font-weight: 440;
+  letter-spacing: -0.035em;
+}
+
+.ticker__row--alt .ticker__item {
+  font-weight: 320;
+}
+
+.ticker__mark {
+  border-radius: 50%;
+}
+
+.ticker__item:nth-child(3n + 2) .ticker__mark {
+  background: var(--accent-2);
+}
+
+.ticker__item:nth-child(3n) .ticker__mark {
+  background: var(--accent-3);
+}
+
+/* ── Publications, Experience ───────────────────────────────────────────── */
+
+.pubs__year,
+.cv__group {
+  border-top-color: var(--rule-strong);
+}
+
+.pub__title,
+.cv-entry__role {
+  letter-spacing: -0.012em;
+}
+
+.duties > div {
+  padding: 0.9rem 1rem 1rem;
+  border-top: 0;
+  background: var(--wash);
+  border-radius: var(--r-md);
+}
+
+/* ── About ──────────────────────────────────────────────────────────────── */
+
+.about__frame {
+  border-radius: var(--r-lg);
+}
+
+.about__lists > div,
+.toolkit__head {
+  border-top-color: var(--rule-strong);
+}
+
+.toolkit__grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.1rem);
+}
+
+.toolkit__grid > div {
+  padding: 1.1rem 1.2rem 1.25rem;
+  border-top: 0;
+  background: var(--wash);
+  border-radius: var(--r-md);
+}
+
+.toolkit__grid > div:nth-child(3n + 2) {
+  background: var(--accent-2-wash);
+}
+
+.toolkit__grid > div:nth-child(3n) {
+  background: var(--accent-3-wash);
+}
+
+.toolkit__grid dt {
+  font-family: var(--f-head);
+  font-size: 1.15rem;
+  font-weight: 560;
+}
+
+/* ── Contact and footer ─────────────────────────────────────────────────── */
+
+.contact {
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+
+.contact__channels {
+  border-top-color: var(--night-rule);
+}
+
+/* ── Case studies and blog ──────────────────────────────────────────────── */
+
+.case__header,
+.breadcrumb,
+.case__next,
+.blog__head {
+  border-bottom-color: var(--rule-strong);
+  border-top-color: var(--rule-strong);
+}
+
+.case__h {
+  border-top-color: var(--rule-strong);
+}
+
+.case__facts > div:first-child {
+  border-top-color: var(--rule-strong);
+}
+
+.outcomes > div {
+  padding: 1rem 1.15rem 1.2rem;
+  border-top: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+}
+
+.spec-table thead th {
+  border-bottom-color: var(--rule-strong);
+}
+
+/* ── Intro ──────────────────────────────────────────────────────────────── */
+
+.loader {
+  color: #fbf5f8;
+}
+
+.loader__top .wordmark__mark {
+  background: #ff8fb5;
+  color: #150d33;
+}
+
+.loader__status::after {
+  background: #ff8fb5;
+  border-radius: 50%;
+}
+
+.loader__status,
+.loader__meta,
+.loader__r2-label,
+.loader__note,
+.loader__skip {
+  color: #bdb2e0;
+}
+
+/* ── Fluorescence details ───────────────────────────────────────────────── */
+
+/* Plots are white-ground images: keep them on a light plate in the dark */
+[data-theme="dark"] .fig__plot:has(> img),
+[data-theme="dark"] .preview__art:has(> img),
+[data-theme="dark"] .brief__figure:has(> img) {
+  background: #fbf5f8;
+  border-color: var(--rule);
+}
+
+[data-theme="dark"] .fcard__plate:has(> img) {
+  background: #ffffff;
+}
+
+/* A faint glow on the live trace, as a stain under the lamp would have */
+[data-theme="dark"] .phase__line {
+  filter: drop-shadow(0 0 3px rgb(92 240 168 / 0.35));
+}

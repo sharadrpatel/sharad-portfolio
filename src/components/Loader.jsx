@@ -25,10 +25,10 @@ const FADE_MS = 400; // dotted name dissolves into the real one
 const MAX_WAIT = 1800; // never wait longer than this for fonts
 const N_DATA = 64;
 
-const BG = "#121211";
-const POINT = [243, 242, 238];
-const CURVE = "#a9b1ff";
-const AXIS = "rgba(243, 242, 238, 0.22)";
+const BG = "#150d33";
+const POINT = [251, 245, 248];
+const CURVE = "#ff8fb5";
+const AXIS = "rgba(251, 245, 248, 0.22)";
 
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);
@@ -140,7 +140,7 @@ function sampleName(count) {
 
 function parseRGB(c) {
   const m = c.match(/\d+(\.\d+)?/g);
-  return m ? m.slice(0, 3).map(Number) : [18, 18, 17];
+  return m ? m.slice(0, 3).map(Number) : [34, 23, 72];
 }
 
 export default function Loader() {
@@ -198,7 +198,7 @@ export default function Loader() {
 
     let target = null;
     let formStart = 0;
-    let endColor = [18, 18, 17];
+    let endColor = [34, 23, 72];
     let size = 2;
     let frame;
     let clock = 0;
