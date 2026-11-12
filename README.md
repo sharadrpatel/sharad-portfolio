@@ -19,7 +19,7 @@ src/
   pages/       Home, case-study page (/work/:slug), 404
   components/  Nav, Footer, figures, intro, small UI primitives (section heads, filters, buttons)
   lib/         Minimal History-API router, page metadata, scroll helpers
-  styles/      Design tokens and styles (fonts → tokens → base → components → sections → figures → case → motion → theme)
+  styles/      Design tokens and styles (fonts → tokens → base → components → sections → figures → case → motion → scenes → theme → skin)
 scripts/       Build step that writes per-route HTML and the sitemap
 ```
 
@@ -32,10 +32,15 @@ scripts/       Build step that writes per-route HTML and the sitemap
 - Every project row in the Projects index opens a short brief in place (question, what was built, the
   approach, my part, headline results, tools); entries with a case study link on to it from there. The
   brief is generated from the same fields the case-study page uses, so there is nothing extra to write.
-- Colors, type, and spacing are defined once in `src/styles/tokens.css`: bone paper, near-black ink, one
-  cobalt accent. Schibsted Grotesk for structure (headings, labels, interface), Source Serif 4 for
-  reading, DM Mono only for data (dates, catalog codes, tool names, figure readouts). The fonts are
-  self-hosted from the `@fontsource` packages; `src/styles/fonts.css` declares just the subsets in use.
+- Identity. The palette comes from the microscope, and the two themes are the two ways of lighting a
+  slide: Brightfield (light) is an H&E stain, with a slide-white ground, hematoxylin ink and eosin
+  pink as the accent; Fluorescence (dark) is a black field with GFP green as the accent and DAPI blue
+  and RFP red in support. Colors, type, radii and spacing are defined once in `src/styles/tokens.css`.
+  Fraunces speaks (the name, headings, questions), Instrument Sans carries reading text and the
+  interface, DM Mono is for data only. Shapes are soft: rounded tiles, pill controls, few rules.
+  `src/styles/skin.css`, loaded last, holds the look (type voices and shape) apart from layout and
+  behavior, so the look can be changed again in one place. Fonts are self-hosted from the
+  `@fontsource` packages; `src/styles/fonts.css` declares just the subsets in use.
 - Motion has two layers, both off under `prefers-reduced-motion`:
   - Scrubbed scenes follow the scroll both ways. `src/lib/scroll.js` gives a registered element a
     `--p` custom property (0 → 1) from one shared rAF loop, and `src/styles/scenes.css` is written
@@ -53,8 +58,8 @@ scripts/       Build step that writes per-route HTML and the sitemap
   native). The router's in-page links glide through it.
 - Numbers are rendered as their real values. `CountUp.jsx` only plays on a figure arriving from below
   the fold, and never leaves a placeholder on the page.
-- Themes: white (default) and black. Dark values live under `:root[data-theme="dark"]` in
-  `tokens.css`; `index.html` sets the theme before first paint (saved choice, else system setting),
+- Themes: brightfield (default) and fluorescence. Dark values live under
+  `:root[data-theme="dark"]` in `tokens.css`; `index.html` sets the theme before first paint (saved choice, else system setting),
   and `ThemeToggle.jsx` switches it with a circular view transition.
 - Page metadata lives in `src/lib/meta.js`. The app applies it on navigation, and
   `scripts/prerender.mjs` (run by `npm run build`) writes a static HTML file per route with the right

@@ -1,52 +1,67 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    Design tokens
 
-   A lab-notebook palette: warm bone paper, near-black ink, and one cobalt
-   accent (the color of a drafting pen) for links, state, and the model line
-   in figures. Oxide is kept for reference data in figures only.
+   The palette is taken from the microscope, which is where a good deal of
+   this work gets looked at. The two themes are the two ways of lighting a
+   slide:
+
+   - Brightfield (light): an H&E-stained section. Slide-white ground with a
+     faint eosin blush, hematoxylin (deep blue-violet) for ink, eosin pink
+     as the accent.
+   - Fluorescence (dark): the same tissue under the lamp. A black field with
+     the three standard channels: GFP green as the accent, DAPI blue and RFP
+     red in support.
 
    Three type roles, never swapped:
-   - Schibsted Grotesk  structure: names, headings, labels, navigation, interface
-   - Source Serif 4     reading: summaries, questions, long-form prose
-   - DM Mono            data: dates, catalog codes, tool names, figure readouts
+   - Fraunces          voice: the name, headings, questions, pull text
+   - Instrument Sans   structure: reading text, labels, navigation, interface
+   - DM Mono           data: dates, catalog codes, figure readouts
+
+   Shape: soft and cellular. Tiles and plates are rounded, controls are
+   pills, and rules are few and light.
    ───────────────────────────────────────────────────────────────────────── */
 :root {
   /* Surfaces */
-  --paper: #f3f2ee;
-  --surface: #fbfaf7;
-  --wash: #e9e7e1;
-  --rule: #d9d6ce;
-  --rule-strong: #b9b6ac;
+  --paper: #fbf5f8;
+  --surface: #ffffff;
+  --wash: #f4e7ef;
+  --rule: #ead7e2;
+  --rule-strong: #cdb2c4;
 
-  /* Ink */
-  --ink: #121211;
-  --ink-2: #3d3c38;
-  --ink-3: #64635d;
+  /* Ink: hematoxylin */
+  --ink: #221748;
+  --ink-2: #463a6e;
+  --ink-3: #6d6390;
 
-  /* Accent: cobalt */
-  --accent: #2b39c4;
-  --accent-ink: #1f2a99;
-  --accent-soft: #d9dcf5;
-  --accent-wash: #eceefa;
+  /* Accent: eosin, with two supporting stains */
+  --accent: #c2255c;
+  --accent-ink: #a61e4d;
+  --accent-soft: #fbd5e3;
+  --accent-wash: #fdeaf1;
+  --accent-2: #5f3dc4;
+  --accent-2-wash: #ece6fb;
+  --accent-3: #0c8599;
+  --accent-3-wash: #e0f3f6;
 
-  /* Data: oxide (reference values in figures) */
-  --data: #b4441c;
-  --data-soft: #f2dfd6;
+  /* Data (reference values in figures) */
+  --data: #e8590c;
+  --data-soft: #ffe8d9;
 
   /* Nav glass */
-  --nav-glass: rgb(243 242 238 / 0.92);
+  --nav-glass: rgb(251 245 248 / 0.8);
 
-  /* Inverted (dark) bands */
-  --night: #121211;
-  --night-2: #1c1c1a;
-  --night-rule: rgb(243 242 238 / 0.16);
-  --night-ink: #f3f2ee;
-  --night-ink-2: #a3a29b;
-  --night-accent: #a9b1ff;
+  /* Deep bands (Now, Contact, footer, the hero instrument) */
+  --night: #221748;
+  --night-2: #2e2160;
+  --night-rule: rgb(251 245 248 / 0.18);
+  --night-ink: #fbf5f8;
+  --night-ink-2: #bdb2e0;
+  --night-accent: #ff8fb5;
 
   /* Families */
-  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --f-text: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --f-head: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --f-display: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-text: "Instrument Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
   --f-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Type scale */
@@ -82,10 +97,14 @@
   --prose: 38rem;
   --gutter: clamp(1rem, 0.3rem + 3.2vw, 3rem);
   --col-gap: clamp(1rem, 0.4rem + 1.8vw, 2.25rem);
-  --nav-h: 64px;
+  --nav-h: 70px;
 
   /* Form */
-  --radius: 0;
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 30px;
+  --r-pill: 999px;
+  --radius: var(--r-pill);
 
   /* Motion */
   --ease: cubic-bezier(0.22, 0.61, 0.24, 1);
@@ -97,38 +116,41 @@
   color-scheme: light;
 }
 
-/* ── Dark ("black") theme ───────────────────────────────────────────────────
-   Same structure, inverted: near-black paper and bone ink, a lighter cobalt,
-   and the night bands (Now, Contact, footer) flip to bone so the page keeps
-   its black-and-white rhythm. Set on <html data-theme="dark"> by the theme
-   switch, or from the system preference before first paint (index.html). */
+/* ── Fluorescence (dark) theme ───────────────────────────────────────────────
+   Set on <html data-theme="dark"> by the theme switch, or from the system
+   preference before first paint (index.html). */
 :root[data-theme="dark"] {
-  --paper: #0e0e0d;
-  --surface: #161615;
-  --wash: #1c1c1a;
-  --rule: #2c2b28;
-  --rule-strong: #4b4a45;
+  --paper: #05060f;
+  --surface: #0c0f22;
+  --wash: #131735;
+  --rule: #1e2449;
+  --rule-strong: #3a4278;
 
-  --ink: #f1efe9;
-  --ink-2: #c6c4bc;
-  --ink-3: #9a988f;
+  --ink: #eef0ff;
+  --ink-2: #c0c6ee;
+  --ink-3: #8e96c4;
 
-  --accent: #9aa5ff;
-  --accent-ink: #c3c9ff;
-  --accent-soft: #2a2f63;
-  --accent-wash: #191c3a;
+  /* GFP, with DAPI and RFP in support */
+  --accent: #5cf0a8;
+  --accent-ink: #9af7c8;
+  --accent-soft: #123d2c;
+  --accent-wash: #0b2219;
+  --accent-2: #7d97ff;
+  --accent-2-wash: #121a40;
+  --accent-3: #ff6f8b;
+  --accent-3-wash: #3a1420;
 
-  --data: #f0875a;
-  --data-soft: #3a2117;
+  --data: #ffb454;
+  --data-soft: #3a2a12;
 
-  --nav-glass: rgb(14 14 13 / 0.88);
+  --nav-glass: rgb(5 6 15 / 0.72);
 
-  --night: #ecebe6;
-  --night-2: #e2e0da;
-  --night-rule: rgb(18 18 17 / 0.16);
-  --night-ink: #121211;
-  --night-ink-2: #55544f;
-  --night-accent: #2b39c4;
+  --night: #10153d;
+  --night-2: #171d52;
+  --night-rule: rgb(238 240 255 / 0.16);
+  --night-ink: #eef0ff;
+  --night-ink-2: #a9b1e6;
+  --night-accent: #5cf0a8;
 
   color-scheme: dark;
 }
