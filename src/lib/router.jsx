@@ -1,72 +1,68 @@
-// A deliberately tiny History-API router: the site only has a home page and
-// case-study pages, so a routing library would be dead weight.
-import { useEffect, useState } from "react";
-import { glideTo } from "./scrolling.js";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { glideTo, jumpTo } from "./motion.js";
 
-const listeners = new Set();
-const emit = (restoreY) => listeners.forEach((fn) => fn(restoreY));
+// A very small History-API router: paths for pages, hashes for sections.
+const Ctx = createContext(null);
 
-export function scrollToHash(hash) {
-  const id = decodeURIComponent(hash.replace(/^#/, ""));
-  const el = id && document.getElementById(id);
+// The folder the site is served from, without a trailing slash: "" or "/portfolio".
+export const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
+export const asset = (p) => BASE + p;
+const strip = (p) => (BASE && p.startsWith(BASE) ? p.slice(BASE.length) : p);
+
+const read = () => ({
+  path: strip(window.location.pathname).replace(/\/+$/, "") || "/",
+  hash: window.location.hash.slice(1),
+  key: Math.random(),
+});
+
+export function Router({ children }) {
+  const [loc, setLoc] = useState(read);
+  useEffect(() => {
+    const on = () => setLoc(read());
+    window.addEventListener("popstate", on);
+    return () => window.removeEventListener("popstate", on);
+  }, []);
+  const navigate = useCallback((to) => {
+    window.history.pushState({}, "", BASE + to);
+    setLoc(read());
+  }, []);
+  return <Ctx.Provider value={{ loc, navigate }}>{children}</Ctx.Provider>;
+}
+
+export const useRouter = () => useContext(Ctx);
+
+export function scrollToId(id, smooth = true) {
+  const el = document.getElementById(id);
   if (!el) return false;
-  glideTo(el);
-  // Move focus for keyboard and screen-reader users without a second jump.
-  if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
-  el.focus({ preventScroll: true });
+  smooth ? glideTo(el) : jumpTo(el);
   return true;
 }
 
-export function navigate(to) {
-  const url = new URL(to, window.location.origin);
-  if (url.pathname === window.location.pathname) {
-    history.pushState({}, "", url.pathname + url.hash);
-    if (url.hash) scrollToHash(url.hash);
-    else glideTo(0);
-    return;
-  }
-  // Remember where we were so the back button returns to the same spot.
-  history.replaceState({ ...history.state, scrollY: window.scrollY }, "");
-  history.pushState({}, "", url.pathname + url.hash);
-  emit(null);
-}
-
-export function useLocation() {
-  const read = () => ({ path: window.location.pathname, hash: window.location.hash });
-  const [loc, setLoc] = useState(read);
-
-  useEffect(() => {
-    const onChange = (restoreY) => setLoc({ ...read(), restoreY });
-    const onPop = (e) => onChange(e.state?.scrollY ?? null);
-    listeners.add(onChange);
-    window.addEventListener("popstate", onPop);
-    return () => {
-      listeners.delete(onChange);
-      window.removeEventListener("popstate", onPop);
-    };
-  }, []);
-
-  return loc;
-}
-
-const isExternal = (href) => /^(https?:|mailto:|tel:)/.test(href) || /\.[a-z0-9]+$/i.test(href);
-
+// Internal link. Scrolls to hashes on the current page without a reload.
 export function Link({ to, children, onClick, ...rest }) {
-  if (isExternal(to)) {
+  const { loc, navigate } = useRouter();
+  const external = /^(https?:|mailto:)/.test(to) || to.endsWith(".pdf");
+  if (external) {
+    const href = to.startsWith("/") ? asset(to) : to;
+    const newTab = !to.startsWith("mailto:");
     return (
-      <a href={to} onClick={onClick} {...rest}>
+      <a href={href} {...(newTab ? { target: "_blank", rel: "noreferrer" } : {})} onClick={onClick} {...rest}>
         {children}
       </a>
     );
   }
-  const handle = (e) => {
+  const click = (e) => {
     onClick?.(e);
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
-    navigate(to);
+    const [path, hash] = to.split("#");
+    if ((path || "/") === loc.path && hash) {
+      window.history.pushState({}, "", BASE + to);
+      scrollToId(hash);
+    } else navigate(to);
   };
   return (
-    <a href={to} onClick={handle} {...rest}>
+    <a href={BASE + to} onClick={click} {...rest}>
       {children}
     </a>
   );

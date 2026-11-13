@@ -1,13 +1,13 @@
-import { Button } from "../components/ui.jsx";
+import { Link } from "../lib/router.jsx";
 
 export default function NotFound() {
   return (
-    <section className="section not-found" aria-labelledby="nf-title">
+    <section className="lost">
       <div className="wrap">
-        <p className="not-found__code">Error 404</p>
-        <h1 id="nf-title" className="h2">This page doesn't exist.</h1>
-        <p className="dek">The link may be out of date. Everything on the site starts from the homepage.</p>
-        <Button to="/">Back to the homepage</Button>
+        <p className="eyebrow">404</p>
+        <h1>This page is outside the domain.</h1>
+        <p>The address does not match anything on the site.</p>
+        <Link to="/" className="btn btn--solid">Back to the start</Link>
       </div>
     </section>
   );

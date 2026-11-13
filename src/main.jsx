@@ -1,20 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "./styles/fonts.css";
+import { createRoot } from "react-dom/client";
+import "@fontsource-variable/fraunces/wght.css";
+import "@fontsource-variable/fraunces/wght-italic.css";
+import "@fontsource-variable/instrument-sans/wght.css";
+import "@fontsource-variable/jetbrains-mono/wght.css";
 import "./styles/tokens.css";
-import "./styles/base.css";
-import "./styles/components.css";
-import "./styles/sections.css";
-import "./styles/figures.css";
-import "./styles/case.css";
-import "./styles/blog.css";
-import "./styles/motion.css";
-import "./styles/scenes.css";
-import "./styles/theme.css";
+import "./styles/site.css";
+import App from "./App.jsx";
+import { Router } from "./lib/router.jsx";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <Router>
+      <App />
+    </Router>
+  </React.StrictMode>,
 );

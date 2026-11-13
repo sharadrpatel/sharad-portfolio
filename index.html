@@ -1,95 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sharad Patel — Biomedical Engineering</title>
+    <title>Sanandan Ojha · Mathematics, modeling and medicine</title>
     <meta
       name="description"
-      content="Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics."
+      content="Sanandan Ojha studies mathematics and biomedical engineering at the University of Florida. Mathematical modeling, numerical methods and Bayesian inference, applied to biology and medicine."
     />
-    <meta name="author" content="Sharad Patel" />
-    <link rel="canonical" href="https://www.sharadrpatel.com/" />
-    <meta name="theme-color" content="#f3f2ee" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="author" content="Sanandan Ojha" />
+    <meta name="theme-color" content="#171718" />
+    <meta name="color-scheme" content="dark light" />
     <script>
-      // Pick the theme before first paint: a saved choice, else the system setting.
+      // Apply a saved theme before first paint (the default is dark), and decide
+      // whether the opening sequence plays: once per session, never under reduced motion.
       (function () {
         try {
-          var t = localStorage.getItem("sp-theme");
-          if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-          document.documentElement.dataset.theme = t;
-          if (t === "dark") document.querySelector('meta[name="theme-color"]').content = "#0e0e0d";
+          var t = localStorage.getItem("so-theme");
+          if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+          if (!sessionStorage.getItem("so-intro") && !matchMedia("(prefers-reduced-motion: reduce)").matches)
+            document.documentElement.classList.add("intro");
         } catch (e) {}
       })();
     </script>
 
-    <!-- Link previews. scripts/prerender.mjs rewrites the title, description,
-         URL and canonical for each case-study and blog page at build time. -->
+    <!-- Link previews. scripts/prerender.mjs rewrites the title and description
+         for each project page at build time. -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Sharad Patel" />
-    <meta property="og:title" content="Sharad Patel — Biomedical Engineering" />
+    <meta property="og:site_name" content="Sanandan Ojha" />
+    <meta property="og:title" content="Sanandan Ojha · Mathematics, modeling and medicine" />
     <meta
       property="og:description"
-      content="Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics."
+      content="Sanandan Ojha studies mathematics and biomedical engineering at the University of Florida. Mathematical modeling, numerical methods and Bayesian inference, applied to biology and medicine."
     />
-    <meta property="og:url" content="https://www.sharadrpatel.com/" />
-    <meta property="og:image" content="https://www.sharadrpatel.com/og.png" />
+    <meta property="og:image" content="%BASE_URL%og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Sharad Patel, biomedical engineering at the University of Florida, beside the phase portrait of a forced Duffing oscillator."
-    />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Sharad Patel",
-        "url": "https://www.sharadrpatel.com/",
-        "image": "https://www.sharadrpatel.com/headshot.jpg",
-        "email": "mailto:sharadrpatel1933@gmail.com",
-        "description": "Biomedical engineering student at the University of Florida doing research in computational modeling and biomechanics.",
-        "affiliation": { "@type": "CollegeOrUniversity", "name": "University of Florida" },
-        "knowsAbout": ["Biomedical engineering", "Computational modeling", "Biomechanics", "Musculoskeletal modeling"],
-        "sameAs": ["https://www.linkedin.com/in/patel108", "https://github.com/sharadrpatel"]
-      }
-    </script>
-
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- The two faces that set the first screen; the rest load on demand. -->
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      crossorigin
-      href="/node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2"
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      crossorigin
-      href="/node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2"
-    />
   </head>
   <body>
     <div id="root"></div>
     <noscript>
-      <div style="max-width: 40rem; padding: 2rem; font-family: Georgia, serif; line-height: 1.5">
-        <h1 style="font-family: Helvetica, Arial, sans-serif">Sharad Patel</h1>
+      <div style="max-width: 40rem; margin: 0 auto; padding: 2rem; font-family: Georgia, serif; line-height: 1.55; color: #ecebe6">
+        <h1>Sanandan Ojha</h1>
         <p>
-          Biomedical engineering student at the University of Florida. I build computational models of how the body
-          works, mostly in biomechanics and physiology, and compare them against experimental data.
+          Mathematics and biomedical engineering at the University of Florida, with a minor in statistics. I build
+          mathematical models of living systems and fit them to data.
         </p>
         <p>
-          This site needs JavaScript to show research and project pages. Without it:
-          <a href="/CV.pdf">download my CV (PDF)</a>, email
-          <a href="mailto:sharadrpatel1933@gmail.com">sharadrpatel1933@gmail.com</a>, or find me on
-          <a href="https://www.linkedin.com/in/patel108">LinkedIn</a> and
-          <a href="https://github.com/sharadrpatel">GitHub</a>.
+          This site needs JavaScript to show the research and project pages. Without it you can
+          <a href="%BASE_URL%Sanandan_Ojha_CV.pdf" style="color: #f2b84b">download my CV (PDF)</a> or email
+          <a href="mailto:ojhasanandan@ufl.edu" style="color: #f2b84b">ojhasanandan@ufl.edu</a>.
         </p>
       </div>
     </noscript>

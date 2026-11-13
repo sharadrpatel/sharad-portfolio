@@ -1,18 +1,25 @@
-import { useInView } from "../lib/motion.js";
+import { useEffect, useRef } from "react";
 
-// Plays an entrance the first time content scrolls into view. CSS owns the
-// motion (and disables it under prefers-reduced-motion); this only toggles a
-// class. Children with class "st" and a --si index come in one after another
-// when the wrapper has class "has-st".
-export default function Reveal({ as: Tag = "div", delay = 0, className = "", children, ...rest }) {
-  const [ref, shown] = useInView();
+// Fades content up once, the first time it scrolls into view.
+export default function Reveal({ as: Tag = "div", className = "", delay = 0, children, ...rest }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) return el?.classList.add("is-in");
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          el.classList.add("is-in");
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <Tag
-      ref={ref}
-      className={`reveal ${shown ? "is-in" : ""} ${className}`}
-      style={delay ? { "--reveal-delay": `${delay}ms` } : undefined}
-      {...rest}
-    >
+    <Tag ref={ref} className={`reveal ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined} {...rest}>
       {children}
     </Tag>
   );
