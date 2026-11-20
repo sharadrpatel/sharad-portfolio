@@ -195,10 +195,10 @@ export default function CaseStudy({ work: w }) {
                 Specifications
               </h2>
               <p>
-                A few of the 12 user needs from our design traceability matrix. Each one has a marginal and an ideal
-                target.
+                {w.specsIntro ??
+                  "A few of the user needs from our design traceability matrix. Each one has a marginal and an ideal target."}
               </p>
-              <SpecTable specs={w.specs} caption="Selected target specifications" />
+              <SpecTable specs={w.specs} caption="Selected target specifications" basisLabel={w.specsBasisLabel} />
             </section>
           )}
 

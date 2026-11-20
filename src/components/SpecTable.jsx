@@ -1,6 +1,6 @@
 // Target specifications for a design project. The table scrolls sideways on
 // narrow screens, so its wrapper is focusable and named for keyboard users.
-export default function SpecTable({ specs, caption }) {
+export default function SpecTable({ specs, caption, basisLabel = "Basis" }) {
   return (
     <div className="spec-table-wrap" tabIndex={0} role="region" aria-label={caption}>
       <table className="spec-table">
@@ -9,7 +9,7 @@ export default function SpecTable({ specs, caption }) {
           <tr>
             <th scope="col">User need</th>
             <th scope="col">Target</th>
-            <th scope="col">Basis</th>
+            <th scope="col">{basisLabel}</th>
           </tr>
         </thead>
         <tbody>

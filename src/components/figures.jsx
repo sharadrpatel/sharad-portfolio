@@ -390,6 +390,19 @@ export const FIGURES = {
     alt: "Multiview engineering drawing of the left upper frame with an overall height of 926.89 mm, 172.1 degree bends, a 19 mm tube diameter, and 10 mm pin holes toleranced at plus or minus 0.01 mm.",
     caption: "Multiview drawing of the left upper frame, one of the drawings in the report. Pin holes are held to ±0.01 mm.",
   },
+  "biceps-concepts": {
+    img: { src: "/images/biceps-concepts.webp", width: 1670, height: 941 },
+    alt: "Three illustrations of the proximal radius with a torn biceps tendon brought in from the left. Concept 1 holds the tendon with two buttons inside the near cortex. Concept 2, the selected one, seats the tendon in a tunnel with an interference screw and ties it to a button on the far cortex, drilled with a clutch drill that stops turning at breakthrough. Concept 3 uses two buttons outside the far cortex, also drilled with the clutch.",
+    caption:
+      "The three concepts we compared: dual unicortical buttons, a bicortical button with an interference screw, and dual bicortical buttons. Concepts 2 and 3 use a clutch drill bit that stops turning when it breaks through the far cortex. Concept illustrations from our final presentation, not to scale.",
+  },
+  "biceps-prototype": {
+    img: { src: "/images/biceps-prototype.webp", width: 1400, height: 1050 },
+    photo: true,
+    alt: "Prototyping parts laid out on a wooden table: three synthetic radius bones, a 1.8 mm drill bit with yellow end caps, a blue-handled knotless suture anchor inserter, a cortical button threaded with sutures, and a suture anchor with long suture tails.",
+    caption:
+      "Parts for the first bench builds: synthetic model radii, a 1.8 mm drill bit, a knotless suture anchor inserter, a cortical button with sutures, and a suture anchor.",
+  },
 };
 
 export function WorkFigure({ name, n, wide }) {
