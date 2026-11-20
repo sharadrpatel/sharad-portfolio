@@ -546,6 +546,8 @@ export const CANOPY_FEATURE = {
 
 // Engineering design, shown in the Projects section.
 export const DESIGN = [
+  // Sources: public/CV.pdf for my part; the team's final design presentation (Fall 2026) for concepts,
+  // selection, the updated targets, and the prototyping and test plans.
   {
     slug: "distal-biceps-repair",
     index: "D.01",
@@ -557,38 +559,79 @@ export const DESIGN = [
     period: "Aug 2026 – Present",
     role: "Team member (team of 8)",
     question:
-      "What does a distal biceps repair system need to do well enough for a surgeon to test it in a cadaver lab?",
+      "How can a single-incision distal biceps repair hold the tendon firmly through repeated loading, and keep the drill from plunging toward the nerve behind the radius?",
     summary:
-      "This is my senior design project. Our team of eight is designing a proof-of-concept distal biceps tendon repair system for CONMED, our industry sponsor. It includes the implant, instruments, and sterile packaging, and a sports medicine surgeon will evaluate it in a cadaveric simulated-use setting.",
+      "This is my senior design project. Our team of eight is designing a proof-of-concept distal biceps tendon repair system for CONMED, our industry sponsor, which wants to enter this market. It includes the implant, instruments, and sterile packaging, and a sports medicine surgeon will evaluate it in a cadaveric simulated-use setting. This semester we turned the user needs into measurable targets, compared three concepts, and chose a bicortical button with an interference screw, drilled with a clutch drill bit that stops turning when it breaks through the far cortex. Bench prototyping and testing come next.",
     problem:
-      "The repair has to survive repeated loading without the tendon pulling away from the bone, and it has to stay clear of nearby nerves. Before designing anything, we had to turn those needs into specific, measurable targets.",
+      "When the distal biceps tendon tears away from the radius, the repair has to reattach it and hold through repeated loading without the tendon pulling away from the bone. Fixing it with a button on the far side of the radius means drilling all the way through the bone, and a drill that plunges past the far cortex can injure neurovascular structures there, such as the posterior interosseous nerve (PIN). Our needs statement: a way to reliably reattach a torn distal biceps tendon that improves surgical efficacy, withstands postoperative loads, and promotes healing while protecting neurovascular structures.",
     method:
-      "We built a design traceability matrix with 12 user needs, each with marginal and ideal targets based on the biomechanics literature and FDA, ISO, and ASTM standards. We also benchmarked cortical-button, suture-anchor, and bone-tunnel repairs.",
+      "We turned the user needs into a design traceability matrix with marginal and ideal targets, benchmarked current repairs, compared three concepts in a weighted Pugh matrix, and planned bench prototypes and tests for the selected design.",
     contribution:
       "I co-wrote the needs statement and traceability matrix and reviewed IP and regulatory requirements. That review pointed us to a Class II 510(k) pathway (21 CFR 888.3040) and gave us implant cost targets.",
     approach: [
       {
         label: "Needs",
-        text: "Co-wrote the needs statement and a design traceability matrix of 12 user needs, each with marginal and ideal targets.",
-      },
-      {
-        label: "Specifications",
-        text: "Based the targets on the biomechanics literature and on FDA, ISO, and ASTM standards.",
+        text: "Co-wrote the needs statement and a design traceability matrix of user needs, each with marginal and ideal targets based on the biomechanics literature and on FDA, ISO, and ASTM standards.",
       },
       {
         label: "Benchmarking",
-        text: "Compared cortical-button, suture-anchor, and bone-tunnel repair constructs.",
+        text: "Compared cortical-button, suture-anchor, and bone-tunnel repairs, including Arthrex's single-incision BicepsButton tension-slide technique with an interference screw, and an all-suture technique that uses two knotless suture anchors.",
       },
       {
         label: "Regulatory and IP",
         text: "Reviewed IP and regulatory requirements, which pointed to a Class II 510(k) pathway (21 CFR 888.3040) and set implant cost targets.",
       },
+      {
+        label: "Concepts",
+        text: "Generated three concepts: two buttons inside the near cortex (unicortical), one button on the far cortex with an interference screw holding the tendon in the near-cortex tunnel, and two buttons on the far cortex. The two far-cortex designs are drilled with a clutch drill bit that disengages at breakthrough.",
+      },
+      {
+        label: "Selection",
+        text: "Scored the concepts 1–3 on seven weighted criteria in a Pugh matrix: nerve and vessel risk, dual fixation points, ease of placement and tensioning, ease of fabrication, evidence for the fixation approach, adaptability for design improvement (weighted ×3), and speed of the procedure (×2). The bicortical button with a screw and clutch drill ranked first.",
+      },
+      {
+        label: "Prototype plan",
+        text: "Four parts to make: the clutch drill bit, the far-cortex button, the interference screw, and instructions for use. Each part gets early bench versions refined in build, test, measure, revise cycles, changing one parameter at a time against tolerances agreed before testing. For the drill we vary trip torque, feed rate, and operator; for the button, contact area, thickness, and profile; for the screw, thread pitch, diameter, and length.",
+      },
+      {
+        label: "Test plan",
+        text: "Drilling through synthetic bone measures plunge as the drilled depth minus the far-cortex depth (mean, standard deviation, and error rate). Button variants are loaded on the far cortex and compared through contact stress, σ = F/A, against the 310 N and 440 N targets. Screw variants are checked for tendon slip, gap, pullout load, insertion torque, and failure mode. The full construct then goes through 3,600 cycles at 50 N and 0.5 Hz (about two hours) before loading to failure.",
+      },
     ],
+    specsIntro:
+      "Six rows from our design traceability matrix, with each target and how we plan to verify it. These are targets, not results yet, and the tunnel tolerance is provisional until we choose the screw size and material.",
+    specsBasisLabel: "Planned verification",
     specs: [
-      { need: "Fixation strength", target: "≥ 310–440 N load to failure", basis: "After 3,600 physiologic cycles" },
-      { need: "Repair integrity", target: "≤ 3 mm", basis: "Tendon–bone gap" },
-      { need: "Nerve safety", target: "≥ 5 mm", basis: "Nerve clearance" },
-      { need: "Regulatory pathway", target: "Class II · 510(k)", basis: "21 CFR 888.3040" },
+      {
+        need: "Controlled drilling",
+        target: "≤ 2 mm plunge past the far cortex (ideal ≤ 1 mm)",
+        basis: "Measure plunge in synthetic bone backed by ballistic gel",
+      },
+      {
+        need: "Fixation strength",
+        target: "No failure over 3,600 cycles at 50 N; ≥ 310 N after cycling (ideal ≥ 440 N)",
+        basis: "Cyclic loading, then load to failure",
+      },
+      {
+        need: "Tendon position",
+        target: "Tendon–bone gap ≤ 3 mm after cycling (ideal ≤ 2 mm)",
+        basis: "Measure the gap after cycling",
+      },
+      {
+        need: "Clutch reliability",
+        target: "≥ 95% correct stops and no missed stops, across ≥ 3 foam densities",
+        basis: "Repeat drilling across densities; record early and missed stops",
+      },
+      {
+        need: "Tendon and screw fit",
+        target: "8.0 ± 0.2 mm near-cortex tunnel that fits the sized tendon and screw",
+        basis: "Measure the tunnel; test tendon seating and screw insertion",
+      },
+      {
+        need: "Biocompatibility",
+        target: "Biological evaluation per ISO 10993-1 for tissue and bone contact",
+        basis: "Review materials and processes; define the evaluation needed",
+      },
     ],
     contributions: [
       "Needs statement and design traceability matrix",
@@ -596,7 +639,25 @@ export const DESIGN = [
       "Benchmarking existing repair constructs",
       "IP and regulatory review",
     ],
-    tools: ["Design controls", "FDA / ISO / ASTM standards", "Benchmarking", "Regulatory analysis"],
+    outcomes: [
+      {
+        value: "26 / 30",
+        label: "Selected concept",
+        text: "The bicortical button with an interference screw and clutch drill scored 26 of a possible 30 in the weighted Pugh matrix, ahead of dual unicortical buttons (21) and dual bicortical buttons (15). It scored lower on dual fixation points, but highest on adaptability, speed, and ease of placement.",
+      },
+      {
+        label: "What gets built",
+        text: "A clutch drill bit that stops turning at far-cortex breakthrough to limit plunge toward the PIN; a far-cortex button that passes through the tunnel, then seats fully and resists pull-through; an interference screw that holds the tendon without cutting through or slipping; and instructions for use that walk a surgeon through setup, drilling, and fixation, with warnings and contraindications.",
+      },
+      {
+        label: "Next",
+        text: "The parts for the first bench builds are in hand: synthetic model radii, a 1.8 mm drill bit, a cortical button with sutures, and a suture anchor with its inserter. Each prototype will be tested against the targets above.",
+      },
+    ],
+    status: "Concept selected. Bench prototyping and testing are next.",
+    tools: ["Design controls", "FDA / ISO / ASTM standards", "Benchmarking", "Regulatory analysis", "Pugh matrix", "Test planning"],
+    figure: "biceps-concepts",
+    secondaryFigure: "biceps-prototype",
   },
   {
     slug: "pediatric-crutch",

@@ -1126,7 +1126,7 @@
   font-family: var(--f-mono);
   font-size: 0.8rem;
   color: var(--accent);
-  white-space: nowrap;
+  width: 42%;
 }
 
 /* ── Publications ───────────────────────────────────────────────────────── */

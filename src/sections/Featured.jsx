@@ -21,7 +21,9 @@ const PINNED = "(min-width: 900px) and (prefers-reduced-motion: no-preference)";
 // picture. `figure` overrides the lead figure where a results plot says more
 // than the default one.
 const CRUTCH = DESIGN.find((w) => w.slug === "pediatric-crutch");
+const BICEPS = DESIGN.find((w) => w.slug === "distal-biceps-repair");
 const FEATURED = [
+  { w: BICEPS },
   { w: MODELING_FEATURE },
   { w: CANOPY_FEATURE },
   { w: COLLAGEN_FEATURE },
