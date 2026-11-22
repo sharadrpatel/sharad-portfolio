@@ -282,7 +282,7 @@ export const RESEARCH = [
     period: "Sept 2025 – Present",
     role: "Undergraduate Research Assistant · Lead author, systematic review",
     summary:
-      "I'm the lead author on a systematic review of immunotherapy for Parkinson's disease. I designed the search strategy, screen and extract studies, and am pulling together the evidence on active, passive, and cell-based approaches. I also analyze datasets on immune markers, gut microbiome composition, and disease progression, with a focus on T-cell responses and inflammation along the gut–brain axis.",
+      "I'm the lead author on a systematic review of immunotherapy for Parkinson's disease. I designed the search strategy, screen and extract studies, and am pulling together the evidence on active, passive, and cell-based approaches. Alongside the review, I analyze datasets on immune markers, gut microbiome composition, and disease progression, with a focus on T-cell responses and inflammation along the gut–brain axis.",
     tools: ["Systematic review", "Data analysis", "Visualization"],
   },
 ];
@@ -304,11 +304,11 @@ export const MODELING_FEATURE = {
   summary:
     "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. Our team adapted a published model built for balloon-expandable coronary stents (Escuer et al., 2019) to self-expanding nitinol stents in the femoral artery, which keep pushing on the wall long after they're placed. Without retuning, the adapted model predicted the regrowth seen in oversized pig stents (69% area stenosis, against 64% measured). It puts the start of the risk at about 1.3 times the vessel diameter, and earlier with high blood pressure.",
   problem:
-    "Within 6–12 months, restenosis shows up in 35–65% of long femoral lesions treated with nitinol stents. In pigs, stents 1.31 times the vessel diameter led to 39% area stenosis at 4 weeks, and stents 1.63 times the diameter led to 64%. In patients the artery tapers, so a long straight stent sized for the top of the vessel ends up about 1.5 times too big at its lower end. Nitinol stents keep pushing outward for as long as they're in place, but the original model only covers the one-time injury from a balloon-expanded stent.",
+    "Within 6–12 months, restenosis shows up in 35–65% of long femoral lesions treated with nitinol stents. In pigs, stents 1.31 times the vessel diameter led to 39% area stenosis at 4 weeks, and stents 1.63 times the diameter led to 64%. Patients' arteries taper, so a long straight stent sized for the top of the vessel ends up about 1.5 times too big at its lower end. Nitinol stents keep pushing outward for as long as they're in place, but the original model only covers the one-time injury from a balloon-expanded stent.",
   approach: [
     {
       label: "Base model",
-      text: "We re-implemented the Escuer model, which tracks growth factors, MMP-2, extracellular matrix, and two types of smooth muscle cells (contractile and synthetic), and left its healing kinetics unchanged. We set the starting injury from the injury scores measured in the pig study and fit a single growth gain to the normally sized control pigs only.",
+      text: "We re-implemented the Escuer model, which tracks growth factors, MMP-2, extracellular matrix, and two types of smooth muscle cells (contractile and synthetic), and left its healing kinetics unchanged. The starting injury came from the injury scores measured in the pig study, and we fit a single growth gain to the normally sized control pigs only.",
     },
     {
       label: "Physiology",
@@ -657,7 +657,7 @@ export const DESIGN = [
       },
     ],
     specsIntro:
-      "Six rows from our design traceability matrix, with each target and how we plan to verify it. These are targets, not results yet, and the tunnel tolerance is provisional until we choose the screw size and material.",
+      "Six rows from our design traceability matrix, with each target and how we plan to verify it. None of these are results yet, and the tunnel tolerance stays provisional until we choose the screw size and material.",
     specsBasisLabel: "Planned verification",
     specs: [
       {
@@ -768,7 +768,7 @@ export const DESIGN = [
       },
       {
         label: "Strengths",
-        text: "The parts are realistic and modular. The forked frame is stable and has a row of holes, so the hand grip can be moved too.",
+        text: "The parts are realistic and modular, and the forked frame is stable and has a row of holes, so the hand grip can be moved too.",
       },
       {
         label: "Limitations",
@@ -951,7 +951,7 @@ export const SHOT_DNA_FEATURE = {
   summary:
     "An R project built on every regular-season NBA shot from 2009–10 through 2025–26, about 3.5 million of them. It has an interactive explorer for any player with 300 or more shots in a season, a written piece on Stephen Curry's 2015–16 season, five analysis notebooks, and shareable player cards.",
   problem:
-    "Box scores say how much a player scores, not how. Shot charts have that information, but comparing players fairly takes a model of shot difficulty, a way to separate real shotmaking from noise, and a sensible measure of similarity.",
+    "Box scores tell you how many points a player scores. Shot charts show how they get them, but comparing players fairly takes a model of shot difficulty, a way to separate real shotmaking from noise, and a sensible measure of similarity.",
   approach: [
     {
       label: "Expected FG",
@@ -993,7 +993,7 @@ export const SHOT_DNA_FEATURE = {
     },
     {
       label: "A flaw in the data",
-      text: "In older seasons, scorekeepers mostly wrote the descriptive shot label when the shot went in. In 2009–10, pull-up threes were 72% made versus 35% for plain jump-shot threes. The labels leaked the outcome, so I only use shot type from 2022–23 on, when the effect is gone.",
+      text: "In older seasons, scorekeepers mostly wrote the descriptive shot label when the shot went in. Back in 2009–10, pull-up threes were 72% made versus 35% for plain jump-shot threes. The labels leaked the outcome, so I only use shot type from 2022–23 on, when the effect is gone.",
     },
     {
       label: "The clusters aren't clean",

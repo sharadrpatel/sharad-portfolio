@@ -541,7 +541,7 @@ export const FIGURES = {
     img: { src: "/images/isr-blind-test.webp", width: 1165, height: 451 },
     alt: "Dot plot of area stenosis in oversized pig stents at 4 weeks. Measured: 64%, with a gray 95% confidence band from 53 to 76%. Final 1D model: 69%, with a wide Monte Carlo interval. Final 2D strut-level model: 87%. Milestone 2 model: 73%. Unchanged Escuer model: 40%.",
     caption:
-      "Blind test of area stenosis in pig stents oversized 1.63×, at 4 weeks. The gray band is the 95% confidence interval of the measured mean (n = 11). The growth gain was fit to the control pigs only, so the oversized group was never used for fitting. From our design review.",
+      "Blind test of area stenosis in pig stents oversized 1.63×, at 4 weeks. Shaded in gray is the 95% confidence interval of the measured mean (n = 11). The growth gain was fit to the control pigs only, so the oversized group was never used for fitting. From our design review.",
   },
   "isr-neointima": {
     img: { src: "/images/isr-neointima.webp", width: 1086, height: 557 },
@@ -573,7 +573,7 @@ export const FIGURES = {
   "kidney-transplant": {
     Svg: KidneyTransplant,
     caption:
-      "The operation behind the team's earlier kidney transplant box trainer (illustration, not to scale). The donor kidney goes in the lower abdomen, and the surgeon sews the renal vein to the external iliac vein, the renal artery to the external iliac artery, and the ureter to the bladder.",
+      "The operation behind the team's earlier kidney transplant box trainer (illustration, not to scale). Donor kidneys go in the lower abdomen, and the surgeon sews the renal vein to the external iliac vein, the renal artery to the external iliac artery, and the ureter to the bladder.",
   },
   sigmoid: {
     Svg: SigmoidResponse,
@@ -608,13 +608,13 @@ export const FIGURES = {
     img: { src: "/images/scudem-kl-drift.webp", width: 1000, height: 749 },
     alt: "Line plot of KL divergence from the human data over 40 generations for one, three, and five models. One model levels off near 0.28, three near 0.17, and five near 0.15.",
     caption:
-      "Model 1. Drift from the human data (KL divergence) over 40 generations with 90% AI-generated training data, for one, three, and five models. Drift goes down as models are added. From our report.",
+      "Model 1. Drift from the human data (KL divergence) over 40 generations with 90% AI-generated training data, for one, three, and five models. It goes down as models are added. From our report.",
   },
   "scudem-task-space": {
     img: { src: "/images/scudem-task-space.webp", width: 1400, height: 678 },
     alt: "Two plots of task probability. At generation 0 the distribution is a smooth bell curve centered at task 30. At generation 100 it has three sharp spikes at tasks 20, 35, and 41.",
     caption:
-      "Model 2. The task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. The distribution collapses into spikes at those tasks. From our report.",
+      "Model 2. The task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. It collapses into spikes at those tasks. From our report.",
   },
   "mcm-sensitivity": {
     img: { src: "/images/mcm-sensitivity.webp", width: 1261, height: 1070 },
@@ -667,7 +667,7 @@ export const FIGURES = {
   "crutch-assembly": {
     img: { src: "/images/crutch-assembly.webp", width: 1200, height: 1424 },
     alt: "Two Onshape renders of the crutch side by side: on the left collapsed, with the leg tucked into the lower frame; on the right fully extended, with the gray leg reaching well below the frame. Both have a padded shoulder rest, a hand grip between two blue aluminum frame rails, and rows of pin holes.",
-    caption: "The assembly in Onshape, collapsed (left) and fully extended (right). The leg slides on a slider mate and locks with a pin.",
+    caption: "The assembly in Onshape, collapsed (left) and fully extended (right). Its leg slides on a slider mate and locks with a pin.",
   },
   "crutch-drawing": {
     img: { src: "/images/crutch-drawing.webp", width: 1600, height: 1234 },
