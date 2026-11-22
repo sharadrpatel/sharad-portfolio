@@ -1,4 +1,5 @@
 import { PROFILE } from "../data/profile.js";
+import { BLOG } from "../data/blog.js";
 import { Link } from "../lib/router.jsx";
 import { Arrow } from "./ui.jsx";
 import Signature from "./Signature.jsx";
@@ -16,7 +17,7 @@ export default function Footer() {
           <li><a href={PROFILE.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href={PROFILE.github} target="_blank" rel="noopener">GitHub</a></li>
           <li><a href={PROFILE.cv} target="_blank" rel="noopener">CV</a></li>
-          <li><Link to="/blog">Blog</Link></li>
+          <li><Link to="/blog">{BLOG.name}</Link></li>
           <li>
             <Link to="/" className="site-footer__top">
               Top <Arrow dir="up" />

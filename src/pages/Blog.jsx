@@ -1,29 +1,44 @@
 import { POSTS, formatPostDate } from "../lib/posts.js";
+import { BLOG, issueNo } from "../data/blog.js";
+import { PROFILE } from "../data/profile.js";
 import { Link } from "../lib/router.jsx";
 import { Arrow } from "../components/ui.jsx";
+import CrossSectionsMark from "../components/CrossSectionsMark.jsx";
 
 export default function Blog() {
   return (
     <section className="section blog" aria-labelledby="blog-title">
       <div className="wrap">
-        <header className="blog__head">
-          <h1 id="blog-title" className="blog__title">Writing</h1>
-          <p className="dek">Notes on my research, projects, and things I'm learning along the way.</p>
+        <header className="masthead">
+          <p className="masthead__line">
+            <span>
+              {BLOG.volume} · Est. {BLOG.established}
+            </span>
+            <span>A journal by {PROFILE.name}</span>
+          </p>
+          <h1 id="blog-title" className="masthead__title">
+            <CrossSectionsMark />
+            <span>{BLOG.name}</span>
+          </h1>
+          <div className="masthead__rule" aria-hidden="true" />
+          <p className="masthead__dek">{BLOG.tagline}</p>
         </header>
 
         {POSTS.length === 0 ? (
           <div className="blog__empty">
+            <p className="issue-label">{issueNo(1)}</p>
             <p className="status">
               <span className="status__dot" aria-hidden="true" />
-              Work in progress
+              In preparation
             </p>
-            <p>I'm getting this set up. The first posts are coming soon.</p>
+            <p>The first issue is in the works. Check back soon.</p>
           </div>
         ) : (
           <ol className="post-list">
             {POSTS.map((p) => (
               <li key={p.slug}>
                 <Link to={`/blog/${p.slug}`} className="post-item">
+                  <span className="post-item__no">{issueNo(p.no)}</span>
                   <span className="post-item__meta">
                     <time dateTime={p.date}>{formatPostDate(p.date)}</time>
                     <span>{p.minutes} min read</span>

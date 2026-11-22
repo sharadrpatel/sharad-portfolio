@@ -455,6 +455,7 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
   font-weight: 500;
   color: var(--ink-2);
   text-decoration: none;
+  white-space: nowrap;
 }
 
 /* A small square marks the section in view */
@@ -591,6 +592,19 @@ a:hover > .arrow--out { transform: translate(2px, -2px); }
 @media (max-width: 520px) {
   .wordmark__role {
     display: none;
+  }
+}
+
+/* Between the full nav appearing and wide screens, make room for every link. */
+@media (min-width: 1081px) and (max-width: 1379px) {
+  .wordmark__role {
+    display: none;
+  }
+  .site-nav__links {
+    gap: var(--s-4);
+  }
+  .site-nav__links ul a {
+    padding: 0 0.45rem;
   }
 }
 
