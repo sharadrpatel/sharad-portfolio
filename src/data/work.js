@@ -198,8 +198,44 @@ export const RESEARCH = [
     figure: "pgd",
   },
   {
-    slug: "parkinsons-immunotherapy",
+    slug: "surgical-simulation",
     index: "R.04",
+    tier: "featured",
+    caseStudy: false,
+    title: "Surgical simulation for transplant and pediatric procedures",
+    area: ["Surgical education", "Clinical research"],
+    lab: "Dream Team Engineering",
+    org: "University of Florida",
+    period: "Jan 2024 – Present",
+    role: "Surgical Research Team Captain",
+    question:
+      "Can realistic simulators help surgical trainees learn procedures like kidney transplantation and infant caudal blocks, and how do we measure it?",
+    summary:
+      "I captain the surgical research team. I write IRB applications, study protocols, and statistical analysis plans, and design skills assessments for surgical residents. We work with transplant surgeons to build simulation models for kidney and liver transplants and infant IV placement, and we've published and presented results from our surveys and experiments.",
+    approach: [
+      {
+        label: "Simulators",
+        text: "With transplant surgeons, we build realistic simulators: 3D box-model trainers for kidney transplantation, a liver transplant model, infant IV placement, and a mixed-reality infant caudal epidural block.",
+      },
+      {
+        label: "Study design",
+        text: "I write the IRB applications, study protocols, and statistical analysis plans, including a controlled study of the kidney transplant box trainers.",
+      },
+      {
+        label: "Assessment",
+        text: "We design and run skills assessments for surgical residents to measure what the simulators teach.",
+      },
+      {
+        label: "Sharing results",
+        text: "Two posters at the 2026 BMES Annual Meeting (the caudal block simulator, where I'm first author, and the kidney transplant simulator protocol), and a 2025 talk on the box trainers at Surgeons and Engineers: A Dialogue on Surgical Simulation.",
+      },
+    ],
+    tools: ["IRB protocols", "Study design", "Statistical analysis plans", "3D printing"],
+    figure: "kidney-transplant",
+  },
+  {
+    slug: "parkinsons-immunotherapy",
+    index: "R.05",
     tier: "secondary",
     caseStudy: false,
     title: "Immunotherapy and inflammation in Parkinson's disease",
@@ -211,21 +247,6 @@ export const RESEARCH = [
     summary:
       "I'm the lead author on a systematic review of immunotherapy for Parkinson's disease. I designed the search strategy, screen and extract studies, and am pulling together the evidence on active, passive, and cell-based approaches. I also analyze datasets on immune markers, gut microbiome composition, and disease progression, with a focus on T-cell responses and inflammation along the gut–brain axis.",
     tools: ["Systematic review", "Data analysis", "Visualization"],
-  },
-  {
-    slug: "surgical-simulation",
-    index: "R.05",
-    tier: "secondary",
-    caseStudy: false,
-    title: "Surgical simulation for transplant and pediatric procedures",
-    area: ["Surgical education", "Clinical research"],
-    lab: "Dream Team Engineering",
-    org: "University of Florida",
-    period: "Jan 2024 – Present",
-    role: "Surgical Research Team Captain",
-    summary:
-      "I captain the surgical research team. I write IRB applications, study protocols, and statistical analysis plans, and design skills assessments for surgical residents. We work with transplant surgeons to build simulation models for kidney and liver transplants and infant IV placement, and we've published and presented results from our surveys and experiments.",
-    tools: ["IRB protocols", "Study design", "Statistical analysis plans", "3D printing"],
   },
 ];
 

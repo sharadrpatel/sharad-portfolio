@@ -124,44 +124,203 @@ function ArterySection() {
   );
 }
 
-/* PGD workflow ------------------------------------------------------------- */
-function PgdWorkflow() {
-  const nodes = [
-    { x: 4, lines: ["PGD", "literature"] },
-    { x: 102, lines: ["Mechanistic", "synthesis"] },
-    { x: 200, lines: ["Mechanistic", "model"], accent: true },
-    { x: 298, lines: ["Risk", "stratification"], goal: true },
+/* PGD: ischemia–reperfusion injury at the alveolus ----------------------- */
+// A vessel drawn as a tube: an ink outline with a filled core.
+function Tube({ d, w, core = "var(--wash)" }) {
+  return (
+    <g fill="none" strokeLinecap="round">
+      <path d={d} stroke="var(--ink)" strokeWidth={w} />
+      <path d={d} stroke={core} strokeWidth={w - 2.5} />
+    </g>
+  );
+}
+
+function Neutrophil({ x, y }) {
+  return (
+    <g>
+      <circle className="fig-ink" cx={x} cy={y} r="7.5" fill="var(--accent-wash)" />
+      {[-3.2, 0, 3.2].map((dx) => (
+        <circle key={dx} className="fig-model" cx={x + dx} cy={y + (dx ? 1 : -1.2)} r="1.9" />
+      ))}
+    </g>
+  );
+}
+
+function PgdInjury() {
+  const panels = [
+    { cx: 100, title: "before", injured: false },
+    { cx: 314, title: "after reperfusion", injured: true },
+  ];
+  const capY = 150;
+  const reperfusionX = 150;
+  const grades = [
+    { x: 196, t: "T0" },
+    { x: 262, t: "T24" },
+    { x: 328, t: "T48" },
+    { x: 394, t: "T72 h" },
   ];
   return (
-    <svg viewBox="0 0 390 140" role="img" aria-labelledby="fig-pgd-t">
+    <svg viewBox="0 0 420 270" role="img" aria-labelledby="fig-pgd-t">
       <title id="fig-pgd-t">
-        Workflow: the PGD literature is synthesized through a systematic review, which structures a mechanistic
-        model whose goal is to inform risk stratification.
+        Two views of an alveolus and the capillary beneath it. Before: an air-filled alveolus over a capillary of red
+        blood cells, separated by a thin barrier. After reperfusion: neutrophils leave the capillary, reactive oxygen
+        species form, the barrier leaks, and edema fluid fills the lower alveolus. Below, a timeline from donor
+        retrieval through cold ischemia to implant and reperfusion, then PGD grading at 0, 24, 48, and 72 hours.
       </title>
-      {nodes.map((n, i) => (
-        <g key={i}>
-          <rect
-            className={`fig-box ${n.accent ? "fig-accent-box" : ""} ${n.goal ? "fig-dashed" : ""}`}
-            x={n.x}
-            y="34"
-            width="86"
-            height="46"
-          />
-          {n.lines.map((t, j) => (
-            <text key={t} className="fig-label fig-label--ink" x={n.x + 43} y={54 + j * 13} textAnchor="middle">
-              {t}
-            </text>
+      <defs>
+        <pattern id="pgd-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="5" className="fig-hatch" />
+        </pattern>
+        <clipPath id="pgd-fluid">
+          <rect x={314 - 60} y="92" width="120" height="60" />
+        </clipPath>
+      </defs>
+
+      {panels.map(({ cx, title, injured }) => (
+        <g key={title}>
+          <text className={`fig-label ${injured ? "fig-label--accent" : "fig-label--ink"}`} x={cx} y="12" textAnchor="middle">
+            {title}
+          </text>
+          {/* capillary with red cells */}
+          <Tube d={`M${cx - 86} ${capY} H${cx + 86}`} w={20} />
+          {(injured ? [-70, -22, 12, 44, 72] : [-62, -30, 6, 40, 70]).map((dx) => (
+            <ellipse key={dx} className="fig-ink" cx={cx + dx} cy={capY} rx="7" ry="3.6" fill="none" />
           ))}
-          {i < nodes.length - 1 && (
-            <path className="fig-ink" d={`M${n.x + 88} 57 H${n.x + 100} M${n.x + 96} 53 L${n.x + 100} 57 L${n.x + 96} 61`} fill="none" />
+          {/* alveolus */}
+          <circle className="fig-box" cx={cx} cy="78" r="52" />
+          {injured && (
+            <>
+              <circle className="fig-neointima" cx={cx} cy="78" r="51" clipPath="url(#pgd-fluid)" />
+              <circle fill="url(#pgd-hatch)" cx={cx} cy="78" r="51" clipPath="url(#pgd-fluid)" />
+              {/* leaky barrier: gaps in the capillary wall, fluid crossing */}
+              {[-28, 8, 34].map((dx) => (
+                <path
+                  key={dx}
+                  className="fig-accent-stroke"
+                  d={`M${cx + dx} ${capY - 12} v-14 m-3 4 l3 -4 l3 4`}
+                  fill="none"
+                />
+              ))}
+              <Neutrophil x={cx - 46} y={capY} />
+              <Neutrophil x={cx - 12} y={capY - 24} />
+              <Neutrophil x={cx + 18} y={112} />
+              {[[-34, 52], [26, 46], [4, 70]].map(([dx, y]) => (
+                <text key={dx} className="fig-label fig-label--accent" x={cx + dx} y={y} textAnchor="middle" style={{ fontSize: "14px" }}>
+                  ✶
+                </text>
+              ))}
+            </>
           )}
         </g>
       ))}
-      <path className="fig-muted" d="M4 96 V102 H188 V96" fill="none" />
-      <text className="fig-label" x="96" y="118" textAnchor="middle">systematic review</text>
-      <text className="fig-label" x="243" y="118" textAnchor="middle">in development</text>
-      <text className="fig-label" x="341" y="118" textAnchor="middle">aim</text>
-      <text className="fig-label" x="4" y="18">evidence → structure → mechanism → decision</text>
+
+      {/* labels, before */}
+      <text className="fig-label" x="100" y="70" textAnchor="middle">alveolus</text>
+      <text className="fig-label" x="100" y="82" textAnchor="middle">(air)</text>
+      <text className="fig-label" x="100" y="178" textAnchor="middle">capillary, red cells</text>
+      <text className="fig-label" x="100" y="190" textAnchor="middle">thin barrier: gas exchange</text>
+      {/* labels, after */}
+      <text className="fig-label fig-label--accent" x="314" y="98" textAnchor="middle">edema fluid</text>
+      <text className="fig-label" x="314" y="178" textAnchor="middle">neutrophils · ✶ reactive O₂</text>
+      <text className="fig-label" x="314" y="190" textAnchor="middle">leaky barrier: poor oxygenation</text>
+      <path className="fig-ink" d="M196 78 H218 M213 73 L218 78 L213 83" fill="none" />
+
+      {/* timeline */}
+      <line className="fig-muted" x1="12" x2="404" y1="230" y2="230" />
+      <circle className="fig-dot" cx="12" cy="230" r="2.5" />
+      <text className="fig-label" x="12" y="248">donor lung</text>
+      <text className="fig-label" x="12" y="259">retrieved</text>
+      <path className="fig-muted" d={`M22 220 H${reperfusionX - 10}`} strokeDasharray="2 3" fill="none" />
+      <text className="fig-label" x={(22 + reperfusionX) / 2 - 6} y="215" textAnchor="middle">cold ischemia</text>
+      <circle className="fig-model" cx={reperfusionX} cy="230" r="4" />
+      <text className="fig-label fig-label--accent" x={reperfusionX} y="248" textAnchor="middle">implant +</text>
+      <text className="fig-label fig-label--accent" x={reperfusionX} y="259" textAnchor="middle">reperfusion</text>
+      {grades.map((g) => (
+        <g key={g.t}>
+          <line className="fig-accent-stroke" x1={g.x} x2={g.x} y1="225" y2="235" />
+          <text className="fig-label fig-label--ink" x={g.x} y="248" textAnchor={g.x > 380 ? "end" : "middle"}>
+            {g.t}
+          </text>
+        </g>
+      ))}
+      <text className="fig-label" x="295" y="215" textAnchor="middle">PGD graded: PaO₂/FiO₂ + imaging</text>
+    </svg>
+  );
+}
+
+/* Kidney transplant: what the simulator reproduces ------------------------ */
+function KidneyTransplant() {
+  const artery = "M236 4 C232 80 222 160 206 236";
+  const vein = "M264 4 C260 80 252 160 238 236";
+  const renalArtery = "M148 92 C178 86 204 92 226 102";
+  const renalVein = "M148 104 C182 116 214 138 248 146";
+  const ureter = "M146 112 C150 178 232 210 292 208";
+  const marks = [
+    { n: 1, x: 196, y: 146, label: "vein to vein" },
+    { n: 2, x: 196, y: 78, label: "artery to artery" },
+    { n: 3, x: 278, y: 190, label: "ureter to bladder" },
+  ];
+  return (
+    <svg viewBox="0 0 420 250" role="img" aria-labelledby="fig-ktx-t">
+      <title id="fig-ktx-t">
+        Illustration of a kidney transplant. The donor kidney sits in the lower abdomen beside the recipient's external
+        iliac artery and vein. Three connections are sewn: the donor renal vein to the external iliac vein, the renal
+        artery to the external iliac artery, and the ureter to the bladder.
+      </title>
+      {/* recipient vessels, with the renal vein passing behind the artery */}
+      <Tube d={vein} w={16} />
+      <Tube d={renalVein} w={8} />
+      <Tube d={artery} w={12} core="var(--surface)" />
+      <Tube d={renalArtery} w={6} core="var(--surface)" />
+
+      {/* donor kidney, hilum toward the vessels */}
+      <path
+        className="fig-wall"
+        d="M108 34 C148 34 162 66 152 84 C146 92 146 104 152 112 C162 128 148 152 108 152 C70 152 60 122 60 93 C60 64 70 34 108 34 Z"
+      />
+      <path className="fig-muted" d="M140 82 C124 86 118 96 122 106 C126 114 136 116 142 112" fill="none" />
+      <path className="fig-muted" d="M118 62 C98 72 92 112 116 128" fill="none" strokeDasharray="2 3" />
+
+      {/* ureter and bladder */}
+      <path className="fig-ink fig-thick" d={ureter} fill="none" />
+      <path className="fig-box" d="M290 214 C290 192 312 186 336 186 C362 186 384 196 384 216 C384 236 360 244 336 244 C310 244 290 236 290 214 Z" />
+
+      {/* the three sewn connections */}
+      {[
+        [226, 102],
+        [248, 146],
+        [292, 208],
+      ].map(([x, y]) => (
+        <g key={x} className="fig-accent-stroke">
+          <circle cx={x} cy={y} r="6.5" fill="none" />
+          <path d={`M${x - 3} ${y - 4} l2 8 M${x + 1} ${y - 4} l2 8`} fill="none" />
+        </g>
+      ))}
+      {marks.map((m) => (
+        <g key={m.n}>
+          <circle className="fig-model" cx={m.x} cy={m.y} r="7" />
+          <text className="fig-label" x={m.x} y={m.y + 3.3} textAnchor="middle" style={{ fill: "var(--surface)", fontWeight: 600 }}>
+            {m.n}
+          </text>
+        </g>
+      ))}
+
+      {/* labels */}
+      <text className="fig-label" x="228" y="14" textAnchor="end">external iliac artery</text>
+      <text className="fig-label" x="274" y="14">external iliac vein</text>
+      <text className="fig-label fig-label--ink" x="106" y="170" textAnchor="middle">donor kidney</text>
+      <text className="fig-label" x="166" y="214" textAnchor="end">ureter</text>
+      <text className="fig-label" x="337" y="219" textAnchor="middle">bladder</text>
+      <text className="fig-label fig-label--accent" x="290" y="64">sewn connections</text>
+      {marks.map((m, i) => (
+        <g key={m.label}>
+          <circle className="fig-model" cx="296" cy={80 + i * 16} r="5" />
+          <text className="fig-label" x="296" y={83 + i * 16} textAnchor="middle" style={{ fill: "var(--surface)", fontSize: "7.5px", fontWeight: 600 }}>
+            {m.n}
+          </text>
+          <text className="fig-label fig-label--ink" x="306" y={83 + i * 16}>{m.label}</text>
+        </g>
+      ))}
     </svg>
   );
 }
@@ -288,8 +447,14 @@ export const FIGURES = {
       "Cross-section of a stented femoral artery (not to scale). The module I added ties the stent's outward force, based on how oversized it is, to stress in the artery wall.",
   },
   pgd: {
-    Svg: PgdWorkflow,
-    caption: "How the project is set up. The systematic review shapes the model, and the goal is to use the model for risk stratification.",
+    Svg: PgdInjury,
+    caption:
+      "Ischemia–reperfusion injury, the central mechanism in the PGD literature (illustration, not to scale). When blood returns to the donor lung, neutrophils and reactive oxygen species damage the barrier between capillary and alveolus, fluid leaks in, and oxygenation falls. PGD is graded over the first 72 hours from PaO₂/FiO₂ and chest imaging. The model aims to link these steps to which patients are at risk.",
+  },
+  "kidney-transplant": {
+    Svg: KidneyTransplant,
+    caption:
+      "The operation behind our kidney transplant simulator (illustration, not to scale). The donor kidney is placed in the lower abdomen, and the surgeon sews three connections: renal vein to external iliac vein, renal artery to external iliac artery, and ureter to bladder.",
   },
   sigmoid: {
     Svg: SigmoidResponse,
