@@ -248,6 +248,120 @@ function PgdInjury() {
   );
 }
 
+/* Infant caudal block: the scored placement and the session --------------- */
+function CaudalBlock() {
+  // Side view, infant lying on their side: head to the left, back up.
+  const tip = [262, 122];
+  const target = [240, 117];
+  const hub = [402, 22];
+  const session = [
+    { w: 66, t: ["5 scored", "aids off"], scored: true },
+    { w: 58, t: ["feedback"] },
+    { w: 100, t: ["20 min practice", "aids on"], practice: true },
+    { w: 66, t: ["5 scored", "aids off"], scored: true },
+    { w: 52, t: ["surveys"] },
+  ];
+  let x = 12;
+  const boxes = session.map((s) => {
+    const b = { ...s, x };
+    x += s.w + 14;
+    return b;
+  });
+  const by = 250;
+  return (
+    <svg viewBox="0 0 420 312" role="img" aria-labelledby="fig-caudal-t">
+      <title id="fig-caudal-t">
+        Side view of an infant's lower spine. An ultrasound probe rests on the skin over the sacral hiatus, and a needle
+        enters from behind and below, passes the sacrococcygeal ligament, and ends in the caudal epidural space, short of
+        the dural sac. The distance d from the needle tip to an expert-defined target point is the study's primary
+        outcome. Below, the proposed session: five scored placements with aids off, feedback, 20 minutes of practice
+        with aids on, five more scored placements with aids off, then surveys.
+      </title>
+
+      {/* skin */}
+      <path className="fig-ink" d="M8 40 C140 36 260 40 412 64" fill="none" />
+      {/* bone: laminae (back wall of the canal), then the sacral bodies and coccyx */}
+      <path className="fig-wall" d="M8 70 C120 68 200 72 262 90 L258 100 C200 82 120 80 8 82 Z" />
+      <path
+        className="fig-wall"
+        d="M8 128 C120 126 220 130 300 146 C326 151 348 158 374 168 C350 176 320 175 300 173 C230 168 120 164 8 164 Z"
+      />
+      {[64, 128, 192, 250].map((sx, i) => (
+        <line key={sx} className="fig-muted" x1={sx} x2={sx + 3} y1={127 + i * 2} y2={163 + i * 2} />
+      ))}
+      {/* dural sac, ending partway down the canal */}
+      <path
+        className="fig-muted"
+        d="M8 90 C100 89 160 90 186 94 C200 97 200 113 186 116 C160 119 100 120 8 120"
+        fill="none"
+        strokeDasharray="3 3"
+      />
+      {/* sacrococcygeal ligament closing the hiatus */}
+      <path className="fig-ink fig-thick" d="M262 95 C282 112 300 132 318 150" fill="none" strokeDasharray="2 2.5" />
+
+      {/* ultrasound probe and beam */}
+      <path className="fig-muted" d="M306 52 L262 168 M330 52 L370 168" fill="none" strokeDasharray="2 3" />
+      <rect className="fig-box" x="302" y="32" width="32" height="18" rx="3" transform="rotate(6 318 41)" />
+      <path className="fig-muted" d="M318 32 C318 18 308 12 298 12" fill="none" />
+
+      {/* needle: hub outside, tip in the caudal space */}
+      <line className="fig-ink fig-thick" x1={hub[0]} y1={hub[1]} x2={tip[0]} y2={tip[1]} />
+      <rect className="fig-box" x={hub[0] - 5} y={hub[1] - 14} width="10" height="16" transform={`rotate(54 ${hub[0]} ${hub[1]})`} />
+
+      {/* target and the measured distance */}
+      <g className="fig-accent-stroke">
+        <circle cx={target[0]} cy={target[1]} r="4.5" fill="none" />
+        <path d={`M${target[0] - 8} ${target[1]} h16 M${target[0]} ${target[1] - 8} v16`} fill="none" />
+        <path d={`M${target[0] + 5} ${target[1] + 1} L${tip[0] - 3} ${tip[1] - 0.7}`} fill="none" />
+      </g>
+      <circle className="fig-model" cx={tip[0]} cy={tip[1]} r="3" />
+
+      {/* labels */}
+      <text className="fig-label" x="12" y="32">skin</text>
+      <text className="fig-label" x="12" y="62">← head</text>
+      <text className="fig-label" x="96" y="108" textAnchor="middle">dural sac</text>
+      <text className="fig-label" x="292" y="15" textAnchor="end">ultrasound probe</text>
+      <text className="fig-label" x="330" y="88">needle</text>
+      <text className="fig-label fig-label--accent" x="231" y="109" textAnchor="end">target</text>
+      <text className="fig-label fig-label--accent" x="250" y="134" textAnchor="middle">d</text>
+      <path className="fig-muted" d="M302 136 L322 124 H326" fill="none" />
+      <text className="fig-label" x="330" y="122">sacrococcygeal</text>
+      <text className="fig-label" x="330" y="133">ligament</text>
+      <path className="fig-muted" d="M208 124 L182 192 H178" fill="none" />
+      <text className="fig-label" x="174" y="195" textAnchor="end">caudal epidural space</text>
+      <path className="fig-muted" d="M300 170 L318 192 H322" fill="none" />
+      <text className="fig-label fig-label--ink" x="326" y="195">sacrum</text>
+      <text className="fig-label fig-label--accent" x="12" y="220">primary outcome: d, needle tip to target (mm)</text>
+
+      {/* proposed session */}
+      <line className="fig-muted" x1="12" x2="408" y1="230" y2="230" />
+      <text className="fig-label fig-label--ink" x="12" y="244">one session, about 55 min (proposed)</text>
+      {boxes.map((b, i) => (
+        <g key={i}>
+          <rect className={`fig-box ${b.practice ? "fig-accent-box" : ""}`} x={b.x} y={by} width={b.w} height="38" />
+          {b.t.map((line, j) => (
+            <text
+              key={line}
+              className={`fig-label ${j === 0 ? "fig-label--ink" : ""}`}
+              x={b.x + b.w / 2}
+              y={b.t.length > 1 ? by + 16 + j * 12 : by + 22}
+              textAnchor="middle"
+            >
+              {line}
+            </text>
+          ))}
+          {b.scored && <circle className="fig-model" cx={b.x + b.w / 2} cy={by + 50} r="2.5" />}
+          {i < boxes.length - 1 && (
+            <path className="fig-ink" d={`M${b.x + b.w + 3} ${by + 19} h8 m-3 -3 l3 3 l-3 3`} fill="none" />
+          )}
+        </g>
+      ))}
+      <circle className="fig-model" cx="150" cy={by + 50} r="2.5" />
+      <text className="fig-label" x="157" y={by + 53}>= d measured</text>
+    </svg>
+  );
+}
+
 /* Kidney transplant: what the simulator reproduces ------------------------ */
 function KidneyTransplant() {
   const artery = "M236 4 C232 80 222 160 206 236";
@@ -451,10 +565,15 @@ export const FIGURES = {
     caption:
       "Ischemia–reperfusion injury, the central mechanism in the PGD literature (illustration, not to scale). When blood returns to the donor lung, neutrophils and reactive oxygen species damage the barrier between capillary and alveolus, fluid leaks in, and oxygenation falls. PGD is graded over the first 72 hours from PaO₂/FiO₂ and chest imaging. The model aims to link these steps to which patients are at risk.",
   },
+  "caudal-block": {
+    Svg: CaudalBlock,
+    caption:
+      "What each scored placement measures (illustration, not to scale). Under ultrasound, the needle passes the sacrococcygeal ligament into the caudal epidural space, short of the dural sac. When the participant says it's placed, the simulator records d, the distance from the needle tip to a target point defined by pediatric anesthesiologists. Below, the proposed session.",
+  },
   "kidney-transplant": {
     Svg: KidneyTransplant,
     caption:
-      "The operation behind our kidney transplant simulator (illustration, not to scale). The donor kidney is placed in the lower abdomen, and the surgeon sews three connections: renal vein to external iliac vein, renal artery to external iliac artery, and ureter to bladder.",
+      "The operation behind the team's earlier kidney transplant box trainer (illustration, not to scale). The donor kidney is placed in the lower abdomen, and the surgeon sews three connections: renal vein to external iliac vein, renal artery to external iliac artery, and ureter to bladder.",
   },
   sigmoid: {
     Svg: SigmoidResponse,

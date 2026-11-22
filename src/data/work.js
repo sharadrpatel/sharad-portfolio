@@ -197,41 +197,78 @@ export const RESEARCH = [
     tools: ["Mechanistic modeling", "Systematic review"],
     figure: "pgd",
   },
+  // Sources: public/CV.pdf and the publications list; the caudal block study handoff (Nov 2026) for the
+  // study design, planning simulations, and status. The study has no participants yet, so nothing here
+  // is a result from the study itself, and the mock-paper numbers are never used.
   {
-    slug: "surgical-simulation",
+    slug: "caudal-block-simulator",
     index: "R.04",
     tier: "featured",
-    caseStudy: false,
-    title: "Surgical simulation for transplant and pediatric procedures",
-    area: ["Surgical education", "Clinical research"],
+    caseStudy: true,
+    title: "Does a mixed-reality simulator improve infant caudal blocks?",
+    area: ["Simulation-based training", "Clinical study design"],
     lab: "Dream Team Engineering",
     org: "University of Florida",
     period: "Jan 2024 – Present",
-    role: "Surgical Research Team Captain",
+    role: "Surgical Research Team Captain · lead of the caudal block efficacy study",
     question:
-      "Can realistic simulators help surgical trainees learn procedures like kidney transplantation and infant caudal blocks, and how do we measure it?",
+      "After a short training session on our mixed-reality infant caudal block simulator, do anesthesiology residents place the needle closer to the target?",
     summary:
-      "I captain the surgical research team. I write IRB applications, study protocols, and statistical analysis plans, and design skills assessments for surgical residents. We work with transplant surgeons to build simulation models for kidney and liver transplants and infant IV placement, and we've published and presented results from our surveys and experiments.",
+      "I captain Dream Team Engineering's surgical research team, and my main project is an efficacy study of our mixed-reality infant caudal block simulator. I own the design, the sessions, the analysis, and the writing. The study is fully designed and was presented as a poster at BMES 2026; it hasn't enrolled anyone yet. Before this, the team's main simulator project was a 3D box-model trainer for kidney transplantation.",
+    problem:
+      "A caudal block is an ultrasound-guided injection into the caudal epidural space at the base of the spine, used for pain control in infants. The needle has to pass the sacrococcygeal ligament and stop in the right place, short of the dural sac. Trainees get limited chances to practice on real infants, and a simulator is only worth adopting if training on it measurably improves placement. This study is built to measure that.",
     approach: [
       {
-        label: "Simulators",
-        text: "With transplant surgeons, we build realistic simulators: 3D box-model trainers for kidney transplantation, a liver transplant model, infant IV placement, and a mixed-reality infant caudal epidural block.",
+        label: "Design",
+        text: "A single-center pretest–posttest study with an attending comparison group, modeled on CSSALT's prostate biopsy simulator study (Lampotang et al., 2024). Participants are anesthesiology residents and attending anesthesiologists, all unpaid volunteers. A few of the proposed design choices are still being confirmed before IRB submission.",
       },
       {
-        label: "Study design",
-        text: "I write the IRB applications, study protocols, and statistical analysis plans, including a controlled study of the kidney transplant box trainers.",
+        label: "Session",
+        text: "About 55 minutes: five scored, ultrasound-guided placements with the training aids off, feedback, 20 minutes of practice with the aids on, five more scored placements with the aids off, then surveys.",
       },
       {
-        label: "Assessment",
-        text: "We design and run skills assessments for surgical residents to measure what the simulators teach.",
+        label: "Outcomes",
+        text: "The primary outcome is the distance in millimeters from the needle tip to an expert-defined target at the moment the participant says the needle is placed. Secondary outcomes include successful placement, skin punctures, time, needle path length, angle error, confidence before and after (1 to 10), and a 31-item questionnaire adapted from MiSSES.",
       },
       {
-        label: "Sharing results",
-        text: "Two posters at the 2026 BMES Annual Meeting (the caudal block simulator, where I'm first author, and the kidney transplant simulator protocol), and a 2025 talk on the box trainers at Surgeons and Engineers: A Dialogue on Surgical Simulation.",
+        label: "Analysis",
+        text: "The participant is the unit: log deviations are averaged within each person and set, compared before and after with a paired t-test, and residents are compared with attendings by Welch's t-test. There's no control arm, so the paper can claim improvement after training on the simulator, not that the aids caused it.",
+      },
+      {
+        label: "Planning simulations",
+        text: "Before collecting any data, I stress-tested the methods by simulation in Python. That set the sample size and showed why the analysis has to work per participant rather than per placement. The effect size and variance are borrowed from the prostate biopsy study until a 3–5 person pilot replaces them.",
+      },
+      {
+        label: "Kidney transplant trainer",
+        text: "The team's earlier main project, built with transplant surgeons: a 3D box-model trainer for kidney transplantation. I co-authored a 2025 presentation of its controlled study and the 2026 BMES study-protocol poster. The team has also built liver transplant and infant IV placement simulators.",
       },
     ],
-    tools: ["IRB protocols", "Study design", "Statistical analysis plans", "3D printing"],
-    figure: "kidney-transplant",
+    contributions: [
+      "Own the caudal block study: design, session plan, analysis, and writing",
+      "Planning simulations and the Python analysis pipeline",
+      "Methods, manuscript draft, and the BMES 2026 poster (first author)",
+      "IRB applications, protocols, and statistical analysis plans across the team's studies",
+    ],
+    outcomes: [
+      {
+        value: "11–24%",
+        label: "Why the person is the unit",
+        text: "In the planning simulations, tests that treated each placement as independent gave false positives 11–24% of the time instead of the expected 5%.",
+      },
+      {
+        value: "85%",
+        label: "Planned power",
+        text: "34 residents (30 completing) and 10 attendings give 85% power to detect a 25% reduction in deviation, using borrowed variance. The pilot will recheck it.",
+      },
+      {
+        label: "What comes next",
+        text: "A locked test mode and a per-placement data export from the simulator team at UF's CSSALT, a target point defined by pediatric anesthesiologists, a pilot, then IRB submission and recruitment.",
+      },
+    ],
+    status: "Designed, no participants yet. Waiting on the simulator's test mode and data export before the pilot and IRB submission.",
+    tools: ["Study design", "Power analysis", "Monte Carlo simulation", "Python", "IRB protocols", "Statistical analysis plans"],
+    figure: "caudal-block",
+    secondaryFigure: "kidney-transplant",
   },
   {
     slug: "parkinsons-immunotherapy",
