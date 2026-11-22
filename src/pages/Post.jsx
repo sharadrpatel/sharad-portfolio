@@ -3,6 +3,8 @@ import { marked } from "marked";
 import { formatPostDate } from "../lib/posts.js";
 import { Link } from "../lib/router.jsx";
 import { Arrow, Tags, TextLink } from "../components/ui.jsx";
+import { BLOG, issueNo } from "../data/blog.js";
+import CrossSectionsMark from "../components/CrossSectionsMark.jsx";
 
 export default function Post({ post }) {
   // Posts are Markdown files from this repository, so their HTML is trusted.
@@ -12,9 +14,12 @@ export default function Post({ post }) {
       <header className="post__header">
         <div className="wrap post__wrap">
           <nav aria-label="Breadcrumb" className="breadcrumb">
-            <Link to="/blog">
-              <Arrow dir="left" /> Blog
+            <Link to="/blog" className="post__journal">
+              <CrossSectionsMark />
+              {BLOG.name}
             </Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{issueNo(post.no)}</span>
           </nav>
           <h1 id="post-title" className="post__title">
             {post.title}
@@ -31,7 +36,7 @@ export default function Post({ post }) {
         {post.tags.length > 0 && <Tags items={post.tags} label="Topics" />}
         <nav className="post__foot" aria-label="More writing">
           <TextLink to="/blog" icon="left">
-            All posts
+            All issues of {BLOG.name}
           </TextLink>
         </nav>
       </div>

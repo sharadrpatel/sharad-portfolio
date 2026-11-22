@@ -6,7 +6,7 @@ import { useParallax } from "../lib/motion.js";
 import { useScrub } from "../lib/scroll.js";
 
 const LEDE =
-  "I'm a biomedical engineering student at the University of Florida. Most of my research is computational. I like taking a question about how the body works, turning it into a model, and seeing how well it holds up against real data.";
+  "I'm a biomedical engineering student at the University of Florida, and most of my research is computational. What I like most is turning a question about how the body works into a model and then finding out whether real data agrees with it.";
 
 export default function About() {
   const drift = useParallax(0.05);
@@ -37,10 +37,11 @@ export default function About() {
             <ScrollWords className="about__lede" text={LEDE} />
             <div className="about__body read">
               <p>
-                Outside the lab, I work as a CNA on a medical–surgical unit, lead surgical simulation research with
-                transplant surgeons, and TA a physiology lab. I rewrote that lab's curriculum over the summer and fall.
+                Outside the lab, I work as a CNA on a medical-surgical unit and TA a human physiology lab. I rewrote
+                that lab's curriculum this summer and fall. I also captain Dream Team Engineering's surgical research
+                team, where I'm running a study on an infant caudal block simulator.
               </p>
-              <p>Long term, I want a career that combines clinical medicine with computational research.</p>
+              <p>Long term, I'd like a career that mixes clinical medicine with computational research.</p>
             </div>
 
             <dl className="about__lists">
@@ -71,7 +72,7 @@ export default function About() {
         <Reveal as="section" className="toolkit has-st" aria-labelledby="toolkit-title">
           <div className="toolkit__head">
             <h3 id="toolkit-title" className="h3">Toolkit</h3>
-            <p className="toolkit__note">Software, methods, and certifications I use in the work above.</p>
+            <p className="toolkit__note">What I use for the work above.</p>
           </div>
           <dl className="toolkit__grid">
             {TOOLKIT.map((g, i) => (

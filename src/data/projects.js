@@ -22,7 +22,7 @@ export const PROJECTS = [
     method:
       "I analyzed several years of application data to look at trends, what predicted acceptance, and sources of reviewer bias, including how much the order of review affected final outcomes.",
     outcome:
-      "Built scoring dashboards and recommended changes: a blinded first round, more balanced reviewer assignments, and calibration sessions for reviewers.",
+      "Built scoring dashboards and suggested a few changes, like a blinded first round, more balanced reviewer assignments, and reviewer calibration sessions.",
     tools: ["Python", "pandas", "Seaborn"],
   },
   {
@@ -31,7 +31,7 @@ export const PROJECTS = [
     context: "Web app",
     domain: "Software",
     problem: "Build a working copy of the NYT Connections puzzle, front end and back end.",
-    method: "Recreated the main gameplay: animated tiles, color-coded category reveals, and guess tracking.",
+    method: "Recreated the main gameplay, with animated tiles, color-coded category reveals, and guess tracking.",
     outcome: "Added a global leaderboard that saves scores across sessions so people can compete.",
     tools: ["JavaScript", "HTML", "CSS"],
     link: { label: "Code on GitHub", href: "https://github.com/sharadrpatel/BKST_NYC" },

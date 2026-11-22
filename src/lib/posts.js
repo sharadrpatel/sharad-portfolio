@@ -53,10 +53,12 @@ function toPost(path, raw) {
 
 const showDrafts = import.meta.env.DEV;
 
+// Newest first. Each post also gets its number, counted from the first one published.
 export const POSTS = Object.entries(files)
   .map(([path, raw]) => toPost(path, raw))
   .filter((p) => showDrafts || !p.draft)
-  .sort((a, b) => b.date.localeCompare(a.date));
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .map((p, i, all) => ({ ...p, no: all.length - i }));
 
 export function findPost(slug) {
   return POSTS.find((p) => p.slug === slug);

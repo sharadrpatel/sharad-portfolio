@@ -3,10 +3,11 @@
 // route at build time, so link previews and search results get the right
 // title and description without running JavaScript.
 import { PROFILE } from "../data/profile.js";
+import { BLOG } from "../data/blog.js";
 import { CASE_STUDIES } from "../data/work.js";
 
 export const SITE_URL = "https://www.sharadrpatel.com";
-export const SITE_TITLE = `${PROFILE.name} — Biomedical Engineering`;
+export const SITE_TITLE = `${PROFILE.name} · Biomedical Engineering`;
 export const SITE_DESCRIPTION =
   "Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics.";
 
@@ -31,15 +32,15 @@ export function caseMeta(work) {
 export function blogMeta() {
   return {
     path: "/blog",
-    title: `Blog · ${PROFILE.name}`,
-    description: `Notes from ${PROFILE.name} on research, projects, and things learned along the way.`,
+    title: `${BLOG.name} · ${PROFILE.name}`,
+    description: BLOG.description,
   };
 }
 
 export function postMeta(post) {
   return {
     path: `/blog/${post.slug}`,
-    title: `${post.title} · ${PROFILE.name}`,
+    title: `${post.title} · ${BLOG.name}`,
     description: clip(post.summary || SITE_DESCRIPTION),
   };
 }

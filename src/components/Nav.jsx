@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "../lib/router.jsx";
 import { PROFILE } from "../data/profile.js";
+import { BLOG } from "../data/blog.js";
 import { Arrow } from "./ui.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
 import { holdScroll, releaseScroll } from "../lib/scrolling.js";
@@ -12,7 +13,7 @@ export const NAV = [
   { id: "experience", label: "Experience" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
-  { id: "blog", label: "Blog", to: "/blog" },
+  { id: "blog", label: BLOG.name, to: "/blog" },
 ];
 
 // Tracks which homepage section sits under the reading line.

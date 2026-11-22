@@ -67,6 +67,10 @@ scripts/       Build step that writes per-route HTML and the sitemap
 
 ## Writing a blog post
 
+The blog is called **Cross Sections**. Its name, volume, and tagline live in `src/data/blog.js`, and
+its mark is `src/components/CrossSectionsMark.jsx`. Posts are numbered as issues (No. 01, No. 02, …) in
+the order they were published. The address stays `/blog`.
+
 Posts are Markdown files in `src/posts/`. The file name becomes the address:
 `src/posts/my-first-post.md` is published at `/blog/my-first-post`.
 
@@ -82,7 +86,7 @@ Vercel rebuilds the site automatically.
 Coming from a rich-text document: Google Docs can export Markdown directly
 (**File → Download → Markdown (.md)**). Then add the header block at the top.
 
-The blog page shows "Work in progress" until the first published post exists.
+The blog page shows "No. 01 · In preparation" until the first published post exists.
 
 ## Deployment
 
