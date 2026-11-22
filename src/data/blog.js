@@ -4,9 +4,9 @@ export const BLOG = {
   volume: "Vol. 1",
   established: "2026",
   tagline:
-    "Notes on research and engineering, taken one slice at a time: what I'm building, what I'm testing, and what I'm learning along the way.",
+    "I write here about the research and engineering projects I'm working on, and what I learn from them as I go.",
   description:
-    "Cross Sections, a journal by Sharad Patel: notes on research and engineering, taken one slice at a time.",
+    "Cross Sections is Sharad Patel's blog about research and engineering projects.",
 };
 
 // Posts are numbered in the order they were published: the first is No. 01.

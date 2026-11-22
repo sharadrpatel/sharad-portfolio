@@ -167,7 +167,7 @@ export default function Research() {
           id="research-title"
           aside={`${RESEARCH.length} projects in ${labs} groups`}
           title="Research"
-          dek="Most of it is computational: muscles in the arthritic thumb, how plasticity and dispersal evolve, and lung injury after transplant. Each entry gives the question, what I did, and where it stands."
+          dek="Most of my research is computational. Right now that means thumb muscles in people with arthritis, how plasticity and dispersal evolve, and lung injury after transplant. I'm also running a study on a simulator for infant caudal blocks."
         />
 
         <div className="research__layout">

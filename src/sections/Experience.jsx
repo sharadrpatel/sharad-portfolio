@@ -58,7 +58,7 @@ export default function Experience() {
           id="experience-title"
           aside="Research roles are listed under Research"
           title="Experience"
-          dek="What I do outside of research: patient care on a hospital unit, teaching four courses, and community work."
+          dek="Outside of research, I work as a CNA at a hospital, help teach college courses, and do community service."
         />
 
         <FilterBar label="Filter experience by type" options={FILTERS} value={filter} onChange={setFilter} />

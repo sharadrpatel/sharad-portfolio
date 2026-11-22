@@ -6,7 +6,7 @@ export default function NotFound() {
       <div className="wrap">
         <p className="not-found__code">Error 404</p>
         <h1 id="nf-title" className="h2">This page doesn't exist.</h1>
-        <p className="dek">The link may be out of date. Everything on the site starts from the homepage.</p>
+        <p className="dek">The link might be out of date. Try starting from the homepage.</p>
         <Button to="/">Back to the homepage</Button>
       </div>
     </section>

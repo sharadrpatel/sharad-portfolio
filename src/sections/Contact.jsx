@@ -60,7 +60,7 @@ export default function Contact() {
           id="contact-title"
           aside={PROFILE.location}
           title="Contact"
-          dek="Email is the best way to reach me, about research, projects, or anything on this page."
+          dek="Email is the best way to reach me."
           night
         />
         <div className="contact__grid">

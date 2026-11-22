@@ -524,7 +524,7 @@ export const FIGURES = {
   "double-well": {
     Svg: DoubleWell,
     caption:
-      "Illustration of the pitchfork the demo starts with: the scaled potential V(x) = ½αx² + ¼x⁴ as the magnets move closer. Once α turns negative, the single rest position (filled dot) splits into two stable ones with an unstable one (open dot) between them.",
+      "The pitchfork the demo starts with, shown with the scaled potential V(x) = ½αx² + ¼x⁴ as the magnets move closer. Once α turns negative, the single rest position (filled dot) splits into two stable ones with an unstable one (open dot) between them.",
   },
   hill: {
     Svg: HillModel,
@@ -535,13 +535,13 @@ export const FIGURES = {
     img: { src: "/images/isr-sizing-map.webp", width: 1107, height: 704 },
     alt: "Heatmap of extra neointimal area at 6 months against oversizing ratio from 1.0 to 1.9 and stent outward-force stiffness from 40 to 320 kPa. A white safe zone at the lower left has no stimulus. A solid curve marks where the stimulus starts at 120/80 mmHg and a dashed curve, further left, where it starts at 160/100. The Li control pigs sit near the solid curve and the oversized pigs well inside the blue region. A dotted line marks the 1.4 guideline.",
     caption:
-      "Where oversizing becomes risky: extra neointimal area at 6 months compared with a well-sized stent, across oversizing and stent force stiffness. The solid line is where the push signal switches on at 120/80 mmHg; the dashed line is 160/100. Model output, healthy pig artery. From our design review.",
+      "Extra neointimal area at 6 months compared with a well-sized stent, across oversizing and stent force stiffness. The solid line is where the push signal switches on at 120/80 mmHg, and the dashed line is the same at 160/100. Model output, healthy pig artery. From our design review.",
   },
   "isr-blind-test": {
     img: { src: "/images/isr-blind-test.webp", width: 1165, height: 451 },
     alt: "Dot plot of area stenosis in oversized pig stents at 4 weeks. Measured: 64%, with a gray 95% confidence band from 53 to 76%. Final 1D model: 69%, with a wide Monte Carlo interval. Final 2D strut-level model: 87%. Milestone 2 model: 73%. Unchanged Escuer model: 40%.",
     caption:
-      "The blind test: area stenosis of stents oversized 1.63× in pigs at 4 weeks. The gray band is the 95% confidence interval of the measured mean (n = 11). The growth gain was fit to the control pigs only, so the oversized group was never used for fitting. From our design review.",
+      "Blind test of area stenosis in pig stents oversized 1.63×, at 4 weeks. The gray band is the 95% confidence interval of the measured mean (n = 11). The growth gain was fit to the control pigs only, so the oversized group was never used for fitting. From our design review.",
   },
   "isr-neointima": {
     img: { src: "/images/isr-neointima.webp", width: 1086, height: 557 },
@@ -573,12 +573,12 @@ export const FIGURES = {
   "kidney-transplant": {
     Svg: KidneyTransplant,
     caption:
-      "The operation behind the team's earlier kidney transplant box trainer (illustration, not to scale). The donor kidney is placed in the lower abdomen, and the surgeon sews three connections: renal vein to external iliac vein, renal artery to external iliac artery, and ureter to bladder.",
+      "The operation behind the team's earlier kidney transplant box trainer (illustration, not to scale). The donor kidney goes in the lower abdomen, and the surgeon sews the renal vein to the external iliac vein, the renal artery to the external iliac artery, and the ureter to the bladder.",
   },
   sigmoid: {
     Svg: SigmoidResponse,
     caption:
-      "A sigmoidal reaction norm (illustration). In the original model its shape is fixed. I made two parts of it evolvable: where it switches (E0) and how wide a range of phenotypes it covers (Dc).",
+      "A sigmoidal reaction norm (illustration). In the original model its shape is fixed. I made two parts of it evolvable, where it switches (E0) and how wide a range of phenotypes it covers (Dc).",
   },
   // Raster figures: a photo, or plots taken directly from a written report.
   "scudem-team": {
@@ -590,37 +590,37 @@ export const FIGURES = {
   "shot-dna-explorer": {
     img: { src: "/images/shot-dna-explorer.jpg", width: 1400, height: 1290 },
     alt: "The Shot DNA explorer showing Stephen Curry's 2025–26 season: a hexagon shot map of the half court and a table of his share of shots by zone compared with the league.",
-    caption: "The explorer, showing Stephen Curry's 2025–26 season: where he shoots, how his makes compare with an average shooter, and his share of shots by zone.",
+    caption: "The explorer on Stephen Curry's 2025–26 season, showing where he shoots, how his makes compare with an average shooter, and his share of shots by zone.",
   },
   "celllab-fluorescence": {
     img: { src: "/images/celllab-fluorescence.jpg", width: 1400, height: 710 },
     alt: "Six fluorescence microscope images of fibroblasts in a grid. Collagen replicate B shows dense, even cell coverage with very few red dead cells. The uncoated control's first well has only a few scattered cells.",
     caption:
-      "Live/dead imaging, merged DAPI (nuclei), GFP (live), and RFP (dead) channels. Our collagen-coated replicate (B) had dense, even coverage with very few dead cells; the uncoated control's first well had low confluency. Scale bars are 1000 µm.",
+      "Live/dead imaging, merged DAPI (nuclei), GFP (live), and RFP (dead) channels. Our collagen-coated replicate (B) had dense, even coverage with very few dead cells, while the uncoated control's first well had low confluency. Scale bars are 1000 µm.",
   },
   "celllab-wound-healing": {
     img: { src: "/images/celllab-wound-healing.jpg", width: 1400, height: 625 },
     alt: "Table of brightfield images of scratch wounds from Wednesday morning to Friday morning for Lab A, Lab B, and the control, with red lines marking the wound edges and closure rates of 0.49, 2.51, and 1.25 percent per hour.",
     caption:
-      "Scratch wound-healing assay over 48 hours, with red lines marking the wound edges. Lab B is our group's collagen-coated replicate (2.51%/hr); Lab A is a parallel collagen replicate (0.49%/hr); the uncoated control closed at 1.25%/hr.",
+      "Scratch wound-healing assay over 48 hours, with red lines marking the wound edges. Lab B is our group's collagen-coated replicate (2.51%/hr), Lab A is a parallel collagen replicate (0.49%/hr), and the uncoated control closed at 1.25%/hr.",
   },
   "scudem-kl": {
     img: { src: "/images/scudem-kl-drift.webp", width: 1000, height: 749 },
     alt: "Line plot of KL divergence from the human data over 40 generations for one, three, and five models. One model levels off near 0.28, three near 0.17, and five near 0.15.",
     caption:
-      "Model 1: drift from the human data (KL divergence) over 40 generations with 90% AI-generated training data, for one, three, and five models. More models, less drift. From our report.",
+      "Model 1. Drift from the human data (KL divergence) over 40 generations with 90% AI-generated training data, for one, three, and five models. Drift goes down as models are added. From our report.",
   },
   "scudem-task-space": {
     img: { src: "/images/scudem-task-space.webp", width: 1400, height: 678 },
     alt: "Two plots of task probability. At generation 0 the distribution is a smooth bell curve centered at task 30. At generation 100 it has three sharp spikes at tasks 20, 35, and 41.",
     caption:
-      "Model 2: the task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. The distribution collapses into spikes at those tasks. From our report.",
+      "Model 2. The task space at generation 0 and after 100 generations, with three models trained on tasks 20, 35, and 41. The distribution collapses into spikes at those tasks. From our report.",
   },
   "mcm-sensitivity": {
     img: { src: "/images/mcm-sensitivity.webp", width: 1261, height: 1070 },
     alt: "Bar chart of linear and rank correlation between each of 22 model parameters and the final state of charge. The largest bars are negative for network and processor draw terms and positive for battery capacity; thermal parameters are near zero.",
     caption:
-      "Global sensitivity analysis: linear and rank correlation of each parameter with the state of charge after 16 hours, from 10⁴ Monte Carlo samples. Negative bars mean faster drain. From our paper.",
+      "Global sensitivity analysis, showing the linear and rank correlation of each parameter with the state of charge after 16 hours, from 10⁴ Monte Carlo samples. Negative bars mean faster drain. From our paper.",
   },
   "mcm-soc": {
     img: { src: "/images/mcm-soc.webp", width: 1261, height: 1360 },
@@ -638,7 +638,7 @@ export const FIGURES = {
     img: { src: "/images/seatrout-validation.webp", width: 889, height: 470 },
     alt: "Line chart comparing the assessment's spawning stock biomass, in metric tons, with the scaled model biomass from 2000 to 2023. Both trend down from about 5,000 tons with similar ups and downs.",
     caption:
-      "External check: model biomass, scaled once, against the assessment's spawning stock biomass, which the model was not fit to. Typical relative error was about 10%. From our presentation.",
+      "Model biomass, scaled once, against the assessment's spawning stock biomass, which we didn't fit to. Typical relative error was about 10%. From our presentation.",
   },
   "canopy-forest": {
     img: { src: "/images/canopy-forest.webp", width: 1100, height: 1095 },
@@ -650,7 +650,7 @@ export const FIGURES = {
     img: { src: "/images/canopy-talking.webp", width: 1400, height: 751 },
     alt: "Bar chart of pair intake compared with a silent pair. Talking adds 3.1% in the dry season and 3.6% in the wet; rich talk adds 3.2% and 4.4%; an oracle that knows every tree adds 39.6% and 21.2%.",
     caption:
-      "What talking is worth, as the change in pair intake against a silent pair in the same forest. Calls help a little; knowing every tree would help far more. Bars are means over 20 simulated forests with 95% intervals. From our slides.",
+      "What talking is worth, as the change in pair intake against a silent pair in the same forest. Calls help a little, and knowing every tree would help a lot more. Bars are means over 20 simulated forests with 95% intervals. From our slides.",
   },
   "canopy-spacing-noise": {
     img: { src: "/images/canopy-spacing-noise.webp", width: 1400, height: 907 },
@@ -662,7 +662,7 @@ export const FIGURES = {
     img: { src: "/images/canopy-meanfield.webp", width: 1100, height: 954 },
     alt: "Scatter plot of the simulated feeding share against the three-ODE prediction for 320 runs with different detail and noise settings. The points fall tightly along the diagonal from 0.34 to 0.51.",
     caption:
-      "The check: the feeding share predicted by the three mean-field ODEs against the share in the full simulation, for 320 runs. Points on the dashed line mean the two agree; the mean error was 0.004. From our slides.",
+      "The feeding share predicted by the three mean-field ODEs against the share in the full simulation, for 320 runs. Points on the dashed line mean the two agree, and the mean error was 0.004. From our slides.",
   },
   "crutch-assembly": {
     img: { src: "/images/crutch-assembly.webp", width: 1200, height: 1424 },
@@ -678,7 +678,7 @@ export const FIGURES = {
     img: { src: "/images/biceps-concepts.webp", width: 1670, height: 941 },
     alt: "Three illustrations of the proximal radius with a torn biceps tendon brought in from the left. Concept 1 holds the tendon with two buttons inside the near cortex. Concept 2, the selected one, seats the tendon in a tunnel with an interference screw and ties it to a button on the far cortex, drilled with a clutch drill that stops turning at breakthrough. Concept 3 uses two buttons outside the far cortex, also drilled with the clutch.",
     caption:
-      "The three concepts we compared: dual unicortical buttons, a bicortical button with an interference screw, and dual bicortical buttons. Concepts 2 and 3 use a clutch drill bit that stops turning when it breaks through the far cortex. Concept illustrations from our final presentation, not to scale.",
+      "We compared dual unicortical buttons, a bicortical button with an interference screw, and dual bicortical buttons. Concepts 2 and 3 use a clutch drill bit that stops turning when it breaks through the far cortex. Concept illustrations from our final presentation, not to scale.",
   },
   "biceps-prototype": {
     img: { src: "/images/biceps-prototype.webp", width: 1400, height: 1050 },

@@ -284,7 +284,7 @@ export default function Projects() {
           id="projects-title"
           aside={`${ALL.length} projects, ${caseStudies} with full case studies`}
           title="Projects"
-          dek="Senior design, wet lab work, modeling competitions, a teaching demo, and a few things I built on my own. Open a row for the short version; most link on to a full write-up."
+          dek="Senior design, a wet lab study, modeling competitions, a teaching demo, and some things I built on my own. Click a row for a quick summary. Most of them also link to a longer write-up."
         />
       </div>
 

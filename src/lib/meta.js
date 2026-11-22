@@ -7,7 +7,7 @@ import { BLOG } from "../data/blog.js";
 import { CASE_STUDIES } from "../data/work.js";
 
 export const SITE_URL = "https://www.sharadrpatel.com";
-export const SITE_TITLE = `${PROFILE.name} — Biomedical Engineering`;
+export const SITE_TITLE = `${PROFILE.name} · Biomedical Engineering`;
 export const SITE_DESCRIPTION =
   "Sharad Patel is a biomedical engineering student at the University of Florida who does research in computational modeling and biomechanics.";
 

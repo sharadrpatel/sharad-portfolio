@@ -48,7 +48,7 @@ export default function Publications() {
           id="publications-title"
           aside={`${PUBLICATIONS.length} in total, ${firstAuthor} as first author`}
           title="Publications"
-          dek="Posters and talks. Half come from surgical simulation research; the rest cover pediatric MRI, anesthesia monitoring, and a math modeling talk."
+          dek="Mostly posters and talks. About half come out of the surgical simulation team, and the rest are on pediatric MRI, anesthesia monitoring, and AI model collapse."
         />
         <div className="pubs">
           {years.map((y) => (

@@ -14,7 +14,7 @@ export default function Blog() {
             <span>
               {BLOG.volume} · Est. {BLOG.established}
             </span>
-            <span>A journal by {PROFILE.name}</span>
+            <span>By {PROFILE.name}</span>
           </p>
           <h1 id="blog-title" className="masthead__title">
             <CrossSectionsMark />
@@ -31,7 +31,7 @@ export default function Blog() {
               <span className="status__dot" aria-hidden="true" />
               In preparation
             </p>
-            <p>The first issue is in the works. Check back soon.</p>
+            <p>Nothing posted yet. I'm working on the first one.</p>
           </div>
         ) : (
           <ol className="post-list">

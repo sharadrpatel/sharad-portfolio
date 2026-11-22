@@ -87,7 +87,7 @@ export const RESEARCH = [
     period: "Dec 2025 – Present",
     role: "Undergraduate Research Assistant",
     summary:
-      "I work on three separate projects in the Holt Lab. Two are simulation studies in evolutionary ecology: one on how limits to phenotypic plasticity evolve, and one on how dispersal evolves in patchy, variable habitats. The third uses computer vision to measure leaf damage and disease from photos.",
+      "I work on three separate projects in the Holt Lab. Two are simulation studies in evolutionary ecology. One looks at how limits on phenotypic plasticity evolve, and the other at how dispersal evolves in patchy, variable habitats. The third uses computer vision to measure leaf damage and disease from photos.",
     subprojects: [
       {
         id: "plasticity",
@@ -96,7 +96,7 @@ export const RESEARCH = [
         question:
           "When there are limits on how much a population can adjust its phenotype, and those limits can themselves evolve, does that change whether the population survives a changing environment?",
         background:
-          "This project replicates and extends Khare, Holt & Scheiner (2024, Evolution), which modeled how developmental limits on phenotypic plasticity affect evolutionary rescue and genetic assimilation. In that model, each individual has a sigmoidal reaction norm with a fixed shape. I added two new sets of loci so the shape itself can evolve: one controls where the reaction norm switches (its inflection point, E0), and the other controls how wide a range of phenotypes development can produce (Dc).",
+          "This project replicates and extends Khare, Holt & Scheiner (2024, Evolution), which modeled how developmental limits on phenotypic plasticity affect evolutionary rescue and genetic assimilation. In that model, each individual has a sigmoidal reaction norm with a fixed shape. I added two new sets of loci so the shape itself can evolve. One set controls where the reaction norm switches (its inflection point, E0), and the other controls how wide a range of phenotypes development can produce (Dc).",
         approach: [
           {
             label: "Replication",
@@ -104,7 +104,7 @@ export const RESEARCH = [
           },
           {
             label: "Extension",
-            text: "Added evolvable loci for the inflection point and the developmental range, with switches to compare four conditions: neither evolves, either one evolves, or both do.",
+            text: "Added evolvable loci for the inflection point and the developmental range, with switches so I can compare four cases (neither evolves, only E0 does, only Dc does, or both do).",
           },
           {
             label: "Simulation",
@@ -146,7 +146,7 @@ export const RESEARCH = [
       {
         id: "plant-disease",
         title: "Measuring leaf damage and disease from photos",
-        short: "Two computer vision pipelines: one measures leaves, the other detects disease in field images.",
+        short: "Two computer vision pipelines, one that measures leaves and one that finds disease in field images.",
         question: "Can leaf size, shape, damage, and disease be measured automatically and consistently from images?",
         background:
           "Measuring leaves and scoring disease by hand is slow and varies from person to person. I'm building two pipelines to automate it.",
@@ -193,7 +193,7 @@ export const RESEARCH = [
         text: "Building the mechanistic model based on what the review turns up.",
       },
     ],
-    status: "Early stage: literature review and model development.",
+    status: "Still early. I'm doing the literature review and starting on the model.",
     tools: ["Mechanistic modeling", "Systematic review"],
     figure: "pgd",
   },
@@ -214,9 +214,9 @@ export const RESEARCH = [
     question:
       "After a short training session on our mixed-reality infant caudal block simulator, do anesthesiology residents place the needle closer to the target?",
     summary:
-      "I captain Dream Team Engineering's surgical research team, and my main project is an efficacy study of our mixed-reality infant caudal block simulator. I own the design, the sessions, the analysis, and the writing. The study is fully designed and was presented as a poster at BMES 2026; it hasn't enrolled anyone yet. Before this, the team's main simulator project was a 3D box-model trainer for kidney transplantation.",
+      "I captain Dream Team Engineering's surgical research team, and my main project is an efficacy study of our mixed-reality infant caudal block simulator. I'm responsible for the study design, running the sessions, the analysis, and the writing. The design is done and I presented it as a poster at BMES 2026, but we haven't enrolled anyone yet. Before this, the team's main simulator project was a 3D box-model trainer for kidney transplantation.",
     problem:
-      "A caudal block is an ultrasound-guided injection into the caudal epidural space at the base of the spine, used for pain control in infants. The needle has to pass the sacrococcygeal ligament and stop in the right place, short of the dural sac. Trainees get limited chances to practice on real infants, and a simulator is only worth adopting if training on it measurably improves placement. This study is built to measure that.",
+      "A caudal block is an ultrasound-guided injection into the caudal epidural space at the base of the spine, used for pain control in infants. The needle has to pass the sacrococcygeal ligament and stop in the right place, short of the dural sac. Trainees don't get many chances to practice on real infants. A simulator is only worth using if practicing on it actually makes people better at placing the needle, and that's what this study is designed to test.",
     approach: [
       {
         label: "Design",
@@ -224,7 +224,7 @@ export const RESEARCH = [
       },
       {
         label: "Session",
-        text: "About 55 minutes: five scored, ultrasound-guided placements with the training aids off, feedback, 20 minutes of practice with the aids on, five more scored placements with the aids off, then surveys.",
+        text: "Each session takes about 55 minutes. Participants do five scored, ultrasound-guided placements with the training aids off and get feedback. Then they practice for 20 minutes with the aids on, do five more scored placements with the aids off, and fill out surveys.",
       },
       {
         label: "Outcomes",
@@ -232,7 +232,7 @@ export const RESEARCH = [
       },
       {
         label: "Analysis",
-        text: "The participant is the unit: log deviations are averaged within each person and set, compared before and after with a paired t-test, and residents are compared with attendings by Welch's t-test. There's no control arm, so the paper can claim improvement after training on the simulator, not that the aids caused it.",
+        text: "Each participant counts once. Log deviations are averaged within each person and set, before and after are compared with a paired t-test, and residents are compared with attendings using Welch's t-test. Since there's no control arm, the paper can say people improved after training on the simulator, but it can't say the aids caused it.",
       },
       {
         label: "Planning simulations",
@@ -240,11 +240,11 @@ export const RESEARCH = [
       },
       {
         label: "Kidney transplant trainer",
-        text: "The team's earlier main project, built with transplant surgeons: a 3D box-model trainer for kidney transplantation. I co-authored a 2025 presentation of its controlled study and the 2026 BMES study-protocol poster. The team has also built liver transplant and infant IV placement simulators.",
+        text: "Before the caudal block study, the team's main project was a 3D box-model trainer for kidney transplantation, built with transplant surgeons. I co-authored a 2025 presentation of its controlled study and the 2026 BMES study-protocol poster. The team has also built liver transplant and infant IV placement simulators.",
       },
     ],
     contributions: [
-      "Own the caudal block study: design, session plan, analysis, and writing",
+      "Running the caudal block study, from the design and session plan to the analysis and writing",
       "Planning simulations and the Python analysis pipeline",
       "Methods, manuscript draft, and the BMES 2026 poster (first author)",
       "IRB applications, protocols, and statistical analysis plans across the team's studies",
@@ -252,7 +252,7 @@ export const RESEARCH = [
     outcomes: [
       {
         value: "11–24%",
-        label: "Why the person is the unit",
+        label: "Why each person counts once",
         text: "In the planning simulations, tests that treated each placement as independent gave false positives 11–24% of the time instead of the expected 5%.",
       },
       {
@@ -262,10 +262,10 @@ export const RESEARCH = [
       },
       {
         label: "What comes next",
-        text: "A locked test mode and a per-placement data export from the simulator team at UF's CSSALT, a target point defined by pediatric anesthesiologists, a pilot, then IRB submission and recruitment.",
+        text: "First, the simulator team at UF's CSSALT needs to build a locked test mode and a per-placement data export. After that, pediatric anesthesiologists define the target point, we run a pilot, and then we submit to the IRB and start recruiting.",
       },
     ],
-    status: "Designed, no participants yet. Waiting on the simulator's test mode and data export before the pilot and IRB submission.",
+    status: "Designed but not enrolling yet. We're waiting on the simulator's test mode and data export before the pilot and IRB submission.",
     tools: ["Study design", "Power analysis", "Monte Carlo simulation", "Python", "IRB protocols", "Statistical analysis plans"],
     figure: "caudal-block",
     secondaryFigure: "kidney-transplant",
@@ -302,7 +302,7 @@ export const MODELING_FEATURE = {
   question:
     "How far can a self-expanding nitinol stent be oversized before its constant outward push makes the artery narrow again, and how does the stent's design change that limit?",
   summary:
-    "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. Our team adapted a published model built for balloon-expandable coronary stents (Escuer et al., 2019) to self-expanding nitinol stents in the femoral artery, which keep pushing on the wall long after they're placed. Without retuning, the adapted model predicted the regrowth seen in oversized pig stents: 69% area stenosis against 64% measured. It puts the start of the risk at about 1.3 times the vessel diameter, and earlier with high blood pressure.",
+    "Restenosis is when an artery narrows again after a stent goes in, mostly because smooth muscle cells move in, multiply, and lay down new tissue. Our team adapted a published model built for balloon-expandable coronary stents (Escuer et al., 2019) to self-expanding nitinol stents in the femoral artery, which keep pushing on the wall long after they're placed. Without retuning, the adapted model predicted the regrowth seen in oversized pig stents (69% area stenosis, against 64% measured). It puts the start of the risk at about 1.3 times the vessel diameter, and earlier with high blood pressure.",
   problem:
     "Within 6–12 months, restenosis shows up in 35–65% of long femoral lesions treated with nitinol stents. In pigs, stents 1.31 times the vessel diameter led to 39% area stenosis at 4 weeks, and stents 1.63 times the diameter led to 64%. In patients the artery tapers, so a long straight stent sized for the top of the vessel ends up about 1.5 times too big at its lower end. Nitinol stents keep pushing outward for as long as they're in place, but the original model only covers the one-time injury from a balloon-expanded stent.",
   approach: [
@@ -316,7 +316,7 @@ export const MODELING_FEATURE = {
     },
     {
       label: "Outward force",
-      text: "I added a module that treats the stent's push as a spring: the more oversized the stent, the more pressure on the wall. Together with blood pressure, that sets the hoop stress in the artery. Above three times normal stress, a push signal starts switching smooth muscle cells to the type that multiplies. We also tested treating the push as extra injury and rejected it.",
+      text: "I added a module that treats the stent's push like a spring, so the more oversized the stent, the more pressure on the wall. Together with blood pressure, that sets the hoop stress in the artery. Above three times normal stress, a push signal starts switching smooth muscle cells to the type that multiplies. We also tested treating the push as extra injury and rejected it.",
     },
     {
       label: "Refinements",
@@ -379,7 +379,7 @@ export const DUFFING_FEATURE = {
   index: "M.02",
   tier: "featured",
   caseStudy: true,
-  title: "A tabletop chaos demo: building a Duffing oscillator for teaching",
+  title: "Building a tabletop Duffing oscillator to show chaos in class",
   area: ["Nonlinear dynamics", "Hardware prototyping"],
   lab: "Teaching demo for Dynamical Systems and Chaos (MAP 4314)",
   org: "University of Florida",
@@ -388,9 +388,9 @@ export const DUFFING_FEATURE = {
   question:
     "Can one device on an instructor's table show a pitchfork bifurcation, hysteresis, period doubling, and chaos on demand, with the live data plotted against the equations?",
   summary:
-    "Our team is building a demo that a professor will use in her lectures for Dynamical Systems and Chaos (MAP 4314): a thin steel beam pulled toward two magnets and shaken at its base. Every parameter in the model is on a knob, and a laptop app solves the Duffing equation with the live settings and overlays it on the measured motion. We picked it over a Hopf circuit, a flutter reed, a Watt governor, and a pendulum because one device covers the most of what the course teaches.",
+    "Our team is building a demo that a professor will use in her lectures for Dynamical Systems and Chaos (MAP 4314). It's a thin steel beam pulled toward two magnets and shaken at its base. Every parameter in the model is on a knob, and a laptop app solves the Duffing equation with the live settings and overlays it on the measured motion. We picked it over a Hopf circuit, a flutter reed, a Watt governor, and a pendulum because it covers more of the course than any of the others.",
   problem:
-    "Bifurcations and chaos are usually taught with phase portraits on a slide. The professor asked for a demo that fits on an instructor's table with no utilities, lets students change the model's parameters and see them, plots device data against the numerical solution, and shows different behavior in different regimes. The bonus is something students don't expect: a perfectly periodic push that produces motion that never repeats.",
+    "Bifurcations and chaos are usually taught with phase portraits on a slide. The professor asked for a demo that fits on an instructor's table with no utilities, lets students change the model's parameters and see them, plots device data against the numerical solution, and shows different behavior in different regimes. It also shows something students usually don't expect, which is a perfectly periodic push producing motion that never repeats.",
   approach: [
     {
       label: "Model",
@@ -414,7 +414,7 @@ export const DUFFING_FEATURE = {
     },
   ],
   contributions: [
-    "Co-wrote the design and prototyping plan: concept-to-knob mapping, governing model, architecture, test plan, and risks",
+    "Co-wrote the design and prototyping plan, including the concept-to-knob mapping, governing model, architecture, test plan, and risks",
     "Mapped each hardware knob to a parameter of the Duffing equation and planned how to identify it from data",
   ],
   outcomes: [
@@ -424,7 +424,7 @@ export const DUFFING_FEATURE = {
     },
     {
       label: "Model vs. device",
-      text: "Plot measured and simulated motion together, live, with the parameter values visible to the room. Within about 10% in periodic regimes; in chaos, compare Poincaré sections instead.",
+      text: "Plot measured and simulated motion together, live, with the parameter values visible to the room. We're aiming for agreement within about 10% in periodic regimes. In chaos, we'll compare Poincaré sections instead.",
     },
     {
       label: "Easy to run",
@@ -435,7 +435,7 @@ export const DUFFING_FEATURE = {
       text: "Feed velocity back through the drive to add negative damping and bring back a Hopf bifurcation (Van der Pol–Duffing behavior).",
     },
   ],
-  status: "In planning: the design is written up, and bench tests of the drive come first.",
+  status: "Still in planning. The design is written up, and the first thing we'll build and test is the drive.",
   tools: ["Python", "SciPy", "PySide6 / pyqtgraph", "C++ firmware", "Teensy or STM32", "Hall and MEMS sensors"],
   figure: "double-well",
 };
@@ -463,7 +463,7 @@ export const SCUDEM_FEATURE = {
   approach: [
     {
       label: "Model 1: Markov chain",
-      text: "Each AI's output is a probability distribution over 500 categories. Every generation, the training data mixes human data with the average output of all the models, and each model retrains on samples from that mix. Written out, the whole system is a Markov-type process: each generation depends only on the one before it.",
+      text: "Each AI's output is a probability distribution over 500 categories. Every generation, the training data mixes human data with the average output of all the models, and each model retrains on samples from that mix. Written out, the whole system is a Markov-type process, since each generation depends only on the one before it.",
     },
     {
       label: "Early collapse",
@@ -499,7 +499,7 @@ export const SCUDEM_FEATURE = {
       text: "With half the data AI-generated, the task space collapsed into sharp spikes at the tasks each model trained on, usually in under 30 generations.",
     },
     {
-      label: "Takeaway",
+      label: "What we concluded",
       text: "Long-term stability depended on keeping human data in the mix and on diversity across models and tasks. We later presented the work at UF's Undergraduate Mathematics Research Symposium (April 2026).",
     },
   ],
@@ -531,9 +531,9 @@ export const CANOPY_FEATURE = {
   question:
     "When two animals forage together and can call to each other, what matters most: how far apart they are, whether they talk, how much they say, or whether it's true?",
   summary:
-    "For Problem B of SCUDEM XI, our team built CANOPY, a simulation of two spider monkeys foraging in a forest of fruiting trees. Each monkey runs on differential equations for its gut, energy, memory, and movement. It calls to its partner with a set level of detail and honesty, and it checks every tip it follows. We ran ten experiments on the model and then reduced it to three ODEs to check that it behaves the way we think it does. The short answer: where the two animals are matters far more than what they say to each other.",
+    "For Problem B of SCUDEM XI, our team built CANOPY, a simulation of two spider monkeys foraging in a forest of fruiting trees. Each monkey runs on differential equations for its gut, energy, memory, and movement. It calls to its partner with a set level of detail and honesty, and it checks every tip it follows. We ran ten experiments on the model and then reduced it to three ODEs to check that it behaves the way we think it does. The main result was that where the two monkeys are matters a lot more than what they say to each other.",
   problem:
-    "The prompt asked us to model two animals that search for food together and can communicate. We had to vary how much they talk, how much detail a call carries, and how accurate it is, including deliberate lies, then rank those factors and say how they trade off, for example distance against accuracy. Talking isn't free. A call can bring your partner to a tree you'd rather keep, which gives the caller a reason to lie or stay quiet, and spreading out covers more forest but makes calls harder to hear. We tied the model to a 2026 study of spider monkeys at Punta Laguna, Mexico (Ramos-Fernandez et al., *npj Complexity*), which found that a pair shares information best when their core ranges overlap by about a third.",
+    "The prompt asked us to model two animals that search for food together and can communicate. We had to vary how much they talk, how much detail a call carries, and how accurate it is, including deliberate lies, then rank those factors and say how they trade off, for example distance against accuracy. Talking also has a cost, since a call can bring your partner to a tree you'd rather keep, which gives the caller a reason to lie or stay quiet, and spreading out covers more forest but makes calls harder to hear. We tied the model to a 2026 study of spider monkeys at Punta Laguna, Mexico (Ramos-Fernandez et al., *npj Complexity*), which found that a pair shares information best when their core ranges overlap by about a third.",
   approach: [
     {
       label: "The forest",
@@ -545,7 +545,7 @@ export const CANOPY_FEATURE = {
     },
     {
       label: "Movement",
-      text: "Position follows a stochastic differential equation: a push toward where the monkey wants to go, a spring that pulls the pair together when they drift too far apart and pushes them apart when they get too close, and a little random noise. While searching, the monkey takes Lévy-walk steps. We stepped it every minute with Euler–Maruyama.",
+      text: "Position follows a stochastic differential equation with three parts, a push toward where the monkey wants to go, a spring that pulls the pair together when they drift too far apart and pushes them apart when they get too close, and a little random noise. While searching, the monkey takes Lévy-walk steps. We stepped it every minute with Euler–Maruyama.",
     },
     {
       label: "Calls and trust",
@@ -577,16 +577,16 @@ export const CANOPY_FEATURE = {
       text: "Spreading out to about two hearing ranges apart raised intake by about 15%, whether or not the pair talked. Spacing and hearing range act as one ratio.",
     },
     {
-      label: "No distance–accuracy trade-off",
+      label: "Distance and accuracy don't trade off",
       text: "The best spacing stayed at 2–2.5 hearing ranges whether calls were perfect, half garbled, or dishonest. A plain \"food here\" plus the tree's size got most of the benefit, and even with half of every message garbled, talking still beat silence.",
     },
     {
-      label: "Lies move food, they don't destroy it",
+      label: "Lying mostly moves food around",
       text: "A liar gained 4–5% and its victim lost 3–10%, but the pair as a whole lost at most 3%. Monkeys that could choose when to cheat almost always went quiet instead of lying, and close kin stayed honest.",
     },
     {
       label: "The ODEs agree",
-      text: "Across 320 runs the three ODEs predicted the simulated feeding share with a mean error of 0.004. The threshold stayed between 0 and 0.09, far below 1: finding food alone does the heavy lifting, which is why talking adds so little.",
+      text: "Across 320 runs the three ODEs predicted the simulated feeding share with a mean error of 0.004. The threshold stayed between 0 and 0.09, far below 1. Most of the food comes from each monkey finding it on its own, which is why talking adds so little.",
     },
     {
       label: "Where it misses",
@@ -621,7 +621,7 @@ export const DESIGN = [
     summary:
       "This is my senior design project. Our team of eight is designing a proof-of-concept distal biceps tendon repair system for CONMED, our industry sponsor, which wants to enter this market. It includes the implant, instruments, and sterile packaging, and a sports medicine surgeon will evaluate it in a cadaveric simulated-use setting. This semester we turned the user needs into measurable targets, compared three concepts, and chose a bicortical button with an interference screw, drilled with a clutch drill bit that stops turning when it breaks through the far cortex. Bench prototyping and testing come next.",
     problem:
-      "When the distal biceps tendon tears away from the radius, the repair has to reattach it and hold through repeated loading without the tendon pulling away from the bone. Fixing it with a button on the far side of the radius means drilling all the way through the bone, and a drill that plunges past the far cortex can injure neurovascular structures there, such as the posterior interosseous nerve (PIN). Our needs statement: a way to reliably reattach a torn distal biceps tendon that improves surgical efficacy, withstands postoperative loads, and promotes healing while protecting neurovascular structures.",
+      "When the distal biceps tendon tears away from the radius, the repair has to reattach it and hold through repeated loading without the tendon pulling away from the bone. Fixing it with a button on the far side of the radius means drilling all the way through the bone, and a drill that plunges past the far cortex can injure neurovascular structures there, such as the posterior interosseous nerve (PIN). Our needs statement asks for a way to reliably reattach a torn distal biceps tendon that improves surgical efficacy, withstands postoperative loads, and promotes healing while protecting neurovascular structures.",
     method:
       "We turned the user needs into a design traceability matrix with marginal and ideal targets, benchmarked current repairs, compared three concepts in a weighted Pugh matrix, and planned bench prototypes and tests for the selected design.",
     contribution:
@@ -641,7 +641,7 @@ export const DESIGN = [
       },
       {
         label: "Concepts",
-        text: "Generated three concepts: two buttons inside the near cortex (unicortical), one button on the far cortex with an interference screw holding the tendon in the near-cortex tunnel, and two buttons on the far cortex. The two far-cortex designs are drilled with a clutch drill bit that disengages at breakthrough.",
+        text: "We came up with three concepts. One uses two buttons inside the near cortex (unicortical), one uses a single button on the far cortex with an interference screw holding the tendon in the near-cortex tunnel, and one uses two buttons on the far cortex. The two far-cortex designs are drilled with a clutch drill bit that disengages at breakthrough.",
       },
       {
         label: "Selection",
@@ -649,7 +649,7 @@ export const DESIGN = [
       },
       {
         label: "Prototype plan",
-        text: "Four parts to make: the clutch drill bit, the far-cortex button, the interference screw, and instructions for use. Each part gets early bench versions refined in build, test, measure, revise cycles, changing one parameter at a time against tolerances agreed before testing. For the drill we vary trip torque, feed rate, and operator; for the button, contact area, thickness, and profile; for the screw, thread pitch, diameter, and length.",
+        text: "There are four parts to make: the clutch drill bit, the far-cortex button, the interference screw, and instructions for use. Each part gets early bench versions refined in build, test, measure, revise cycles, changing one parameter at a time against tolerances agreed before testing. For the drill we'll vary trip torque, feed rate, and operator. With the button it's contact area, thickness, and profile, and with the screw it's thread pitch, diameter, and length.",
       },
       {
         label: "Test plan",
@@ -705,11 +705,11 @@ export const DESIGN = [
       },
       {
         label: "What gets built",
-        text: "A clutch drill bit that stops turning at far-cortex breakthrough to limit plunge toward the PIN; a far-cortex button that passes through the tunnel, then seats fully and resists pull-through; an interference screw that holds the tendon without cutting through or slipping; and instructions for use that walk a surgeon through setup, drilling, and fixation, with warnings and contraindications.",
+        text: "We're building four things. The clutch drill bit stops turning at far-cortex breakthrough to limit plunge toward the PIN. On the far side, the button has to pass through the tunnel, then seat fully and resist pull-through. The interference screw needs to hold the tendon without cutting through or slipping, and the instructions for use walk a surgeon through setup, drilling, and fixation, with warnings and contraindications.",
       },
       {
         label: "Next",
-        text: "The parts for the first bench builds are in hand: synthetic model radii, a 1.8 mm drill bit, a cortical button with sutures, and a suture anchor with its inserter. Each prototype will be tested against the targets above.",
+        text: "We already have the parts for the first bench builds: synthetic model radii, a 1.8 mm drill bit, a cortical button with sutures, and a suture anchor with its inserter. Each prototype will be tested against the targets above.",
       },
     ],
     status: "Concept selected. Bench prototyping and testing are next.",
@@ -726,7 +726,7 @@ export const DESIGN = [
     lab: "CAD final project, BME 3012",
     org: "University of Florida",
     period: "Oct 2025",
-    role: "Solo project: every part, drawing, and the assembly",
+    role: "Solo project (every part, drawing, and the assembly)",
     question:
       "Can a crutch for growing kids adjust to their height and lock securely, with every part drawn well enough to manufacture?",
     summary:
@@ -768,7 +768,7 @@ export const DESIGN = [
       },
       {
         label: "Strengths",
-        text: "Realistic, modular parts. The forked frame is stable and has a row of holes, so the hand grip can be moved too.",
+        text: "The parts are realistic and modular. The forked frame is stable and has a row of holes, so the hand grip can be moved too.",
       },
       {
         label: "Limitations",
@@ -806,7 +806,7 @@ export const MCM_FEATURE = {
   index: "M.04",
   tier: "featured",
   caseStudy: true,
-  title: "Why phone batteries drain unevenly: a coupled ODE model",
+  title: "Why phone batteries drain unevenly",
   area: ["ODE modeling", "Uncertainty quantification"],
   lab: "2026 MCM/ICM, Problem A",
   org: "COMAP Mathematical Contest in Modeling",
@@ -822,7 +822,7 @@ export const MCM_FEATURE = {
   approach: [
     {
       label: "Core equation",
-      text: "We started from Coulomb counting: the rate of change of state of charge is the current drawn, scaled by Coulombic efficiency and divided by effective capacity. Normalizing by capacity keeps the state of charge between 0 and 1, like the percentage on a phone.",
+      text: "We started from Coulomb counting, where the rate of change of state of charge is the current drawn, scaled by Coulombic efficiency and divided by effective capacity. Normalizing by capacity keeps the state of charge between 0 and 1, like the percentage on a phone.",
     },
     {
       label: "Usage",
@@ -830,7 +830,7 @@ export const MCM_FEATURE = {
     },
     {
       label: "Feedbacks",
-      text: "Three nonlinear effects are coupled in: a Newton-cooling equation for battery temperature, an Arrhenius model of SEI-related losses for Coulombic efficiency, and the Peukert effect, which shrinks usable capacity at high current.",
+      text: "We coupled in three nonlinear effects. A Newton-cooling equation handles battery temperature, an Arrhenius model of SEI-related losses handles Coulombic efficiency, and the Peukert effect shrinks usable capacity at high current.",
     },
     {
       label: "Sensitivity",
@@ -881,17 +881,17 @@ export const SEATROUT_FEATURE = {
   question:
     "How has the Gulf spotted seatrout population changed since 2000, and what fishing pressure would let it recover instead of keep shrinking?",
   summary:
-    "A class project in mathematical modeling: we built population models for spotted seatrout on Florida's Gulf coast and fit them to the data in FWC's 2024 stock assessment (2000 to 2023). We checked the fitted model against the assessment's spawning stock biomass, forecast ten years ahead under different fishing rates, and proposed four management changes.",
+    "For a math modeling class, we built population models for spotted seatrout on Florida's Gulf coast and fit them to the data in FWC's 2024 stock assessment (2000 to 2023). We checked the fitted model against the assessment's spawning stock biomass, forecast ten years ahead under different fishing rates, and proposed four management changes.",
   problem:
-    "Spotted seatrout is one of Florida's most popular inshore fish. Nobody counts the fish directly; what exists are indexes of abundance (catch per unit of fishing effort from anglers, and fishery-independent surveys), each on its own scale. The model has to infer the population behind those noisy indexes before it can say anything about how much fishing is sustainable.",
+    "Spotted seatrout is one of Florida's most popular inshore fish. Nobody counts the fish directly. What you get instead are indexes of abundance (catch per unit of fishing effort from anglers, and fishery-independent surveys), each on its own scale. The model has to infer the population behind those noisy indexes before it can say anything about how much fishing is sustainable.",
   approach: [
     {
       label: "Baseline",
-      text: "Because the data are annual, we started with a discrete, year-by-year logistic model: births follow logistic growth and a removal term accounts for harvest. We fit growth rate, carrying capacity, starting biomass, and a catchability scale factor to the CPUE index by minimizing a log-residual loss with the Nelder–Mead method.",
+      text: "Because the data are annual, we started with a discrete, year-by-year logistic model, where births follow logistic growth and a removal term accounts for harvest. We fit growth rate, carrying capacity, starting biomass, and a catchability scale factor to the CPUE index by minimizing a log-residual loss with the Nelder–Mead method.",
     },
     {
       label: "Two indexes",
-      text: "We upgraded to a logistic model with fishing mortality F(t) taken from the assessment, fit to two independent indexes at once: the fishery-dependent MRIP catch rate and the fishery-independent FIM survey. Using both as separate readings of the same hidden biomass made the estimates of r and K more robust.",
+      text: "We upgraded to a logistic model with fishing mortality F(t) taken from the assessment, fit to two independent indexes at once, the fishery-dependent MRIP catch rate and the fishery-independent FIM survey. Using both as separate readings of the same hidden biomass made the estimates of r and K more reliable.",
     },
     {
       label: "Age structure",
@@ -945,7 +945,7 @@ export const SHOT_DNA_FEATURE = {
   lab: "Independent project",
   org: "R, Quarto, and D3",
   period: "2026",
-  role: "Solo project: data pipeline, models, write-up, and explorer",
+  role: "Solo project (data pipeline, models, write-up, and explorer)",
   question:
     "Can you describe an NBA player by where they shoot, how hard those shots are, and how often they make them anyway, and then find who in the league shoots most like them?",
   summary:
@@ -993,11 +993,11 @@ export const SHOT_DNA_FEATURE = {
     },
     {
       label: "A flaw in the data",
-      text: "In older seasons, scorekeepers mostly wrote the descriptive shot label when the shot went in: in 2009–10, pull-up threes were 72% made versus 35% for plain jump-shot threes. The labels leaked the outcome, so I only use shot type from 2022–23 on, when the effect is gone.",
+      text: "In older seasons, scorekeepers mostly wrote the descriptive shot label when the shot went in. In 2009–10, pull-up threes were 72% made versus 35% for plain jump-shot threes. The labels leaked the outcome, so I only use shot type from 2022–23 on, when the effect is gone.",
     },
     {
-      label: "Honest clustering",
-      text: "Shot profiles don't fall into clean groups. The site uses six archetypes because they're useful, and the notebook says plainly that three would be more stable.",
+      label: "The clusters aren't clean",
+      text: "Shot profiles don't fall into clean groups. The site uses six archetypes because they're useful, and the notebook notes that three would be more stable.",
     },
   ],
   links: [
@@ -1021,17 +1021,17 @@ export const COLLAGEN_FEATURE = {
   lab: "Cell Engineering Lab (BME3323L)",
   org: "Team of 4, University of Florida",
   period: "Apr 2026",
-  role: "Team member: study design, cell culture, assays, and analysis",
+  role: "Team member (study design, cell culture, assays, and analysis)",
   question:
     "Does coating the culture surface with Type I collagen shift human dermal fibroblasts away from dividing and toward becoming myofibroblasts?",
   summary:
     "When a wound heals, fibroblasts can turn into contractile myofibroblasts that make α-smooth muscle actin (α-SMA). Collagen is one of the main proteins cells grip in the extracellular matrix, so our team ran a four-week study testing whether a collagen-coated surface on its own, with no added growth factors, pushes human dermal fibroblasts toward that state.",
   problem:
-    "This transition is usually driven with soluble signals like TGF-β. Changing the surface the cells grow on could steer them without changing what's in the media. We set success criteria before starting: at least 15% more α-SMA-positive cells and at least a 10% longer doubling time than uncoated controls.",
+    "This transition is usually driven with soluble signals like TGF-β. Changing the surface the cells grow on could steer them without changing what's in the media. Before starting, we set two success criteria. We wanted at least 15% more α-SMA-positive cells and at least a 10% longer doubling time than the uncoated controls.",
   approach: [
     {
       label: "Cell culture",
-      text: "Thawed, passaged, and seeded human dermal fibroblasts with aseptic technique: trypsinization, hemocytometer counts with trypan blue exclusion, and Type I collagen coating (1:10 in PBS) for the experimental plates.",
+      text: "Thawed, passaged, and seeded human dermal fibroblasts using aseptic technique, including trypsinization, hemocytometer counts with trypan blue exclusion, and Type I collagen coating (1:10 in PBS) on the experimental plates.",
     },
     {
       label: "Metabolic assay",
