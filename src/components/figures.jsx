@@ -124,44 +124,317 @@ function ArterySection() {
   );
 }
 
-/* PGD workflow ------------------------------------------------------------- */
-function PgdWorkflow() {
-  const nodes = [
-    { x: 4, lines: ["PGD", "literature"] },
-    { x: 102, lines: ["Mechanistic", "synthesis"] },
-    { x: 200, lines: ["Mechanistic", "model"], accent: true },
-    { x: 298, lines: ["Risk", "stratification"], goal: true },
+/* PGD: ischemia–reperfusion injury at the alveolus ----------------------- */
+// A vessel drawn as a tube: an ink outline with a filled core.
+function Tube({ d, w, core = "var(--wash)" }) {
+  return (
+    <g fill="none" strokeLinecap="round">
+      <path d={d} stroke="var(--ink)" strokeWidth={w} />
+      <path d={d} stroke={core} strokeWidth={w - 2.5} />
+    </g>
+  );
+}
+
+function Neutrophil({ x, y }) {
+  return (
+    <g>
+      <circle className="fig-ink" cx={x} cy={y} r="7.5" fill="var(--accent-wash)" />
+      {[-3.2, 0, 3.2].map((dx) => (
+        <circle key={dx} className="fig-model" cx={x + dx} cy={y + (dx ? 1 : -1.2)} r="1.9" />
+      ))}
+    </g>
+  );
+}
+
+function PgdInjury() {
+  const panels = [
+    { cx: 100, title: "before", injured: false },
+    { cx: 314, title: "after reperfusion", injured: true },
+  ];
+  const capY = 150;
+  const reperfusionX = 150;
+  const grades = [
+    { x: 196, t: "T0" },
+    { x: 262, t: "T24" },
+    { x: 328, t: "T48" },
+    { x: 394, t: "T72 h" },
   ];
   return (
-    <svg viewBox="0 0 390 140" role="img" aria-labelledby="fig-pgd-t">
+    <svg viewBox="0 0 420 270" role="img" aria-labelledby="fig-pgd-t">
       <title id="fig-pgd-t">
-        Workflow: the PGD literature is synthesized through a systematic review, which structures a mechanistic
-        model whose goal is to inform risk stratification.
+        Two views of an alveolus and the capillary beneath it. Before: an air-filled alveolus over a capillary of red
+        blood cells, separated by a thin barrier. After reperfusion: neutrophils leave the capillary, reactive oxygen
+        species form, the barrier leaks, and edema fluid fills the lower alveolus. Below, a timeline from donor
+        retrieval through cold ischemia to implant and reperfusion, then PGD grading at 0, 24, 48, and 72 hours.
       </title>
-      {nodes.map((n, i) => (
-        <g key={i}>
-          <rect
-            className={`fig-box ${n.accent ? "fig-accent-box" : ""} ${n.goal ? "fig-dashed" : ""}`}
-            x={n.x}
-            y="34"
-            width="86"
-            height="46"
-          />
-          {n.lines.map((t, j) => (
-            <text key={t} className="fig-label fig-label--ink" x={n.x + 43} y={54 + j * 13} textAnchor="middle">
-              {t}
-            </text>
+      <defs>
+        <pattern id="pgd-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="5" className="fig-hatch" />
+        </pattern>
+        <clipPath id="pgd-fluid">
+          <rect x={314 - 60} y="92" width="120" height="60" />
+        </clipPath>
+      </defs>
+
+      {panels.map(({ cx, title, injured }) => (
+        <g key={title}>
+          <text className={`fig-label ${injured ? "fig-label--accent" : "fig-label--ink"}`} x={cx} y="12" textAnchor="middle">
+            {title}
+          </text>
+          {/* capillary with red cells */}
+          <Tube d={`M${cx - 86} ${capY} H${cx + 86}`} w={20} />
+          {(injured ? [-70, -22, 12, 44, 72] : [-62, -30, 6, 40, 70]).map((dx) => (
+            <ellipse key={dx} className="fig-ink" cx={cx + dx} cy={capY} rx="7" ry="3.6" fill="none" />
           ))}
-          {i < nodes.length - 1 && (
-            <path className="fig-ink" d={`M${n.x + 88} 57 H${n.x + 100} M${n.x + 96} 53 L${n.x + 100} 57 L${n.x + 96} 61`} fill="none" />
+          {/* alveolus */}
+          <circle className="fig-box" cx={cx} cy="78" r="52" />
+          {injured && (
+            <>
+              <circle className="fig-neointima" cx={cx} cy="78" r="51" clipPath="url(#pgd-fluid)" />
+              <circle fill="url(#pgd-hatch)" cx={cx} cy="78" r="51" clipPath="url(#pgd-fluid)" />
+              {/* leaky barrier: gaps in the capillary wall, fluid crossing */}
+              {[-28, 8, 34].map((dx) => (
+                <path
+                  key={dx}
+                  className="fig-accent-stroke"
+                  d={`M${cx + dx} ${capY - 12} v-14 m-3 4 l3 -4 l3 4`}
+                  fill="none"
+                />
+              ))}
+              <Neutrophil x={cx - 46} y={capY} />
+              <Neutrophil x={cx - 12} y={capY - 24} />
+              <Neutrophil x={cx + 18} y={112} />
+              {[[-34, 52], [26, 46], [4, 70]].map(([dx, y]) => (
+                <text key={dx} className="fig-label fig-label--accent" x={cx + dx} y={y} textAnchor="middle" style={{ fontSize: "14px" }}>
+                  ✶
+                </text>
+              ))}
+            </>
           )}
         </g>
       ))}
-      <path className="fig-muted" d="M4 96 V102 H188 V96" fill="none" />
-      <text className="fig-label" x="96" y="118" textAnchor="middle">systematic review</text>
-      <text className="fig-label" x="243" y="118" textAnchor="middle">in development</text>
-      <text className="fig-label" x="341" y="118" textAnchor="middle">aim</text>
-      <text className="fig-label" x="4" y="18">evidence → structure → mechanism → decision</text>
+
+      {/* labels, before */}
+      <text className="fig-label" x="100" y="70" textAnchor="middle">alveolus</text>
+      <text className="fig-label" x="100" y="82" textAnchor="middle">(air)</text>
+      <text className="fig-label" x="100" y="178" textAnchor="middle">capillary, red cells</text>
+      <text className="fig-label" x="100" y="190" textAnchor="middle">thin barrier: gas exchange</text>
+      {/* labels, after */}
+      <text className="fig-label fig-label--accent" x="314" y="98" textAnchor="middle">edema fluid</text>
+      <text className="fig-label" x="314" y="178" textAnchor="middle">neutrophils · ✶ reactive O₂</text>
+      <text className="fig-label" x="314" y="190" textAnchor="middle">leaky barrier: poor oxygenation</text>
+      <path className="fig-ink" d="M196 78 H218 M213 73 L218 78 L213 83" fill="none" />
+
+      {/* timeline */}
+      <line className="fig-muted" x1="12" x2="404" y1="230" y2="230" />
+      <circle className="fig-dot" cx="12" cy="230" r="2.5" />
+      <text className="fig-label" x="12" y="248">donor lung</text>
+      <text className="fig-label" x="12" y="259">retrieved</text>
+      <path className="fig-muted" d={`M22 220 H${reperfusionX - 10}`} strokeDasharray="2 3" fill="none" />
+      <text className="fig-label" x={(22 + reperfusionX) / 2 - 6} y="215" textAnchor="middle">cold ischemia</text>
+      <circle className="fig-model" cx={reperfusionX} cy="230" r="4" />
+      <text className="fig-label fig-label--accent" x={reperfusionX} y="248" textAnchor="middle">implant +</text>
+      <text className="fig-label fig-label--accent" x={reperfusionX} y="259" textAnchor="middle">reperfusion</text>
+      {grades.map((g) => (
+        <g key={g.t}>
+          <line className="fig-accent-stroke" x1={g.x} x2={g.x} y1="225" y2="235" />
+          <text className="fig-label fig-label--ink" x={g.x} y="248" textAnchor={g.x > 380 ? "end" : "middle"}>
+            {g.t}
+          </text>
+        </g>
+      ))}
+      <text className="fig-label" x="295" y="215" textAnchor="middle">PGD graded: PaO₂/FiO₂ + imaging</text>
+    </svg>
+  );
+}
+
+/* Infant caudal block: the scored placement and the session --------------- */
+function CaudalBlock() {
+  // Side view, infant lying on their side: head to the left, back up.
+  const tip = [262, 122];
+  const target = [240, 117];
+  const hub = [402, 22];
+  const session = [
+    { w: 66, t: ["5 scored", "aids off"], scored: true },
+    { w: 58, t: ["feedback"] },
+    { w: 100, t: ["20 min practice", "aids on"], practice: true },
+    { w: 66, t: ["5 scored", "aids off"], scored: true },
+    { w: 52, t: ["surveys"] },
+  ];
+  let x = 12;
+  const boxes = session.map((s) => {
+    const b = { ...s, x };
+    x += s.w + 14;
+    return b;
+  });
+  const by = 250;
+  return (
+    <svg viewBox="0 0 420 312" role="img" aria-labelledby="fig-caudal-t">
+      <title id="fig-caudal-t">
+        Side view of an infant's lower spine. An ultrasound probe rests on the skin over the sacral hiatus, and a needle
+        enters from behind and below, passes the sacrococcygeal ligament, and ends in the caudal epidural space, short of
+        the dural sac. The distance d from the needle tip to an expert-defined target point is the study's primary
+        outcome. Below, the proposed session: five scored placements with aids off, feedback, 20 minutes of practice
+        with aids on, five more scored placements with aids off, then surveys.
+      </title>
+
+      {/* skin */}
+      <path className="fig-ink" d="M8 40 C140 36 260 40 412 64" fill="none" />
+      {/* bone: laminae (back wall of the canal), then the sacral bodies and coccyx */}
+      <path className="fig-wall" d="M8 70 C120 68 200 72 262 90 L258 100 C200 82 120 80 8 82 Z" />
+      <path
+        className="fig-wall"
+        d="M8 128 C120 126 220 130 300 146 C326 151 348 158 374 168 C350 176 320 175 300 173 C230 168 120 164 8 164 Z"
+      />
+      {[64, 128, 192, 250].map((sx, i) => (
+        <line key={sx} className="fig-muted" x1={sx} x2={sx + 3} y1={127 + i * 2} y2={163 + i * 2} />
+      ))}
+      {/* dural sac, ending partway down the canal */}
+      <path
+        className="fig-muted"
+        d="M8 90 C100 89 160 90 186 94 C200 97 200 113 186 116 C160 119 100 120 8 120"
+        fill="none"
+        strokeDasharray="3 3"
+      />
+      {/* sacrococcygeal ligament closing the hiatus */}
+      <path className="fig-ink fig-thick" d="M262 95 C282 112 300 132 318 150" fill="none" strokeDasharray="2 2.5" />
+
+      {/* ultrasound probe and beam */}
+      <path className="fig-muted" d="M306 52 L262 168 M330 52 L370 168" fill="none" strokeDasharray="2 3" />
+      <rect className="fig-box" x="302" y="32" width="32" height="18" rx="3" transform="rotate(6 318 41)" />
+      <path className="fig-muted" d="M318 32 C318 18 308 12 298 12" fill="none" />
+
+      {/* needle: hub outside, tip in the caudal space */}
+      <line className="fig-ink fig-thick" x1={hub[0]} y1={hub[1]} x2={tip[0]} y2={tip[1]} />
+      <rect className="fig-box" x={hub[0] - 5} y={hub[1] - 14} width="10" height="16" transform={`rotate(54 ${hub[0]} ${hub[1]})`} />
+
+      {/* target and the measured distance */}
+      <g className="fig-accent-stroke">
+        <circle cx={target[0]} cy={target[1]} r="4.5" fill="none" />
+        <path d={`M${target[0] - 8} ${target[1]} h16 M${target[0]} ${target[1] - 8} v16`} fill="none" />
+        <path d={`M${target[0] + 5} ${target[1] + 1} L${tip[0] - 3} ${tip[1] - 0.7}`} fill="none" />
+      </g>
+      <circle className="fig-model" cx={tip[0]} cy={tip[1]} r="3" />
+
+      {/* labels */}
+      <text className="fig-label" x="12" y="32">skin</text>
+      <text className="fig-label" x="12" y="62">← head</text>
+      <text className="fig-label" x="96" y="108" textAnchor="middle">dural sac</text>
+      <text className="fig-label" x="292" y="15" textAnchor="end">ultrasound probe</text>
+      <text className="fig-label" x="330" y="88">needle</text>
+      <text className="fig-label fig-label--accent" x="231" y="109" textAnchor="end">target</text>
+      <text className="fig-label fig-label--accent" x="250" y="134" textAnchor="middle">d</text>
+      <path className="fig-muted" d="M302 136 L322 124 H326" fill="none" />
+      <text className="fig-label" x="330" y="122">sacrococcygeal</text>
+      <text className="fig-label" x="330" y="133">ligament</text>
+      <path className="fig-muted" d="M208 124 L182 192 H178" fill="none" />
+      <text className="fig-label" x="174" y="195" textAnchor="end">caudal epidural space</text>
+      <path className="fig-muted" d="M300 170 L318 192 H322" fill="none" />
+      <text className="fig-label fig-label--ink" x="326" y="195">sacrum</text>
+      <text className="fig-label fig-label--accent" x="12" y="220">primary outcome: d, needle tip to target (mm)</text>
+
+      {/* proposed session */}
+      <line className="fig-muted" x1="12" x2="408" y1="230" y2="230" />
+      <text className="fig-label fig-label--ink" x="12" y="244">one session, about 55 min (proposed)</text>
+      {boxes.map((b, i) => (
+        <g key={i}>
+          <rect className={`fig-box ${b.practice ? "fig-accent-box" : ""}`} x={b.x} y={by} width={b.w} height="38" />
+          {b.t.map((line, j) => (
+            <text
+              key={line}
+              className={`fig-label ${j === 0 ? "fig-label--ink" : ""}`}
+              x={b.x + b.w / 2}
+              y={b.t.length > 1 ? by + 16 + j * 12 : by + 22}
+              textAnchor="middle"
+            >
+              {line}
+            </text>
+          ))}
+          {b.scored && <circle className="fig-model" cx={b.x + b.w / 2} cy={by + 50} r="2.5" />}
+          {i < boxes.length - 1 && (
+            <path className="fig-ink" d={`M${b.x + b.w + 3} ${by + 19} h8 m-3 -3 l3 3 l-3 3`} fill="none" />
+          )}
+        </g>
+      ))}
+      <circle className="fig-model" cx="150" cy={by + 50} r="2.5" />
+      <text className="fig-label" x="157" y={by + 53}>= d measured</text>
+    </svg>
+  );
+}
+
+/* Kidney transplant: what the simulator reproduces ------------------------ */
+function KidneyTransplant() {
+  const artery = "M236 4 C232 80 222 160 206 236";
+  const vein = "M264 4 C260 80 252 160 238 236";
+  const renalArtery = "M148 92 C178 86 204 92 226 102";
+  const renalVein = "M148 104 C182 116 214 138 248 146";
+  const ureter = "M146 112 C150 178 232 210 292 208";
+  const marks = [
+    { n: 1, x: 196, y: 146, label: "vein to vein" },
+    { n: 2, x: 196, y: 78, label: "artery to artery" },
+    { n: 3, x: 278, y: 190, label: "ureter to bladder" },
+  ];
+  return (
+    <svg viewBox="0 0 420 250" role="img" aria-labelledby="fig-ktx-t">
+      <title id="fig-ktx-t">
+        Illustration of a kidney transplant. The donor kidney sits in the lower abdomen beside the recipient's external
+        iliac artery and vein. Three connections are sewn: the donor renal vein to the external iliac vein, the renal
+        artery to the external iliac artery, and the ureter to the bladder.
+      </title>
+      {/* recipient vessels, with the renal vein passing behind the artery */}
+      <Tube d={vein} w={16} />
+      <Tube d={renalVein} w={8} />
+      <Tube d={artery} w={12} core="var(--surface)" />
+      <Tube d={renalArtery} w={6} core="var(--surface)" />
+
+      {/* donor kidney, hilum toward the vessels */}
+      <path
+        className="fig-wall"
+        d="M108 34 C148 34 162 66 152 84 C146 92 146 104 152 112 C162 128 148 152 108 152 C70 152 60 122 60 93 C60 64 70 34 108 34 Z"
+      />
+      <path className="fig-muted" d="M140 82 C124 86 118 96 122 106 C126 114 136 116 142 112" fill="none" />
+      <path className="fig-muted" d="M118 62 C98 72 92 112 116 128" fill="none" strokeDasharray="2 3" />
+
+      {/* ureter and bladder */}
+      <path className="fig-ink fig-thick" d={ureter} fill="none" />
+      <path className="fig-box" d="M290 214 C290 192 312 186 336 186 C362 186 384 196 384 216 C384 236 360 244 336 244 C310 244 290 236 290 214 Z" />
+
+      {/* the three sewn connections */}
+      {[
+        [226, 102],
+        [248, 146],
+        [292, 208],
+      ].map(([x, y]) => (
+        <g key={x} className="fig-accent-stroke">
+          <circle cx={x} cy={y} r="6.5" fill="none" />
+          <path d={`M${x - 3} ${y - 4} l2 8 M${x + 1} ${y - 4} l2 8`} fill="none" />
+        </g>
+      ))}
+      {marks.map((m) => (
+        <g key={m.n}>
+          <circle className="fig-model" cx={m.x} cy={m.y} r="7" />
+          <text className="fig-label" x={m.x} y={m.y + 3.3} textAnchor="middle" style={{ fill: "var(--surface)", fontWeight: 600 }}>
+            {m.n}
+          </text>
+        </g>
+      ))}
+
+      {/* labels */}
+      <text className="fig-label" x="228" y="14" textAnchor="end">external iliac artery</text>
+      <text className="fig-label" x="274" y="14">external iliac vein</text>
+      <text className="fig-label fig-label--ink" x="106" y="170" textAnchor="middle">donor kidney</text>
+      <text className="fig-label" x="166" y="214" textAnchor="end">ureter</text>
+      <text className="fig-label" x="337" y="219" textAnchor="middle">bladder</text>
+      <text className="fig-label fig-label--accent" x="290" y="64">sewn connections</text>
+      {marks.map((m, i) => (
+        <g key={m.label}>
+          <circle className="fig-model" cx="296" cy={80 + i * 16} r="5" />
+          <text className="fig-label" x="296" y={83 + i * 16} textAnchor="middle" style={{ fill: "var(--surface)", fontSize: "7.5px", fontWeight: 600 }}>
+            {m.n}
+          </text>
+          <text className="fig-label fig-label--ink" x="306" y={83 + i * 16}>{m.label}</text>
+        </g>
+      ))}
     </svg>
   );
 }
@@ -288,8 +561,19 @@ export const FIGURES = {
       "Cross-section of a stented femoral artery (not to scale). The module I added ties the stent's outward force, based on how oversized it is, to stress in the artery wall.",
   },
   pgd: {
-    Svg: PgdWorkflow,
-    caption: "How the project is set up. The systematic review shapes the model, and the goal is to use the model for risk stratification.",
+    Svg: PgdInjury,
+    caption:
+      "Ischemia–reperfusion injury, the central mechanism in the PGD literature (illustration, not to scale). When blood returns to the donor lung, neutrophils and reactive oxygen species damage the barrier between capillary and alveolus, fluid leaks in, and oxygenation falls. PGD is graded over the first 72 hours from PaO₂/FiO₂ and chest imaging. The model aims to link these steps to which patients are at risk.",
+  },
+  "caudal-block": {
+    Svg: CaudalBlock,
+    caption:
+      "What each scored placement measures (illustration, not to scale). Under ultrasound, the needle passes the sacrococcygeal ligament into the caudal epidural space, short of the dural sac. When the participant says it's placed, the simulator records d, the distance from the needle tip to a target point defined by pediatric anesthesiologists. Below, the proposed session.",
+  },
+  "kidney-transplant": {
+    Svg: KidneyTransplant,
+    caption:
+      "The operation behind the team's earlier kidney transplant box trainer (illustration, not to scale). The donor kidney is placed in the lower abdomen, and the surgeon sews three connections: renal vein to external iliac vein, renal artery to external iliac artery, and ureter to bladder.",
   },
   sigmoid: {
     Svg: SigmoidResponse,

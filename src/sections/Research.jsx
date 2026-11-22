@@ -195,7 +195,7 @@ export default function Research() {
 
             <div className="subhead">
               <h3 className="label">Also in progress</h3>
-              <p className="subhead__note">Parkinson's disease and surgical simulation.</p>
+              <p className="subhead__note">Immunotherapy in Parkinson's disease.</p>
             </div>
             <div className="research__compact">
               {secondary.map((w) => (
